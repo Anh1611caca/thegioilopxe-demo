@@ -139,7 +139,7 @@ html, body {
   display: flex;
     width: 100%;
 
-    background-image: url('/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/00.webp'); /* Đổi tên file ảnh của bạn vào đây */
+    background-image: url('/thegioilopxe-wp/wp-content/themes/Thegioilopxe-custom/images/00.webp'); /* Đổi tên file ảnh của bạn vào đây */
   background-size: cover;       /* Phủ kín toàn bộ khung search-box */
   background-position: center;  /* Căn giữa hình ảnh */
   background-repeat: no-repeat;
@@ -4886,3 +4886,36 @@ html, body {
 }
 
   
+.search-box form .select-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    margin-bottom: 15px !important;
+    width: 100% !important;
+}
+
+.search-box form select#car-brand,
+.search-box form select#car-model {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100% !important;
+    height: 42px !important;
+    padding: 0 12px !important;
+    border: 1px solid #ccc !important;
+    border-radius: 4px !important;
+    background-color: #ffffff !important;
+    color: #333333 !important;
+    font-size: 15px !important;
+    cursor: pointer !important;
+    box-sizing: border-box !important;
+    -webkit-appearance: select !important;
+    -moz-appearance: select !important;
+    appearance: select !important;
+}
+
+.search-box form select#car-model:disabled {
+    background-color: #e9ecef !important;
+    color: #6c757d !important;
+    cursor: not-allowed !important;
+}
