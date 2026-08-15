@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="vn">
+    <head><meta charset="UTF-8">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Thế Giới Lốp Xe</title>
+        <link rel="stylesheet" href="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/trangchu.css?ver=1.0.4">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+      </head>
+<body id="top">
+<div class="header-top">
+<div class="hotline">
+  <i class="fas fa-phone-alt"></i> Hotline: 0964.59.69.69
+</div>
+
+<div class="header-top-right">
+    <form class="search-box-brand">
+    <input type="text" placeholder="Tìm kiếm...">
+    <button type="submit">Tìm</button>
+  </form>
+  <!--Thông báo khi có phản hồi-->
+  <div class="notification-wrapper">
+    <button type="button" id="notifBtn" class="notif-btn">
+        <i class="fas fa-bell"></i> <span id="notifBadge" class="notif-badge">0</span>
+    </button>
+    
+    <div id="notifBox" class="notif-box">
+        <div class="notif-header">Thông báo phản hồi</div>
+        <ul id="notifList" class="notif-list">
+            <li class="empty-msg">Chưa có phản hồi nào</li>
+        </ul>
+    </div>
+    </div>
+</div>
+</div>
+
+<!-- Header chính -->
+<header class="site-header">
+  <div class="logo">
+    <img src="/thegioilopxe-demo/kien-thuc/images/logo-thegioilopxe-1.webp" alt="Logo">
+  </div>
+  <button class="menu-toggle" id="menuToggle" type="button" aria-label="Mở menu" aria-expanded="false"><i class="fas fa-bars"></i></button>
+  <nav class="main-nav">
+    <ul>
+      <li><a href="/thegioilopxe-demo/">Trang chủ</a></li>
+      <li><a href="/thegioilopxe-demo/about/">Giới thiệu</a></li>
+      <li class="dropdown">
+            <a href="/thegioilopxe-demo/" class="product-link">
+                Sản phẩm <span class="arrow">▼</span>
+            </a>
+            <ul class="dropdown-menu">
+                 <li class="has-submenu">
+                    <a href="/thegioilopxe-demo/" class="submenu-toggle">
+                         Máy tráng keo chống định<span class="arrow-right">▸</span>
+                    </a>
+    <ul class="submenu">
+      <li><a href="/thegioilopxe-demo/may-trang-keo-xe-may/">Máy tráng keo xe máy</a></li>
+      <li><a href="/thegioilopxe-demo/may-trang-keo-o-to/">Máy tráng keo ô tô</a></li>
+      <li><a href="/thegioilopxe-demo/may-ve-sinh-lop-xe/">Máy vệ sinh lốp xe</a></li>
+    </ul>
+  </li>
+                <li><a href="/thegioilopxe-demo/lop-xe/">Lốp xe</a></li>
+                <li><a href="/thegioilopxe-demo/lop-chong-dinh/">Lốp chống định</a></li>
+                <li><a href="/thegioilopxe-demo/keo/">Keo</a></li>
+                <li><a href="/thegioilopxe-demo/mam-xe/">Mâm xe</a></li>
+            </ul>
+        </li>
+      <li class="dropdown">
+            <a href="/thegioilopxe-demo/" class="blog-link">
+                Blog <span class="arrow">▼</span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="/thegioilopxe-demo/kien-thuc/">Kiến thức</a></li>
+                <li><a href="/thegioilopxe-demo/tin-tuc/">Tin tức</a></li>
+                <li><a href="/thegioilopxe-demo/lop-theo-xe/">Lốp theo xe</a></li>
+            </ul>
+        </li>
+      <li><a href="/thegioilopxe-demo/contact/">Liên hệ tư vấn</a></li>
+      <li><a href="/thegioilopxe-demo/machine/">Chuyển giao công nghệ tráng keo</a></li>
+    </ul>
+  </nav>
+<script src="/thegioilopxe-demo/kien-thuc/Notification.js?ver=1.0.5"></script>
+
+</header>
+
+<!-- khung tìm kiếm -->
+<section class="banner">
+  <div class="image-box">
+    <img src="/thegioilopxe-demo/kien-thuc/images/May-Trang-Keo-O-to.jpg" alt="Máy tráng keo">
+    <div class="text-overlay">
+      <h2>Máy tráng keo lốp xe</h2>
+      <h3>Chuyển giao công nghệ tráng keo chống định</h3>
+    </div>
+  </div>
+
+  <div class="search-box">
+    <h3>Tìm sản phẩm phù hợp</h3>
+    <form>
+      <select id="select-dong-xe" onchange="enableOtherFields()">
+            <option value="" selected disabled>1. Chọn dòng xe</option>
+            <option value="xe-may">Xe máy</option>
+            <option value="o-to">Ô tô</option>
+         </select>
+
+      <select id="select-hang" size="5" disabled onchange="updatePhienBan()">
+        <option value="" selected disabled>2. Chọn hãng xe</option>
+      </select>
+
+      <select id="select-phien-ban" disabled> 
+        <option value="" selected disabled>4. Chọn phiên bản (Nếu Có)</option>
+      </select>
+
+  <button type="submit" class="btn-search">TÌM KIẾM</button>
+
+  <div class="featured-section">
+  <h3 class="featured-title">Lá»°A CHá»ŒN Ná»”I Báº¬T</h3>
+  
+  <div class="featured-grid">
+    <!-- Thá»© 1 -->
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/kien-thuc/images/may-trang-keo-xe-may-1-copy.jpg" alt="Mï¿½y Trï¿½ng Keo Xe Mï¿½y">
+      <div class="card-caption">CĂ´ng Nghá»‡ TrĂ¡ng Keo chá»‘ng Ä‘á»‹nh dĂ nh cho xe mĂ¡y</div>
+    </div>
+
+    <!-- Thá»© 2 -->
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/kien-thuc/images/Mi%C2%BF%C2%BDy-Tri%C2%BF%C2%BDng-Keo-i%C2%BF%C2%BD-ti%C2%BF%C2%BD-2.jpg" alt="Mï¿½y Trï¿½ng Keo ï¿½ Tï¿½">
+      <div class="card-caption">CĂ´ng Nghá»‡ TrĂ¡ng Keo chá»‘ng Ä‘á»‹nh dĂ nh cho Ă´ tĂ´</div>
+    </div>
+
+    <!-- Thá»© 3 -->
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/kien-thuc/images/Mi%C2%BF%C2%BDy-V?Sinh_L?p_2_jpg" alt="Mï¿½y V? Sinh Xe Mï¿½y">
+      <div class="card-caption">Vá»‡ sinh sáº¡ch sáº½ lá»‘p xe cho báº¡n</div>
+    </div>
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/kien-thuc/images/lop-maxxis.jpg" alt="L?p Maxxis">
+      <div class="card-caption">Lá»‘p Maxxis an toĂ n trĂªn chuyáº¿n Ä‘i</div>
+    </div>
+
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/kien-thuc/images/Lop-michelin.webp" alt="L?p Michelin">
+      <div class="card-caption">Huong hi?u n?i b?t hï¿½ng d?u</div>
+    </div>
+
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/kien-thuc/images/Lop-rovelo.gif" alt="Lá»‘p chá»‘ng Ä‘á»‹nh Rovelo">
+      <div class="card-caption">CĂ´ng nghá»‡ chá»‘ng Ä‘á»‹nh cháº¥t lÆ°á»£ng</div>
+    </div>
+  </div>
+</div>
+    </form>
+    <script src="/thegioilopxe-demo/kien-thuc/hangxe.js"></script>
+  </div>
+</section>
+
+<div class="article-container">
+<main class="article-detail">
+
+  <!-- Tiï¿½u d? chï¿½nh -->
+  <h1 class="article-main-title">Hu?ng d?n s? d?ng mï¿½y trĂ¡ng keo chá»‘ng Ä‘á»‹nh dï¿½nh cho ï¿½ tï¿½ chu?n k? thu?t</h1>
+
+  <!-- Thï¿½ng tin ngï¿½y & tï¿½c gi? -->
+  <div class="card-meta" style="margin-bottom: 20px;">
+    <span>?? 25/03/2026</span> | <span>?? Tháº¿ Giá»›i Lá»‘p Xe</span>
+  </div>
+
+  <!-- ?nh d?i di?n bï¿½i vi?t -->
+  <div class="article-banner">
+    <img src="/thegioilopxe-demo/kien-thuc/images/Mi%C2%BF%C2%BDy-Tri%C2%BF%C2%BDng-Keo-i%C2%BF%C2%BD-ti%C2%BF%C2%BD-2.jpg" alt="Hu?ng d?n s? d?ng mï¿½y trĂ¡ng keo chá»‘ng Ä‘á»‹nh dï¿½nh cho ï¿½ tï¿½">
+  </div>
+
+  <!-- N?i dung van báº¡n -->
+  <div class="article-body">
+
+    <p class="lead-text">
+      S? c? n? l?p hay b? dï¿½nh dinh xï¿½ hoi d?t ng?t khi ï¿½ tï¿½ dang di chuy?n ? t?c d? cao trĂªn cao t?c lï¿½ n?i ï¿½m ?nh l?n c?a m?i tï¿½i x?. Khï¿½ng ch? gï¿½y m?t th?i gian, giï¿½n do?n hï¿½nh trĂªnh mï¿½ cï¿½n ti?m ?n nguy co m?t lï¿½i gï¿½y tai n?n c?c k? nghiï¿½m tr?ng. ï¿½? kh?c ph?c tri?t d? v?n d? nï¿½y, cĂ´ng ngh? trĂ¡ng keo chá»‘ng Ä‘á»‹nh cho l?p xe ï¿½ tï¿½ ra d?i. Tuy nhiï¿½n, d? l?p keo d?t hi?u qu? t? vï¿½ hoï¿½n h?o vï¿½ khï¿½ng lï¿½m m?t cï¿½n báº¡ng d?ng c?a xe, vi?c n?m rï¿½ quy trĂªnh v?n hï¿½nh mï¿½y trĂ¡ng keo chuyï¿½n d?ng lï¿½ y?u t? vï¿½ cĂ´ng quan tr?ng.
+    </p>
+
+    <h2>1. Nguyï¿½n lï¿½ ho?t d?ng c?a mï¿½y trĂ¡ng keo chá»‘ng Ä‘á»‹nh ï¿½ tï¿½</h2>
+    <p>
+      MĂ¡y trĂ¡ng keo Ă´ tĂ´ lï¿½ thi?t b? t? d?ng hï¿½a quï¿½ trĂªnh dun ch?y h?p cháº¥t keo chá»‘ng Ä‘á»‹nh chuyï¿½n d?ng (thï¿½nh ph?n chï¿½nh lï¿½ Polymer Silicon d?o cï¿½ d? dï¿½n h?i cao) vï¿½ r?i d?u lï¿½n m?t trong lï¿½ng l?p thï¿½ng qua l?c ly tï¿½m.
+    </p>
+    <p>
+      Khi xe di chuy?n trĂªn du?ng vï¿½ cï¿½n ph?i v?t nh?n nhu dinh, m?nh thï¿½p, vï¿½t tï¿½n... v?t th? nï¿½y s? dï¿½m xuyï¿½n qua l?p cao su l?p vï¿½ di vï¿½o l?p keo. Nh? d?c tï¿½nh d?o quï¿½nh, l?p keo s? ngay l?p t?c ï¿½m cháº¥t l?y thï¿½n dinh, ngan ch?n hoï¿½n toï¿½n khï¿½ nï¿½n trong l?p rï¿½ r? ra ngoï¿½i. Tru?ng h?p dinh b? vang ra do l?c quay bï¿½nh xe, ï¿½p su?t hoi trong l?p k?t h?p vá»›i l?c ly tï¿½m s? d?y l?p keo l?p t?c trï¿½m kï¿½n l? th?ng ngay trong tï¿½ch t?c mï¿½ ngu?i lï¿½i khï¿½ng c?n ph?i d?ng xe vï¿½ ï¿½p hay vï¿½ dï¿½i.
+    </p>
+
+    <h2>2. Chu?n b? tru?c khi v?n hï¿½nh mï¿½y trĂ¡ng keo ï¿½ tï¿½</h2>
+    <p>
+      Lá»‘p xe ï¿½ tï¿½ cï¿½ di?n tï¿½ch lï¿½ng l?p l?n, ch?u t?i tr?ng kh?ng l? vï¿½ d? xï¿½c n?y cao. Do dï¿½, khï¿½u chu?n b? b? m?t l?p quy?t d?nh t?i 60% d? bï¿½m dï¿½nh lï¿½u dï¿½i c?a keo:
+    </p>
+    <ul>
+      <li>
+        <strong>So ch? &amp; Ki?m tra tï¿½nh tr?ng l?p:</strong> Thï¿½o l?p ra kh?i vï¿½nh (mï¿½m). Ki?m tra k? xem l?p cï¿½ b? n?t chï¿½n chim quï¿½ n?ng, dï¿½nh d?u m? n?ng ho?c b? rï¿½ch ta-lï¿½ng (mï¿½p l?p) hay khï¿½ng. L?p quï¿½ cu ho?c mï¿½n t?i v?ch ch? th? khï¿½ng khuy?n khitched trĂ¡ng keo.
+      </li>
+      <li>
+        <strong>ï¿½ï¿½nh nhï¿½m b? m?t lï¿½ng l?p:</strong> Dï¿½ng mï¿½y mï¿½i chuyï¿½n d?ng t?o d? nhï¿½m nh? kh?p m?t trong c?a l?p. Bu?c nï¿½y giï¿½p lo?i b? l?p hï¿½a cháº¥t ch?ng dï¿½nh khuï¿½n du th?a t? nhï¿½ s?n xu?t l?p, t?o cï¿½c du?ng gï¿½n li ti d? keo bï¿½m cháº¥t hon.
+      </li>
+      <li>
+        <strong>T?y sáº¡ch b?i &amp; Lï¿½m khï¿½ tuy?t d?i:</strong> Dï¿½ng mï¿½y hï¿½t b?i ho?c hï¿½a cháº¥t t?y r?a chuyï¿½n d?ng lau sáº¡ch m?t cao su. Sau dï¿½ dï¿½ng vï¿½i x?t hoi cao ï¿½p x?t khï¿½ rï¿½o toï¿½n b? lï¿½ng l?p. B? m?t ch? c?n cï¿½n chï¿½t ?m hay bï¿½m b?i cung s? khi?n keo b? b?p hoi, d? bong trï¿½c sau th?i gian ng?n.
+      </li>
+      <li>
+        <strong>Cï¿½i d?t mï¿½y trĂ¡ng keo:</strong> B?t mï¿½y, ki?m tra ngu?n di?n ?n d?nh, ki?m tra lu?ng keo d?o trong báº¡n ch?a vï¿½ b?t h? th?ng gia nhi?t tru?c 20 - 30 phï¿½t d? keo d?t d? l?ng tiï¿½u chu?n.
+      </li>
+    </ul>
+
+    <h2>3. Quy trĂªnh 5 bu?c v?n hï¿½nh mï¿½y trĂ¡ng keo ï¿½ tï¿½ chu?n k? thu?t</h2>
+    <p>
+      Th?c hi?n chï¿½nh xï¿½c trĂªnh t? du?i dï¿½y d?m b?o l?p keo du?c r?i ph?ng m?n, d? dï¿½y d?ng d?u tuy?t d?i t? mï¿½p nï¿½y sang mï¿½p kia c?a l?p:
+    </p>
+    <ul>
+      <li>
+        <strong>Bu?c 1 - Gï¿½ l?p vï¿½ Cï¿½n báº¡ng tï¿½m:</strong> ï¿½?t bï¿½nh xe ï¿½ tï¿½ lï¿½n mï¿½m k?p t? d?ng c?a mï¿½y. S? d?ng thu?c do d? cï¿½n ch?nh sao cho l?p n?m hoï¿½n toï¿½n d?ng tï¿½m vá»›i tr?c quay c?a mï¿½y. N?u d?t l?ch, l?c ly tï¿½m s? d?y keo d?n v? m?t bï¿½n gï¿½y d?o bï¿½nh.
+      </li>
+      <li>
+        <strong>Bu?c 2 - Gia nhi?t keo d?t nhi?t d? chu?n:</strong> Theo dï¿½i d?ng h? nhi?t d? trĂªn t? di?u khi?n. Keo chá»‘ng Ä‘á»‹nh ï¿½ tï¿½ d?t d? ch?y d?o lï¿½ tu?ng ? m?c nhi?t t? <strong>160ï¿½C - 180ï¿½C</strong>. Khï¿½ng x? keo khi chua d? nhi?t vï¿½ keo s? b? vï¿½n c?c.
+      </li>
+      <li>
+        <strong>Bu?c 3 - Cï¿½i d?t t?c d? quay ly tï¿½m:</strong> Tï¿½y thu?c vï¿½o kï¿½ch thu?c l?p xe (Sedan, SUV, CUV hay Xe bï¿½n t?i), k? thu?t viï¿½n cï¿½i d?t t?c d? quay c?a mï¿½m phï¿½ h?p trĂªn báº¡ng di?u khi?n d? t?o ra l?c ly tï¿½m v?a d? ï¿½p ph?ng l?p keo.
+      </li>
+      <li>
+        <strong>Bu?c 4 - Bom x? keo &amp; Tr?i ph?ng:</strong> Kh?i d?ng mï¿½m quay, m? van x? keo l?ng t? d?u phun chuyï¿½n d?ng. C?n g?t t? d?ng c?a mï¿½y s? di chuy?n qua l?i d? r?i d?u keo lï¿½n lï¿½ng l?p. ï¿½? dï¿½y chu?n c?a l?p keo ï¿½ tï¿½ thu?ng dao d?ng t? <strong>5mm - 6mm</strong> (tuong duong d?nh lu?ng kho?ng 1.5kg - 2.5kg keo tï¿½y size l?p).
+      </li>
+      <li>
+        <strong>Bu?c 5 - S?y qu?t &amp; Lï¿½m ngu?i d?nh hï¿½nh:</strong> Sau khi hoï¿½n thï¿½nh trĂ¡ng keo, gi? cho mï¿½y ti?p t?c quay ch?m vï¿½ b?t h? th?ng qu?t mï¿½t t? 15 - 20 phï¿½t. Quï¿½ trĂªnh nï¿½y giï¿½p keo h? nhi?t t? t?, d?nh hï¿½nh d?o quï¿½nh, khï¿½ng b? d?n ch?y v? dï¿½y l?p khi d?ng mï¿½y hoï¿½n toï¿½n.
+      </li>
+    </ul>
+
+    <h2>4. Nh?ng luu ï¿½ k? thu?t quan tr?ng khï¿½ng th? b? qua</h2>
+    <p>
+      ï¿½? s?n ph?m bï¿½n giao cho khï¿½ch hï¿½ng d?t d? hoï¿½n h?o vï¿½ an toï¿½n tuy?t d?i, k? thu?t viï¿½n c?n d?c bi?t luu ï¿½ cï¿½c di?m sau:
+    </p>
+    <ul>
+      <li>
+        <strong>Trï¿½nh dï¿½nh keo vï¿½o mï¿½p Ta-lï¿½ng (mï¿½p su?n l?p):</strong> Keo tuy?t d?i khï¿½ng du?c ch?m lï¿½n vï¿½ng mï¿½p l?p ti?p xï¿½c vá»›i vï¿½nh xe. N?u dï¿½nh keo, khi vï¿½ bï¿½nh s? b? h? mï¿½p gï¿½y xï¿½ hoi chï¿½n van, mï¿½o l?p ho?c khï¿½ ï¿½m sï¿½t vï¿½o vï¿½nh s?t/nhï¿½m.
+      </li>
+      <li>
+        <strong>Ki?m soï¿½t d? dï¿½y tiï¿½u chu?n:</strong> Khï¿½ng nï¿½n trĂ¡ng keo quï¿½ dï¿½y (trĂªn 7mm) vï¿½ s? lï¿½m tang tr?ng lu?ng báº¡n thï¿½n bï¿½nh xe, gï¿½y tiï¿½u t?n nhiï¿½n li?u vï¿½ ?nh hu?ng t?i h? th?ng treo c?a xe ï¿½ tï¿½.
+      </li>
+      <li>
+        <strong>B?t bu?c Cï¿½n B?ng ï¿½?ng l?i bï¿½nh xe:</strong> Sau khi hoï¿½n thi?n trĂ¡ng keo vï¿½ vï¿½o l?i vï¿½nh, l?p ï¿½ tï¿½ b?t bu?c ph?i du?c dua lï¿½n mï¿½y cï¿½n báº¡ng d?ng chuyï¿½n d?ng d? dï¿½n/k?p chï¿½ bï¿½ l?i tr?ng lu?ng phï¿½n b?. ï¿½i?u nï¿½y d?m b?o xe v?n hï¿½nh ï¿½m ï¿½i, khï¿½ng b? rung l?c vï¿½-lang khi ch?y t?c d? cao trĂªn 80 km/h.
+      </li>
+      <li>
+        <strong>An toï¿½n lao d?ng:</strong> Nhi?t d? keo nung ch?y r?t cao, k? thu?t viï¿½n khi thao tï¿½c x? keo vï¿½ v? sinh báº¡n ph?i luï¿½n mang gang tay ch?u nhi?t, kï¿½nh b?o h? vï¿½ kh?u trang chuyï¿½n d?ng.
+      </li>
+    </ul>
+
+  </div>
+</main>
+<!-- Bï¿½i Vi?t liï¿½n quan -->
+  <aside class="news-sidebar">
+        <!-- ï¿½ tï¿½m ki?m -->
+        
+
+        <!-- Danh m?c -->
+        <div class="widget">
+            <h3 class="widget-title">Danh M?c</h3>
+            <ul class="widget-list">
+                <li><a href="/thegioilopxe-demo/kien-thuc/">Kiáº¿n thá»©c <span>(7)</span></a></li>
+                <li><a href="/thegioilopxe-demo/tin-tuc/">Tin tá»©c <span>(4)</span></a></li>
+                <li><a href="/thegioilopxe-demo/lop-theo-xe/">Lá»‘p theo xe <span>(7)</span></a></li>
+            </ul>
+        </div>
+
+        <!-- Bï¿½nh lu?n g?n dï¿½y -->
+        <div class="widget">
+            <h3 class="widget-title">Bï¿½nh Lu?n G?n ï¿½ï¿½y</h3>
+            <div class="recent-comment">
+                <p><strong>thegioilopxe.com</strong> trong <a href="/thegioilopxe-demo/kien-thuc/KienThuc/BaiVietKT1.php">Cï¿½ nï¿½n bom khï¿½ nito cho l?p xe ï¿½ tï¿½ khï¿½ng? Uu vï¿½ nhu?c di?m</a></p>
+            </div>
+        </div>
+
+        <!-- Bï¿½i vi?t ph? bi?n -->
+        <div class="widget popular-widget">
+            <h3 class="widget-title">Bï¿½i Vi?t Ph? Bi?n</h3>
+            <div class="popular-list">
+
+            <!-- Bï¿½i 1: D?ng ch? (Khï¿½ng ?nh) -->
+            <div class="popular-item">
+                <div class="popular-info">
+                <span class="popular-date">23/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/kien-thuc/TinTuc/baiViet4.php">Gi?i Thi?u Mï¿½y Trï¿½ng Keo Ch?ng ï¿½inh</a>
+                </h4>
+                </div>
+            </div>
+
+            <!-- Bï¿½i 2: Cï¿½ ?nh d?i di?n -->
+            <div class="popular-item has-thumb">
+                <a href="/thegioilopxe-demo/kien-thuc/KienThuc/BaiVietKT3.php" class="popular-thumb">
+                <img src="/thegioilopxe-demo/kien-thuc/images/dauhieunenthaylopanhngoai.webp" alt="Lá»‘p Xe Kia Forte">
+                </a>
+                <div class="popular-info">
+                <span class="popular-date">21/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/kien-thuc/KienThuc/BaiVietKT3.php">5 d?u hi?u c?nh bï¿½o báº¡n c?n ph?i...</a>
+                </h4>
+                </div>
+            </div>
+
+            <!-- Bï¿½i 3: Cï¿½ ?nh d?i di?n -->
+            <div class="popular-item has-thumb">
+                <a href="/thegioilopxe-demo/kien-thuc/KienThuc/BaiVietKT5.php" class="popular-thumb">
+                <img src="/thegioilopxe-demo/kien-thuc/images/dao-lop-o-to-1.jpg" alt="Quy trĂªnh d?o l?p xe d?nh k?">
+                </a>
+                <div class="popular-info">
+                <span class="popular-date">19/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/kien-thuc/KienThuc/BaiVietKT5.php">Quy trĂªnh d?o l?p xe d?nh k?...</a>
+                </h4>
+                </div>
+            </div>
+
+            <!-- Bï¿½i 4: Cï¿½ ?nh d?i di?n -->
+            <div class="popular-item has-thumb">
+                <a href="/thegioilopxe-demo/kien-thuc/TinTuc/baiViet1.php" class="popular-thumb">
+                <img src="/thegioilopxe-demo/kien-thuc/images/Mi%C2%BF%C2%BDy-Tri%C2%BF%C2%BDng-Keo-i%C2%BF%C2%BD-ti%C2%BF%C2%BD-2.jpg" alt="Mï¿½y Ch?ng ï¿½inh">
+                </a>
+                <div class="popular-info">
+                <span class="popular-date">16/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/kien-thuc/TinTuc/baiViet1.php">Cï¿½ng ngh? trĂ¡ng keo chá»‘ng Ä‘á»‹nh...</a>
+                </h4>
+                </div>
+            </div>
+
+            </div>
+        </div>
+
+        <!-- WIDGET 1: Bï¿½I VI?T / S?N PH?M PH? BI?N -->
+            <div class="widget popularity-widget">
+            <h3 class="widget-title">S?n Ph?m Ph? Bi?n</h3>
+            <div class="pop-list">
+                
+                <!-- Item 1 -->
+                <a href="/thegioilopxe-demo/may-ve-sinh-lop-xe/" class="pop-item">`r`n                <div class="pop-thumb">`r`n                    <img src="/thegioilopxe-demo/kien-thuc/images/Mi%C2%BF%C2%BDy-V?Sinh_L?p_2_jpg" alt="MĂ¡y vá»‡ sinh lá»‘p xe">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Mï¿½y V? Sinh L?p</h4>
+                    <div class="pop-rating">????? <span>(70)</span></div>
+                </div>
+                </a>
+
+                <!-- Item 2 -->
+                <a href="/thegioilopxe-demo/may-trang-keo-o-to/" class="pop-item">`r`n                <div class="pop-thumb">`r`n                    <img src="/thegioilopxe-demo/kien-thuc/images/Mi%C2%BF%C2%BDy-Tri%C2%BF%C2%BDng-Keo-i%C2%BF%C2%BD-ti%C2%BF%C2%BD-3.jpg" alt="MĂ¡y trĂ¡ng keo Ă´ tĂ´">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Mï¿½y Trï¿½ng Keo Ch?ng ï¿½inh ï¿½ Tï¿½</h4>
+                    <div class="pop-rating">????? <span>(97)</span></div>
+                </div>
+                </a>
+
+                <!-- Item 3 -->
+                <a href="/thegioilopxe-demo/may-trang-keo-xe-may/" class="pop-item">`r`n                <div class="pop-thumb">`r`n                    <img src="/thegioilopxe-demo/kien-thuc/images/may-trang-keo-xe-may-1.jpg" alt="MĂ¡y trĂ¡ng keo xe mĂ¡y">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Mï¿½y Trï¿½ng Keo Ch?ng ï¿½inh Xe Mï¿½y</h4>
+                    <div class="pop-rating">????? <span>(65)</span></div>
+                </div>
+                </a>
+
+                <!-- Item 4 -->
+                <a href="/thegioilopxe-demo/keo/" class="pop-item">`r`n                <div class="pop-thumb">`r`n                    <img src="/thegioilopxe-demo/kien-thuc/images/keo-xe.jpg" alt="Keo Trï¿½ng L?p">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Keo Trï¿½ng Lá»‘p xe</h4>
+                    <div class="pop-rating">????? <span>(341)</span></div>
+                </div>
+                </a>
+
+                <!-- Item 5 -->
+                <a href="#" class="pop-item">
+                <div class="pop-thumb">
+                    <img src="https://alotools.vn/wp-content/uploads/2025/09/may-trang-keo-chong-dinh-1.jpg" alt="MĂ¢m xe Advan">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">MĂ¢m xe Advan Racing GT</h4>
+                    <div class="pop-rating">????? <span>(0)</span></div>
+                </div>
+                </a>
+
+            </div>
+            </div>
+
+            <!-- WIDGET 2: BOX H? TR? KHï¿½CH Hï¿½NG -->
+            <div class="widget support-box">
+            <div class="support-content">
+                <div class="support-avatar">
+                <img src="https://i.pravatar.cc/150?img=60" alt="H? tr? viï¿½n">
+                </div>
+                <div class="support-text">
+                <h4>Anh/ch? c?n em h? tr? gï¿½ ??</h4>
+                <p>G?i ngay d? du?c h? tr? nhanh chï¿½ng</p>
+                <a href="tel:0964596069" class="support-phone">0964.59.60.69</a>
+                </div>
+            </div>
+            </div>
+                </aside>
+</div>
+    
+<!-- Cu?i trang -->
+<section class="footer-map-section">
+    <div class="container-map">
+        <div class="logo-box">
+            <img src="https://thegioilopxe.com/wp-content/uploads/2024/05/logo-thegioilopxe-1.jpg.webp" alt="The Gioi Lop Xe"> 
+        </div>
+      
+        <!-- B?n d? bï¿½n ph?i -->
+        <div class="map-box">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.1604402216813!2d106.6634957796204!3d10.861391961684232!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752933bf2992b3%3A0xabd8da73ba88820f!2zVGjhur8gR2nhu5tpIEzhu5FwIFhl!5e1!3m2!1svi!2s!4v1784541958019!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+    </div>
+</section>
+
+<section class="footer">
+  <footer class="main-footer">
+    <!-- C?t 1: Chï¿½nh sï¿½ch -->
+    <div class="footer-col">
+        <h3>Chï¿½nh Sï¿½ch</h3>
+        <ul>
+            <li><a href="#">Chï¿½nh sï¿½ch b?o hï¿½nh</a></li>
+            <li><a href="#">Chï¿½nh sï¿½ch b?o m?t</a></li>
+            <li><a href="#">Chï¿½nh sï¿½ch thanh toï¿½n</a></li>
+            <li><a href="#">Chï¿½nh sï¿½ch v?n chuy?n vï¿½ giao nh?n</a></li>
+        </ul>
+    </div>
+
+    <!-- C?t 2: Thï¿½ng tin liï¿½n h? -->
+    <div class="footer-col">
+        <h3>Thï¿½ng tin liï¿½n h?</h3>
+        <p>ï¿½?a ch?: 1125 Qu?c L? 1A ( ï¿½? Mu?i), Khu Ph? 56, Phu?ng Th?i An, Tp H? Chï¿½ Minh</p>
+        <p>Hotline: 0964.59.69.69</p>
+    </div>
+
+    <!-- C?t 3: Ph?n h?i & M?ng xï¿½ h?i -->
+    <div class="footer-col feedback-col">
+        <h3 style="color: #ffc107;">Ph?n h?i vá»›i chï¿½ng tï¿½i</h3>
+        <p>Ph?n h?i c?a báº¡n giï¿½p chï¿½ng tï¿½i ngï¿½y cĂ´ng c?i thi?n vï¿½ hoï¿½n thi?n hon v? d?ch v?, cháº¥t lu?ng, xin c?m on !</p>
+        <a href="/thegioilopxe-demo/kien-thuc/contact.php?scroll=lien-he" class="feedback-link">G?i Ph?n H?i T?i ï¿½ï¿½y &gt;</a>
+        <div class="social-icons">
+            <i class="fab fa-facebook"></i>
+            <i class="fab fa-tiktok"></i>
+            <i class="fab fa-youtube"></i>
+        </div>
+    </div>
+</footer>
+</section>
+<a href="javascript:void(0)" id="backToTopBtn" title="Lï¿½n d?u trang" onclick="
+     window.scrollTo({top: 0, behavior: 'smooth'});
+     document.documentElement.scrollTop = 0;
+     document.body.scrollTop = 0;
+     document.querySelectorAll('*').forEach(el =&gt; { if(el.scrollTop &gt; 0) el.scrollTo({top: 0, behavior: 'smooth'}); });
+   ">?</a>
+<script>
+          $(document).ready(function() {
+            $('select').select2({
+            // B?n cï¿½ th? tï¿½y ch?nh ngï¿½n ng?, ï¿½ tï¿½m ki?m... t?i dï¿½y
+            });
+          });
+        </script>
+</body>
+
+
+</html>
