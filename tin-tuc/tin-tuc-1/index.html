@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="vn">
+    <head><meta charset="UTF-8">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Thế Giới Lốp Xe</title>
+        <link rel="stylesheet" href="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/trangchu.css?ver=1.0.4">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+      </head>
+<body id="top">
+<div class="header-top">
+<div class="hotline">
+  <i class="fas fa-phone-alt"></i> Hotline: 0964.59.69.69
+</div>
+
+<div class="header-top-right">
+    <form class="search-box-brand">
+    <input type="text" placeholder="Tìm kiếm...">
+    <button type="submit">Tìm</button>
+  </form>
+  <!--Thông báo khi có phản hồi-->
+  <div class="notification-wrapper">
+    <button type="button" id="notifBtn" class="notif-btn">
+        <i class="fas fa-bell"></i> <span id="notifBadge" class="notif-badge">0</span>
+    </button>
+    
+    <div id="notifBox" class="notif-box">
+        <div class="notif-header">Thông báo phản hồi</div>
+        <ul id="notifList" class="notif-list">
+            <li class="empty-msg">Chưa có phản hồi nào</li>
+        </ul>
+    </div>
+    </div>
+</div>
+</div>
+
+<!-- Header chính -->
+<header class="site-header">
+  <div class="logo">
+    <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/logo-thegioilopxe-1.webp" alt="Logo">
+  </div>
+  <button class="menu-toggle" id="menuToggle" type="button" aria-label="Mở menu" aria-expanded="false"><i class="fas fa-bars"></i></button>
+  <nav class="main-nav">
+    <ul>
+      <li><a href="/thegioilopxe-demo/">Trang chủ</a></li>
+      <li><a href="/thegioilopxe-demo/about/">Giới thiệu</a></li>
+      <li class="dropdown">
+            <a href="/thegioilopxe-demo/" class="product-link">
+                Sản phẩm <span class="arrow">▼</span>
+            </a>
+            <ul class="dropdown-menu">
+                 <li class="has-submenu">
+                    <a href="/thegioilopxe-demo/" class="submenu-toggle">
+                         Máy tráng keo chống định<span class="arrow-right">▸</span>
+                    </a>
+    <ul class="submenu">
+      <li><a href="/thegioilopxe-demo/may-trang-keo-xe-may/">Máy tráng keo xe máy</a></li>
+      <li><a href="/thegioilopxe-demo/may-trang-keo-o-to/">Máy tráng keo ô tô</a></li>
+      <li><a href="/thegioilopxe-demo/may-ve-sinh-lop-xe/">Máy vệ sinh lốp xe</a></li>
+    </ul>
+  </li>
+                <li><a href="/thegioilopxe-demo/lop-xe/">Lốp xe</a></li>
+                <li><a href="/thegioilopxe-demo/lop-chong-dinh/">Lốp chống định</a></li>
+                <li><a href="/thegioilopxe-demo/keo/">Keo</a></li>
+                <li><a href="/thegioilopxe-demo/mam-xe/">Mâm xe</a></li>
+            </ul>
+        </li>
+      <li class="dropdown">
+            <a href="/thegioilopxe-demo/" class="blog-link">
+                Blog <span class="arrow">▼</span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="/thegioilopxe-demo/kien-thuc/">Kiến thức</a></li>
+                <li><a href="/thegioilopxe-demo/tin-tuc/">Tin tức</a></li>
+                <li><a href="/thegioilopxe-demo/lop-theo-xe/">Lốp theo xe</a></li>
+            </ul>
+        </li>
+      <li><a href="/thegioilopxe-demo/contact/">Liên hệ tư vấn</a></li>
+      <li><a href="/thegioilopxe-demo/machine/">Chuyển giao công nghệ tráng keo</a></li>
+    </ul>
+  </nav>
+<script src="/thegioilopxe-demo/tin-tuc/Notification.js?ver=1.0.5"></script>
+
+</header>
+
+<!-- khung tìm kiếm -->
+<section class="banner">
+  <div class="image-box">
+    <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/May-Trang-Keo-O-to.jpg" alt="Máy tráng keo">
+    <div class="text-overlay">
+      <h2>Máy tráng keo lốp xe</h2>
+      <h3>Chuyển giao công nghệ tráng keo chống định</h3>
+    </div>
+  </div>
+
+  <div class="search-box">
+    <h3>Tìm sản phẩm phù hợp</h3>
+    <form>
+      <select id="select-dong-xe" onchange="enableOtherFields()">
+            <option value="" selected disabled>1. Chọn dòng xe</option>
+            <option value="xe-may">Xe máy</option>
+            <option value="o-to">Ô tô</option>
+         </select>
+
+      <select id="select-hang" size="5" disabled onchange="updatePhienBan()">
+        <option value="" selected disabled>2. Chọn hãng xe</option>
+      </select>
+
+      <select id="select-phien-ban" disabled> 
+        <option value="" selected disabled>4. Chọn phiên bản (Nếu Có)</option>
+      </select>
+
+  <button type="submit" class="btn-search">TÌM KIẾM</button>
+
+  <div class="featured-section">
+  <h3 class="featured-title">LỰA CHỌN NỔI BẬT</h3>
+  
+  <div class="featured-grid">
+    <!-- Thứ 1 -->
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/may-trang-keo-xe-may-1.jpg" alt="Máy Tráng Keo Xe Máy">
+      <div class="card-caption">Công Nghệ Tráng Keo chống định dành cho xe máy</div>
+    </div>
+
+    <!-- Thứ 2 -->
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/May-Trang-Keo-O-to-2.jpg" alt="Máy Tráng Keo Ô Tô">
+      <div class="card-caption">Công Nghệ Tráng Keo chống định dành cho ô tô</div>
+    </div>
+
+    <!-- Thứ 3 -->
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/May-Ve-Sinh-Lop-2.jpg" alt="Máy Vệ Sinh Lốp Xe">
+      <div class="card-caption">Vệ sinh sạch sẽ lốp xe cho bạn</div>
+    </div>
+
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/lop-maxxis.jpg" alt="Lốp Maxxis">
+      <div class="card-caption">Lốp Maxxis an toàn trên chuyến đi</div>
+    </div>
+
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/Lop-michelin.webp" alt="Lốp Michelin">
+      <div class="card-caption">Hương hiệu nổi bật hàng đầu</div>
+    </div>
+
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/Lop-rovelo.gif" alt="Lốp chống định Rovelo">
+      <div class="card-caption">Công nghệ chống định chất lượng</div>
+    </div>
+  </div>
+</div>
+    </form>
+    <script src="/thegioilopxe-demo/tin-tuc/hangxe.js"></script>
+  </div>
+</section>
+
+<div class="article-container">
+  <main class="article-detail">
+
+  <!-- Tiêu đề chính -->
+  <h1 class="article-main-title">Công nghệ tráng keo chống đinh lốp xe là gì? Có thực sự hiệu quả?</h1>
+  
+
+  <!-- Thông tin ngày & tác giả -->
+  <div class="card-meta" style="margin-bottom: 20px;">
+    <span>📅 15/03/2026</span> | <span>✍️ Thế Giới Lốp Xe</span>
+  </div>
+
+  <!-- Ảnh đại diện bài viết -->
+  <div class="article-banner">
+    <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/May-Trang-Keo-O-to-3.jpg" alt="Công nghệ tráng keo chống đinh lốp xe là gì? Có thực sự hiệu quả?">
+  </div>
+
+  <!-- Nội dung văn bản -->
+  <div class="article-body">
+
+    <p class="lead-text">
+      Cán phải đinh, mảnh thép hay các vật sắc nhọn trên đường luôn là "con ác mộng" đối với các tài xế. Tình huống này không chỉ gây phiền phức, gián đoạn lộ trình mà còn tiêm ẩn nguy cơ mất lái gây tai nạn nguy hiểm khi đang di chuyển ở tốc độ cao. Trong những năm gần đây, dịch vụ tráng keo chống đinh lốp xe nổi lên như một giải pháp tối ưu giúp lốp tự làm lành vết đâm tức thời. Vậy công nghệ này là gì, nguyên lý hoạt động ra sao và liệu có thực sự hiệu quả như quảng cáo? Hãy cùng Thế Giới Lốp Xe phân tích chi tiết từ A-Z trong bài viết dưới đây!
+    </p>
+
+    <h2>1. Công nghệ tráng keo chống đinh lốp xe là gì?</h2>
+    <p>
+      Tráng keo chống đinh (chống xẹp hơi) là công nghệ phủ một lớp keo dẻo bảo vệ chuyên dụng lên toàn bộ mặt trong của lốp xe (vùng tiếp xúc trực tiếp với mặt đường). Lớp keo này được sản xuất từ hợp chất <strong>Polymer Silicon sinh học</strong> có độ đàn hồi cao, độ bám dính cực kỳ mạnh mẽ và khả năng chịu nhiệt độ khắc nghiệt mà không bị biến tính.
+    </p>
+    <p>
+      Nhiều người thường nhầm lẫn công nghệ này với giải pháp bơm keo tự vá dạng lỏng truyền thống qua van xe. Tuy nhiên, hai phương pháp này hoàn toàn khác biệt:
+    </p>
+    <ul>
+      <li>
+        <strong>Keo tự vá dạng lỏng cũ:</strong> Dạng dung dịch lỏng bơm trực tiếp qua van. Loại keo này dễ gây mục vành/mâm xe, làm nghẹt chân van, dồn keo về một phía gây mất cân bằng động và bị cứng sau vài tháng sử dụng.
+      </li>
+      <li>
+        <strong>Công nghệ tráng keo Polymer hiện đại:</strong> Sử dụng <em>máy tráng keo chuyên dụng</em> để nung chảy keo ở nhiệt độ cao (160°C - 180°C). Nhờ lực ly tâm khi mâm quay, lớp keo sẽ được rải đều và bám chặt vĩnh viễn vào cao su lốp. Sau khi nguội, keo duy trì trạng thái dẻo dính vĩnh viễn, không bị chảy xệ hay khô cứng.
+      </li>
+    </ul>
+
+    <h2>2. Nguyên lý hoạt động tự làm lành vết đâm của lớp keo</h2>
+    <p>
+      Nguyên lý hoạt động của công nghệ này dựa trên sự kết hợp hoàn hảo giữa độ dẻo quánh đặc biệt của Polymer và áp suất khí nén bên trong bánh xe:
+    </p>
+    <ul>
+      <li>
+        <strong>Giai đoạn 1 - Khi đinh đâm vào lốp:</strong> Ngay khi đinh hoặc vật nhọn xuyên qua lớp cao su và chạm vào lòng lốp, lớp keo dẻo với độ bám dính cực cao sẽ ngay lập tức ôm chặt lấy toàn bộ thân đinh. Lớp keo tạo thành một "seal" kín tuyệt đối, ngăn không cho từng mililit khí nén rò rỉ ra ngoài. Xe vẫn di chuyển bình thường mà áp suất lốp không bị sụt giảm.
+      </li>
+      <li>
+        <strong>Giai đoạn 2 - Khi đinh văng hoặc được rút ra:</strong> Lực quay ly tâm khi bánh xe chạy kết hợp với áp suất khí nén bên trong sẽ đẩy lớp keo dẻo tức thì tràn vào, điền đầy và bít kín hoàn toàn lỗ thủng. Quá trình tự vá diễn ra trong vài mili-giây, giúp lốp giữ nguyên trạng thái căng hơi mà không cần người lái phải dừng xe để ốp hay vá dùi.
+      </li>
+    </ul>
+
+    <h2>3. Đánh giá thực tế: Tráng keo chống đinh có thực sự hiệu quả?</h2>
+    <p>
+      Để giúp bạn có cái nhìn khách quan nhất trước khi quyết định đầu tư nâng cấp cho xế yêu, Thế Giới Lốp Xe đã tổng hợp những ưu và nhược điểm thực tế của công nghệ này:
+    </p>
+
+    <h3>3.1. Các ưu điểm vượt trội</h3>
+    <ul>
+      <li>
+        <strong>Chống xẹp hơi tức thời với vật đâm lớn:</strong> Lớp keo tiêu chuẩn có độ dày từ 3mm - 6mm có khả năng tự vá thành công các vết đâm có đường kính lên tới <strong>6mm - 8mm</strong> (bao gồm hầu hết các loại đinh gỗ, vít tôn, mảnh thép xây dựng).
+      </li>
+      <li>
+        <strong>An toàn tuyệt đối khi chạy tốc độ cao:</strong> Giúp lốp duy trì áp suất ổn định, loại bỏ nguy cơ nổ lốp, xẹp hơi đột ngột khi đi trên cao tốc, phòng tránh các vụ tai nạn mất lái nguy hiểm.
+      </li>
+      <li>
+        <strong>Tuổi thọ keo bằng tuổi thọ lốp:</strong> Lớp keo Polymer cao cấp không bị phân hủy, không chịu ảnh hưởng bởi thời tiết khô hay ẩm, bám chắc vào lốp cho đến khi lốp mòn và cần thay mới.
+      </li>
+      <li>
+        <strong>Bảo vệ vành/mâm xe tuyệt đối:</strong> Do keo được tráng định hình ở lòng lốp, hoàn toàn không tiếp xúc với vành xe nên không bao giờ xảy ra tình trạng ăn mòn hay gỉ sét mâm sắt/mâm đúc.
+      </li>
+      <li>
+        <strong>Hỗ trợ cách âm &amp; Chống ồn:</strong> Lớp keo dẻo dày phủ khắp mặt trong lốp đóng vai trò như một lớp vật liệu dập tắt tiêu âm, giúp giảm bớt tiếng ồn do ma sát mặt đường vọng vào cabin.
+      </li>
+    </ul>
+
+    <h3>3.2. Nhược điểm và hạn chế cần lưu ý</h3>
+    <ul>
+      <li>
+        <strong>Không chống được vết rách chéo hông (sườn lốp):</strong> Công nghệ tráng keo chỉ áp dụng cho bề mặt lòng lốp (phần mặt gai tiếp xúc mặt đường). Nếu lốp bị dập chém, sập ổ gà gây cũ rách hông lốp thì keo không thể can thiệp.
+      </li>
+      <li>
+        <strong>Tăng trọng lượng bánh xe:</strong> Mỗi bánh xe sau khi tráng keo sẽ nặng thêm khoảng 0.8kg - 1.2kg (đối với xe máy) hoặc 1.5kg - 2.5kg (đối với ô tô). Mức tăng này nằm trong giới hạn an toàn kỹ thuật và không ảnh hưởng đáng kể đến mức tiêu hao nhiên liệu.
+      </li>
+      <li>
+        <strong>Đòi hỏi kỹ thuật thi công chuẩn xác:</strong> Quá trình đánh nhám, làm sạch lòng lốp và cân chỉnh mâm quay đòi hỏi tay nghề cao. Đặc biệt đối với ô tô, sau khi tráng keo <strong>bắt buộc phải cân bằng động lại bánh xe</strong> bằng máy dán chì để tránh hiện tượng rung vô-lăng khi chạy nhanh.
+      </li>
+    </ul>
+
+    <h2>4. Lời khuyên từ chuyên gia Thế Giới Lốp Xe</h2>
+    <p>
+      Tráng keo chống đinh là một khoản đầu tư rất "đáng tiền", đem lại sự yên tâm tuyệt đối cho chủ xe. Công nghệ này đặc biệt phù hợp với:
+    </p>
+    <ul>
+      <li>Những tài xế thường xuyên di chuyển đường dài, chạy xe trên cao tốc hoặc các tuyến đường quốc lộ đầm vắng.</li>
+      <li>Chủ xe là nữ giới, người lớn tuổi - những người gặp nhiều khó khăn khi tự thay lốp dự phòng hay tìm tiệm vá xe khi gặp sự cố.</li>
+      <li>Các dòng xe dịch vụ, xe du lịch cần đảm bảo hành trình an toàn và đúng giờ cho hành khách.</li>
+    </ul>
+    <p>
+      Khi có nhu cầu tráng keo chống đinh, hãy lựa chọn các trung tâm chăm sóc lốp xe lớn, có máy móc tráng keo tự động hiện đại và quy trình cân bằng động chuẩn chỉnh để đạt hiệu quả tối ưu nhất!
+    </p>
+    
+
+    <div class="article-contact-box" style="margin-top: 30px; padding: 20px; border: 2px dashed #0b3a82; background-color: #f0f7ff; border-radius: 8px; text-align: center;">
+      <h3 style="color: #0b3a82; margin-bottom: 10px; font-size: 20px;">Liên hệ ngay với Thế Giới Lốp Xe để trải nghiệm dịch vụ tráng keo chuyên nghiệp!</h3>
+      <p style="margin-bottom: 15px;">Chuyên cung cấp dịch vụ tráng keo chống đinh lốp xe máy &amp; ô tô, cân bằng động Laser chính xác, cân chỉnh độ chụm thước lái 3D và phân phối lốp xe chính hãng giá tốt nhất.</p>
+      <a href="/thegioilopxe-demo/" class="contact-btn" style="display: inline-block; padding: 10px 25px; background-color: #0b3a82; color: #ffffff; text-decoration: none; font-weight: bold; border-radius: 5px; transition: 0.3s;">TƯ VẤN &amp; BÁO GIÁ NGAY</a>
+    </div>
+
+  </div>
+  
+</main>
+<!-- Bài Viết liên quan -->
+  <aside class="news-sidebar">
+        <!-- Ô tìm kiếm -->
+
+        <!-- Danh mục -->
+        <div class="widget">
+            <h3 class="widget-title">Danh Mục</h3>
+            <ul class="widget-list">
+                <li><a href="/thegioilopxe-demo/kien-thuc/">Kiến thức <span>(7)</span></a></li>
+                <li><a href="/thegioilopxe-demo/tin-tuc/">Tin tức <span>(4)</span></a></li>
+                <li><a href="/thegioilopxe-demo/lop-theo-xe/">Lốp theo xe <span>(7)</span></a></li>
+            </ul>
+        </div>
+
+        <!-- Bình luận gần đây -->
+        <div class="widget">
+            <h3 class="widget-title">Bình Luận Gần Đây</h3>
+            <div class="recent-comment">
+                <p><strong>thegioilopxe.com</strong> trong <a href="/thegioilopxe-demo/tin-tuc/tin-tuc-1/BaiVietKT7.php">HDSD máy tráng keo ô tô</a></p>
+            </div>
+        </div>
+
+        <!-- Bài viết phổ biến -->
+        <div class="widget popular-widget">
+            <h3 class="widget-title">Bài Viết Phổ Biến</h3>
+            <div class="popular-list">
+
+            <!-- Bài 1: Dạng chữ (Không ảnh) -->
+            <div class="popular-item">
+                <div class="popular-info">
+                <span class="popular-date">23/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/tin-tuc/TinTuc/baiViet4.php">Giới Thiệu Máy Tráng Keo Chống Đinh</a>
+                </h4>
+                </div>
+            </div>
+
+            <!-- Bài 2: Có ảnh đại diện -->
+            <div class="popular-item has-thumb">
+                <a href="/thegioilopxe-demo/tin-tuc/KienThuc/BaiVietKT3.php" class="popular-thumb">
+                <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/dauhieunenthaylopanhngoai.webp" alt="Lốp Xe Kia Forte">
+                </a>
+                <div class="popular-info">
+                <span class="popular-date">21/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/tin-tuc/KienThuc/BaiVietKT3.php">5 dấu hiệu cảnh báo bạn cần phải...</a>
+                </h4>
+                </div>
+            </div>
+
+            <!-- Bài 3: Có ảnh đại diện -->
+            <div class="popular-item has-thumb">
+                <a href="/thegioilopxe-demo/tin-tuc/KienThuc/BaiVietKT5.php" class="popular-thumb">
+                <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/dao-lop-o-to-1.jpg" alt="Quy trình đảo lốp xe định kỳ">
+                </a>
+                <div class="popular-info">
+                <span class="popular-date">19/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/tin-tuc/KienThuc/BaiVietKT5.php">Quy trình đảo lốp xe định kỳ...</a>
+                </h4>
+                </div>
+            </div>
+
+            <!-- Bài 4: Có ảnh đại diện -->
+            <div class="popular-item has-thumb">
+                <a href="/thegioilopxe-demo/tin-tuc/TinTuc/baiViet1.php" class="popular-thumb">
+                <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/May-Trang-Keo-O-To-2.jpg" alt="Máy Chống Đinh">
+                </a>
+                <div class="popular-info">
+                <span class="popular-date">16/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/tin-tuc/TinTuc/baiViet1.php">Công nghệ tráng keo chống đinh...</a>
+                </h4>
+                </div>
+            </div>
+
+            </div>
+        </div>
+
+        <!-- WIDGET 1: BÀI VIẾT / SẢN PHẨM PHỔ BIẾN -->
+            <div class="widget popularity-widget">
+            <h3 class="widget-title">Sản Phẩm Phổ Biến</h3>
+            <div class="pop-list">
+                
+                <!-- Item 1 -->
+                <a href="/thegioilopxe-demo/may-ve-sinh-lop-xe/" class="pop-item">
+                <div class="pop-thumb">
+                    <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/May-Ve-Sinh-Lop-2.jpg" alt="Máy vệ sinh lốp xe">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Máy Vệ Sinh Lốp</h4>
+                    <div class="pop-rating">⭐⭐⭐⭐⭐ <span>(70)</span></div>
+                </div>
+                </a>
+
+                <!-- Item 2 -->
+                <a href="/thegioilopxe-demo/may-trang-keo-o-to/" class="pop-item">
+                <div class="pop-thumb">
+                    <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/May-Trang-Keo-O-To-3.jpg" alt="Máy tráng keo ô tô">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Máy Tráng Keo Chống Đinh Ô Tô</h4>
+                    <div class="pop-rating">⭐⭐⭐⭐⭐ <span>(97)</span></div>
+                </div>
+                </a>
+
+                <!-- Item 3 -->
+                <a href="/thegioilopxe-demo/may-trang-keo-xe-may/" class="pop-item">
+                <div class="pop-thumb">
+                    <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/may-trang-keo-xe-may-1.jpg" alt="Máy tráng keo xe máy">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Máy Tráng Keo Chống Đinh Xe Máy</h4>
+                    <div class="pop-rating">⭐⭐⭐⭐⭐ <span>(65)</span></div>
+                </div>
+                </a>
+
+                <!-- Item 4 -->
+                <a href="/thegioilopxe-demo/keo/" class="pop-item">
+                <div class="pop-thumb">
+                    <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/keo-xe.jpg" alt="Keo Tráng Lớp">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Keo Tráng Lốp xe</h4>
+                    <div class="pop-rating">⭐⭐⭐⭐⭐ <span>(341)</span></div>
+                </div>
+                </a>
+
+                <!-- Item 5 -->
+                <a href="#" class="pop-item">
+                <div class="pop-thumb">
+                    <img src="https://alotools.vn/wp-content/uploads/2025/09/may-trang-keo-chong-dinh-1.jpg" alt="Mâm xe Advan">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Mâm xe Advan Racing GT</h4>
+                    <div class="pop-rating">⭐⭐⭐⭐⭐ <span>(0)</span></div>
+                </div>
+                </a>
+
+            </div>
+            </div>
+
+            <!-- WIDGET 2: BOX HỖ TRỢ KHÁCH HÀNG -->
+            <div class="widget support-box">
+            <div class="support-content">
+                <div class="support-avatar">
+                <img src="https://i.pravatar.cc/150?img=60" alt="Hỗ trợ viên">
+                </div>
+                <div class="support-text">
+                <h4>Anh/chị cần em hỗ trợ gì ạ?</h4>
+                <p>Gọi ngay để được hỗ trợ nhanh chóng</p>
+                <a href="tel:0964596069" class="support-phone">0964.59.60.69</a>
+                </div>
+            </div>
+            </div>
+                </aside>
+</div>
+    
+<!-- Cuối trang -->
+<section class="footer-map-section">
+    <div class="container-map">
+        <div class="logo-box">
+            <img src="https://thegioilopxe.com/wp-content/uploads/2024/05/logo-thegioilopxe-1.jpg.webp" alt="The Gioi Lop Xe"> 
+        </div>
+      
+        <!-- Bản đồ bên phải -->
+        <div class="map-box">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.1604402216813!2d106.6634957796204!3d10.861391961684232!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752933bf2992b3%3A0xabd8da73ba88820f!2zVGjhur8gR2nhu5tpIEzhu5FwIFhl!5e1!3m2!1svi!2s!4v1784541958019!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+    </div>
+</section>
+
+<section class="footer">
+  <footer class="main-footer">
+    <!-- Cột 1: Chính sách -->
+    <div class="footer-col">
+        <h3>Chính Sách</h3>
+        <ul>
+            <li><a href="#">Chính sách bảo hành</a></li>
+            <li><a href="#">Chính sách bảo mật</a></li>
+            <li><a href="#">Chính sách thanh toán</a></li>
+            <li><a href="#">Chính sách vận chuyển và giao nhận</a></li>
+        </ul>
+    </div>
+
+    <!-- Cột 2: Thông tin liên hệ -->
+    <div class="footer-col">
+        <h3>Thông tin liên hệ</h3>
+        <p>Địa chỉ: 1125 Quốc Lộ 1A (Ấp Mới), Khu Phố, Phường Thới An, Tp Hồ Chí Minh</p>
+        <p>Hotline: 0964.59.69.69</p>
+    </div>
+
+    <!-- Cột 3: Phản hồi & Mạng xã hội -->
+    <div class="footer-col feedback-col">
+        <h3 style="color: #ffc107;">Phản hồi với chúng tôi</h3>
+        <p>Phản hồi của bạn giúp chúng tôi ngày càng cải thiện và hoàn thiện hơn về dịch vụ, chất lượng, xin cảm ơn !</p>
+        <a href="/thegioilopxe-demo/tin-tuc/contact.php?scroll=lien-he" class="feedback-link">Gửi Phản Hồi Tại Đây &gt;</a>
+        <div class="social-icons">
+            <i class="fab fa-facebook"></i>
+            <i class="fab fa-tiktok"></i>
+            <i class="fab fa-youtube"></i>
+        </div>
+    </div>
+</footer>
+</section>
+<a href="javascript:void(0)" id="backToTopBtn" title="Lên đầu trang" onclick="
+     window.scrollTo({top: 0, behavior: 'smooth'});
+     document.documentElement.scrollTop = 0;
+     document.body.scrollTop = 0;
+     document.querySelectorAll('*').forEach(el =&gt; { if(el.scrollTop &gt; 0) el.scrollTo({top: 0, behavior: 'smooth'}); });
+   ">↑</a>
+<script>
+          $(document).ready(function() {
+            $('select').select2({
+            // Bạn có thể tùy chỉnh ngôn ngữ, ô tìm kiếm... tại đây
+            });
+          });
+        </script>
+</body>
+
+
+</html>
