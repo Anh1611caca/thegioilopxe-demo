@@ -1,0 +1,39 @@
+/*
+Theme Name: Thế Giới Lốp Xe Custom
+Author: Admin
+Version: 1.0
+Description: Giao diện tùy chỉnh cho Thế Giới Lốp Xe
+*/
+select#car-brand.select2-hidden-accessible,
+select#car-model.select2-hidden-accessible,
+#car-brand,
+#car-model {
+    position: static !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100% !important;
+    height: 42px !important;
+    margin-bottom: 12px !important;
+    padding: 0 10px !important;
+    clip: auto !important;
+    clip-path: none !important;
+    white-space: normal !important;
+    border: 1px solid #ccc !important;
+    border-radius: 4px !important;
+    background-color: #fff !important;
+    color: #333 !important;
+    font-size: 15px !important;
+    z-index: 999 !important;
+}
+
+select#car-model:disabled {
+    background-color: #e9ecef !important;
+    color: #6c757d !important;
+    cursor: not-allowed !important;
+}
+
+/* Ẩn bớt khung giao diện thừa của Select2 nếu có */
+.select2-container {
+    display: none !important;
+}
