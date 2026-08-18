@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="vn">
+    <head><meta charset="UTF-8">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Thế Giới Lốp Xe</title>
+        <link rel="stylesheet" href="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/trangchu.css?ver=1.0.4">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+      </head>
+<body id="top">
+<div class="header-top">
+<div class="hotline">
+  <i class="fas fa-phone-alt"></i> Hotline: 0964.59.69.69
+</div>
+
+<div class="header-top-right">
+    <form class="search-box-brand">
+    <input type="text" placeholder="Tìm kiếm...">
+    <button type="submit">Tìm</button>
+  </form>
+  <!--Thông báo khi có phản hồi-->
+  <div class="notification-wrapper">
+    <button type="button" id="notifBtn" class="notif-btn">
+        <i class="fas fa-bell"></i> <span id="notifBadge" class="notif-badge">0</span>
+    </button>
+    
+    <div id="notifBox" class="notif-box">
+        <div class="notif-header">Thông báo phản hồi</div>
+        <ul id="notifList" class="notif-list">
+            <li class="empty-msg">Chưa có phản hồi nào</li>
+        </ul>
+    </div>
+    </div>
+</div>
+</div>
+
+<!-- Header chính -->
+<header class="site-header">
+  <div class="logo">
+    <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/logo-thegioilopxe-1.webp" alt="Logo">
+  </div>
+  <button class="menu-toggle" id="menuToggle" type="button" aria-label="Mở menu" aria-expanded="false"><i class="fas fa-bars"></i></button>
+  <nav class="main-nav">
+    <ul>
+      <li><a href="/thegioilopxe-demo/">Trang chủ</a></li>
+      <li><a href="/thegioilopxe-demo/about/">Giới thiệu</a></li>
+      <li class="dropdown">
+            <a href="/thegioilopxe-demo/" class="product-link">
+                Sản phẩm <span class="arrow">▼</span>
+            </a>
+            <ul class="dropdown-menu">
+                 <li class="has-submenu">
+                    <a href="/thegioilopxe-demo/" class="submenu-toggle">
+                         Máy tráng keo chống định<span class="arrow-right">▸</span>
+                    </a>
+    <ul class="submenu">
+      <li><a href="/thegioilopxe-demo/may-trang-keo-xe-may/">Máy tráng keo xe máy</a></li>
+      <li><a href="/thegioilopxe-demo/may-trang-keo-o-to/">Máy tráng keo ô tô</a></li>
+      <li><a href="/thegioilopxe-demo/may-ve-sinh-lop-xe/">Máy vệ sinh lốp xe</a></li>
+    </ul>
+  </li>
+                <li><a href="/thegioilopxe-demo/lop-xe/">Lốp xe</a></li>
+                <li><a href="/thegioilopxe-demo/lop-chong-dinh/">Lốp chống định</a></li>
+                <li><a href="/thegioilopxe-demo/keo/">Keo</a></li>
+                <li><a href="/thegioilopxe-demo/mam-xe/">Mâm xe</a></li>
+            </ul>
+        </li>
+      <li class="dropdown">
+            <a href="/thegioilopxe-demo/" class="blog-link">
+                Blog <span class="arrow">▼</span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="/thegioilopxe-demo/kien-thuc/">Kiến thức</a></li>
+                <li><a href="/thegioilopxe-demo/tin-tuc/">Tin tức</a></li>
+                <li><a href="/thegioilopxe-demo/lop-theo-xe/">Lốp theo xe</a></li>
+            </ul>
+        </li>
+      <li><a href="/thegioilopxe-demo/contact/">Liên hệ tư vấn</a></li>
+      <li><a href="/thegioilopxe-demo/machine/">Chuyển giao công nghệ tráng keo</a></li>
+    </ul>
+  </nav>
+<script src="/thegioilopxe-demo/kien-thuc/Notification.js?ver=1.0.5"></script>
+
+</header>
+
+<!-- khung tìm kiếm -->
+<section class="banner">
+  <div class="image-box">
+    <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/May-Trang-Keo-O-to.jpg" alt="Máy tráng keo">
+    <div class="text-overlay">
+      <h2>Máy tráng keo lốp xe</h2>
+      <h3>Chuyển giao công nghệ tráng keo chống định</h3>
+    </div>
+  </div>
+
+  <div class="search-box">
+    <h3>Tìm sản phẩm phù hợp</h3>
+    <form>
+      <select id="select-dong-xe" onchange="enableOtherFields()">
+            <option value="" selected disabled>1. Chọn dòng xe</option>
+            <option value="xe-may">Xe máy</option>
+            <option value="o-to">Ô tô</option>
+         </select>
+
+      <select id="select-hang" size="5" disabled onchange="updatePhienBan()">
+        <option value="" selected disabled>2. Chọn hãng xe</option>
+      </select>
+
+      <select id="select-phien-ban" disabled> 
+        <option value="" selected disabled>4. Chọn phiên bản (Nếu Có)</option>
+      </select>
+
+  <button type="submit" class="btn-search">TÌM KIẾM</button>
+
+  <div class="featured-section">
+  <h3 class="featured-title">LỰA CHỌN NỔI BẬT</h3>
+  
+  <div class="featured-grid">
+    <!-- Thứ 1 -->
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/may-trang-keo-xe-may-1.jpg" alt="Máy Tráng Keo Xe Máy">
+      <div class="card-caption">Công Nghệ Tráng Keo chống định dành cho xe máy</div>
+    </div>
+
+    <!-- Thứ 2 -->
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/May-Trang-Keo-O-to-2.jpg" alt="Máy Tráng Keo Ô Tô">
+      <div class="card-caption">Công Nghệ Tráng Keo chống định dành cho ô tô</div>
+    </div>
+
+    <!-- Thứ 3 -->
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/May-Ve-Sinh-Lop-2.jpg" alt="Máy Vệ Sinh Lốp Xe">
+      <div class="card-caption">Vệ sinh sạch sẽ lốp xe cho bạn</div>
+    </div>
+
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/kien-thuc/images/lop-maxxis.jpg" alt="Lốp Maxxis">
+      <div class="card-caption">Lốp Maxxis an toàn trên chuyến đi</div>
+    </div>
+
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/kien-thuc/images/Lop-michelin.webp" alt="Lốp Michelin">
+      <div class="card-caption">Hương hiệu nổi bật hàng đầu</div>
+    </div>
+
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/kien-thuc/images/Lop-rovelo.gif" alt="Lốp chống định Rovelo">
+      <div class="card-caption">Công nghệ chống định chất lượng</div>
+    </div>
+  </div>
+</div>
+    </form>
+    <script src="/thegioilopxe-demo/kien-thuc/hangxe.js"></script>
+  </div>
+</section>
+
+<div class="article-container">
+  <main class="article-detail">
+
+  <!-- Tiêu đề chính -->
+  <h1 class="article-main-title">Hướng dẫn cách đọc và kiểm tra áp suất lốp xe chuẩn nhất từ chuyên gia</h1>
+
+  <!-- Thông tin ngày & tác giả -->
+  <div class="card-meta" style="margin-bottom: 20px;">
+    <span>📅 16/03/2026</span> | <span>🌐 Thế Giới Lốp Xe</span>
+  </div>
+
+  <!-- Ảnh đại diện bài viết -->
+  <div class="article-banner">
+    <img src="/thegioilopxe-demo/kien-thuc/images/cach-doc-thong-so-ap-suat-lop-o-to-3.jpg" alt="Hướng dẫn kiểm tra áp suất lốp xe chuẩn">
+  </div>
+
+  <!-- Nội dung văn bản -->
+  <div class="article-body">
+    
+    <p class="lead-text">
+      Áp suất lốp được ví như "nhịp tim" của bánh xe. Việc duy trì áp suất lốp đúng tiêu chuẩn không chỉ giúp xe di chuyển êm ái mà còn ảnh hưởng trực tiếp đến sự an toàn của tài xế, độ bền của vỏ xe và lượng nhiên liệu tiêu hao mỗi ngày. Tuy nhiên, rất nhiều người dùng vẫn chưa biết cách đọc chỉ số áp suất lốp chuẩn cũng như quy trình kiểm tra đúng kỹ thuật.
+    </p>
+
+    <h2>1. Áp suất lốp xe là gì và tại sao lại cực kỳ quan trọng?</h2>
+    <p>
+      Áp suất lốp là phép đo lường không khí nén bên trong lồng lốp xe (tính theo lực trên một đơn vị diện tích). Bơm lốp đúng tiêu chuẩn mang lại 3 lợi ích cốt lõi:
+    </p>
+    <ul>
+      <li><strong>Đảm bảo an toàn tuyệt đối:</strong> Lốp xe có áp suất chuẩn giúp duy trì diện tích tiếp xúc tối ưu nhất với mặt đường, giảm nguy cơ nổ lốp khi chạy tốc độ cao hoặc trượt bánh khi phanh gấp trên đường ướt.</li>
+      <li><strong>Kéo dài tuổi thọ vỏ xe:</strong> Giúp lốp mòn đều trên toàn bộ bề mặt gai. Bạn có thể tiết kiệm được chi phí thay lốp mới đáng kể trong suốt 3 - 5 năm vận hành.</li>
+      <li><strong>Tiết kiệm tối đa nhiên liệu:</strong> Khi lốp thiếu hơi, ma sát lăn tăng lên khiến động cơ phải hoạt động vất vả hơn, làm tiêu tốn thêm 2% - 5% nhiên liệu.</li>
+    </ul>
+
+    <h2>2. Tác hại nghiêm trọng khi đi lốp xe quá căng hoặc quá non</h2>
+    <p>Rất nhiều tài xế có thói quen bơm lốp "theo cảm tính". Hãy lưu ý những nguy cơ dưới đây:</p>
+    <ul>
+      <li>
+        <strong>Khi lốp bị bơm quá căng (Thừa áp suất):</strong> 
+        Mặt giữa lốp sẽ nhô ra và gánh toàn bộ trọng lượng xe, làm mòn vệt phần giữa lốp. Giảm độ bám đường, xe đi dằn xóc, mất độ dẻo dai linh hoạt và rất dễ bị nổ lốp khi đè vào ổ gà hoặc chướng ngại vật sắc nhọn.
+      </li>
+      <li>
+        <strong>Khi lốp bị non hơi (Thiếu áp suất):</strong> 
+        Lốp bị bẹp xuống, phần viền mép hai bên gánh trọng lực chính nên sẽ mòn nhanh 2 mép ngoài. Ma sát tăng mạnh sinh ra nhiệt độ rất cao bên trong lốp, dễ dẫn đến hiện tượng rách lốp hoặc bong tróc gai lốp.
+      </li>
+    </ul>
+
+    <h2>3. Cách đọc bảng thông số áp suất lốp khuyến nghị của nhà sản xuất</h2>
+    <p>
+      Mỗi hãng xe đều tính toán kỹ lưỡng mức áp suất lốp lý tưởng cho từng dòng xe dựa trên trọng lượng và tải trọng thiết kế. Bạn có thể tìm thấy nhãn thông số này (Tire Pressure Label) tại:
+    </p>
+    <ul>
+      <li>Khung cửa xe phía tài xế (B-Pillar - Mở cửa xe bên lái ra sẽ thấy ngay).</li>
+      <li>Mặt trong cửa nắp bình xăng.</li>
+      <li>Trong hộc đựng đồ ghế phụ hoặc trong sách hướng dẫn sử dụng xe.</li>
+    </ul>
+
+    <blockquote class="highlight-box" style="background-color: #f0f7ff; border-left: 4px solid #0b3a82; padding: 15px; margin: 15px 0; border-radius: 4px;">
+      💡 <strong>Bảng quy đổi các đơn vị đo áp suất phổ biến:</strong><br>
+      • <strong>PSI (Pounds Per Square Inch):</strong> Đơn vị thông dụng nhất tại Việt Nam. Mức chuẩn xe 4 - 7 chỗ thường dao động từ <strong>30 - 35 PSI</strong> (khoảng 2.2 - 2.5 kg).<br>
+      • <strong>Bar:</strong> Đơn vị chuẩn châu Âu. 1 Bar ≈ 14.5 PSI (Mức chuẩn xe hơi khoảng <strong>2.1 - 2.4 Bar</strong>).<br>
+      • <strong>kPa (Kilopascal):</strong> 1 Bar = 100 kPa (Mức chuẩn thường khoảng <strong>210 - 240 kPa</strong>).
+    </blockquote>
+
+    <h2>4. Quy trình 4 bước kiểm tra và bơm áp suất lốp chuẩn kỹ thuật</h2>
+    <p>Để đo áp suất chính xác nhất, bạn nên chuẩn bị một đồng hồ đo áp suất chất lượng và làm theo các bước:</p>
+    <ol>
+      <li>
+        <strong>Bước 1 - Chỉ kiểm tra khi lốp "nguội":</strong> 
+        Đo khi xe đã đỗ yên ít nhất 3 tiếng hoặc chưa chạy quá 1.6 km. Tuyệt đối không đo ngay sau khi vừa chạy đường dài trên cao tốc vì nhiệt độ ma sát sẽ làm không khí giãn nở, cho ra kết quả áp suất giả cao hơn thực tế từ 3 - 5 PSI.
+      </li>
+      <li>
+        <strong>Bước 2 - Tháo nắp van bảo vệ:</strong> 
+        Vặn nhẹ nắp nhựa bảo vệ bằng tay trên vòi van xe.
+      </li>
+      <li>
+        <strong>Bước 3 - Tiến hành đo áp suất:</strong> 
+        Ấn chặt đầu đo của đồng hồ vào vòi van. Lắng nghe nếu không còn tiếng xì hơi tức là đầu đo đã kín hoàn toàn. Đọc và ghi nhận con số hiển thị trên màn hình.
+      </li>
+      <li>
+        <strong>Bước 4 - Điều chỉnh và hoàn tất:</strong> 
+        Nếu thiếu hơi, dùng máy bơm mini bổ sung đến mức tiêu chuẩn. Nếu quá căng, dùng đầu ti của đồng hồ ấn nhẹ vào lõi van để xả bớt khí. Cuối cùng, vặn chặt lại nắp van để tránh rò rỉ khí.
+      </li>
+    </ol>
+
+    <h2>5. Những sai lầm cần tránh khi kiểm tra áp suất lốp</h2>
+    <ul>
+      <li><strong>Chỉ nhìn bằng mắt thường:</strong> Lốp không xăm hiện đại rất khó nhận biết thiếu hơi bằng mắt, trừ khi đã mất hơn 30% áp suất khí.</li>
+      <li><strong>Bơm theo thông số ghi trên thành lốp:</strong> Con số ghi trên thành lốp (Max Press) là áp suất tối đa lốp chịu được, không phải áp suất khuyến nghị để vận hành xe hàng ngày.</li>
+      <li><strong>Quên kiểm tra lốp dự phòng:</strong> Lốp dự phòng cũng bị thất thoát khí theo thời gian. Hãy bơm lốp dự phòng cao hơn mức chuẩn khoảng 3 - 5 PSI để sẵn sàng sử dụng khi gặp sự cố.</li>
+    </ul>
+
+    <h2>6. Kết luận</h2>
+    <p>
+      Tập thói quen kiểm tra áp suất lốp định kỳ 2 tuần/lần hoặc trước mỗi chuyến đi xa sẽ giúp bạn duy trì hành trình an toàn, mượt mà và tiết kiệm tối đa chi phí.
+    </p>
+
+    <!-- Khung kêu gọi hành động (CTA) -->
+    <div class="article-cta">
+      <h3>Liên hệ ngay với Thế Giới Lốp Xe để nhận tư vấn!</h3>
+      <p>Chuyên cung cấp máy đo áp suất lốp chính xác, máy bơm lốp tự động, máy tráng keo chống đinh và dịch vụ chăm sóc lốp chuyên nghiệp:</p>
+      <ul>
+        <li>📞 <strong>Hotline:</strong> 0964.59.69.69</li>
+        <li>🌐 <strong>Website:</strong> thegioilopxe.com</li>
+      </ul>
+    </div>
+  </div>
+</main>
+<!-- Bài Viết liên quan -->
+  <aside class="news-sidebar">
+        <!-- Ô tìm kiếm -->
+
+        <!-- Danh mục -->
+        <div class="widget">
+            <h3 class="widget-title">Danh Mục</h3>
+            <ul class="widget-list">
+                <li><a href="/thegioilopxe-demo/kien-thuc/">Kiến thức <span>(7)</span></a></li>
+                <li><a href="/thegioilopxe-demo/tin-tuc/">Tin tức <span>(4)</span></a></li>
+                <li><a href="/thegioilopxe-demo/lop-theo-xe/">Lốp theo xe <span>(7)</span></a></li>
+            </ul>
+        </div>
+
+        <!-- Bình luận gần đây -->
+        <div class="widget">
+            <h3 class="widget-title">Bình Luận Gần Đây</h3>
+            <div class="recent-comment">
+                <p><strong>thegioilopxe.com</strong> trong <a href="/thegioilopxe-demo/kien-thuc/KienThuc/BaiVietKT1.php">Có nên bơm khí nito cho lốp xe ô tô không? Ưu và nhược điểm</a></p>
+            </div>
+        </div>
+
+        <!-- Bài viết phổ biến -->
+        <div class="widget popular-widget">
+            <h3 class="widget-title">Bài Viết Phổ Biến</h3>
+            <div class="popular-list">
+
+            <!-- Bài 1: Dạng chữ (Không ảnh) -->
+            <div class="popular-item">
+                <div class="popular-info">
+                <span class="popular-date">23/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/kien-thuc/TinTuc/baiViet4.php">Giới Thiệu Máy Tráng Keo Chống Đinh</a>
+                </h4>
+                </div>
+            </div>
+
+            <!-- Bài 2: Có ảnh đại diện -->
+            <div class="popular-item has-thumb">
+                <a href="/thegioilopxe-demo/kien-thuc/KienThuc/BaiVietKT3.php" class="popular-thumb">
+                <img src="/thegioilopxe-demo/kien-thuc/images/dauhieunenthaylopanhngoai.webp" alt="Lốp Xe Kia Forte">
+                </a>
+                <div class="popular-info">
+                <span class="popular-date">21/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/kien-thuc/KienThuc/BaiVietKT3.php">5 dấu hiệu cảnh báo bạn cần phải...</a>
+                </h4>
+                </div>
+            </div>
+
+            <!-- Bài 3: Có ảnh đại diện -->
+            <div class="popular-item has-thumb">
+                <a href="/thegioilopxe-demo/kien-thuc/KienThuc/BaiVietKT5.php" class="popular-thumb">
+                <img src="/thegioilopxe-demo/kien-thuc/images/dao-lop-o-to-1.jpg" alt="Quy trình đảo lốp xe định kỳ">
+                </a>
+                <div class="popular-info">
+                <span class="popular-date">19/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/kien-thuc/KienThuc/BaiVietKT5.php">Quy trình đảo lốp xe định kỳ...</a>
+                </h4>
+                </div>
+            </div>
+
+            <!-- Bài 4: Có ảnh đại diện -->
+            <div class="popular-item has-thumb">
+                <a href="/thegioilopxe-demo/kien-thuc/TinTuc/baiViet1.php" class="popular-thumb">
+                <img src="/thegioilopxe-demo/kien-thuc/images/May-Trang-Keo-O-To-2.jpg" alt="Máy Chống Đinh">
+                </a>
+                <div class="popular-info">
+                <span class="popular-date">16/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/kien-thuc/TinTuc/baiViet1.php">Công nghệ tráng keo chống đinh...</a>
+                </h4>
+                </div>
+            </div>
+
+            </div>
+        </div>
+
+        <!-- WIDGET 1: BÀI VIẾT / SẢN PHẨM PHỔ BIẾN -->
+            <div class="widget popularity-widget">
+            <h3 class="widget-title">Sản Phẩm Phổ Biến</h3>
+            <div class="pop-list">
+                
+                <!-- Item 1 -->
+                <a href="/thegioilopxe-demo/may-ve-sinh-lop-xe/" class="pop-item">
+                <div class="pop-thumb">
+                    <img src="/thegioilopxe-demo/kien-thuc/images/May-Ve-Sinh-Lop-2.jpg" alt="Máy vệ sinh lốp xe">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Máy Vệ Sinh Lốp</h4>
+                    <div class="pop-rating">⭐⭐⭐⭐⭐ <span>(70)</span></div>
+                </div>
+                </a>
+
+                <!-- Item 2 -->
+                <a href="/thegioilopxe-demo/may-trang-keo-o-to/" class="pop-item">
+                <div class="pop-thumb">
+                    <img src="/thegioilopxe-demo/kien-thuc/images/May-Trang-Keo-O-To-3.jpg" alt="Máy tráng keo ô tô">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Máy Tráng Keo Chống Đinh Ô Tô</h4>
+                    <div class="pop-rating">⭐⭐⭐⭐⭐ <span>(97)</span></div>
+                </div>
+                </a>
+
+                <!-- Item 3 -->
+                <a href="/thegioilopxe-demo/may-trang-keo-xe-may/" class="pop-item">
+                <div class="pop-thumb">
+                    <img src="/thegioilopxe-demo/kien-thuc/images/may-trang-keo-xe-may-1.jpg" alt="Máy tráng keo xe máy">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Máy Tráng Keo Chống Đinh Xe Máy</h4>
+                    <div class="pop-rating">⭐⭐⭐⭐⭐ <span>(65)</span></div>
+                </div>
+                </a>
+
+                <!-- Item 4 -->
+                <a href="/thegioilopxe-demo/keo/" class="pop-item">
+                <div class="pop-thumb">
+                    <img src="/thegioilopxe-demo/kien-thuc/images/keo-xe.jpg" alt="Keo Tráng Lốp">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Keo Tráng Lốp xe</h4>
+                    <div class="pop-rating">⭐⭐⭐⭐⭐ <span>(341)</span></div>
+                </div>
+                </a>
+
+                <!-- Item 5 -->
+                <a href="#" class="pop-item">
+                <div class="pop-thumb">
+                    <img src="https://alotools.vn/wp-content/uploads/2025/09/may-trang-keo-chong-dinh-1.jpg" alt="Mâm xe Advan">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Mâm xe Advan Racing GT</h4>
+                    <div class="pop-rating">⭐⭐⭐⭐⭐ <span>(0)</span></div>
+                </div>
+                </a>
+
+            </div>
+            </div>
+
+            <!-- WIDGET 2: BOX HỖ TRỢ KHÁCH HÀNG -->
+            <div class="widget support-box">
+            <div class="support-content">
+                <div class="support-avatar">
+                <img src="https://i.pravatar.cc/150?img=60" alt="Hỗ trợ viên">
+                </div>
+                <div class="support-text">
+                <h4>Anh/chị cần em hỗ trợ gì ạ?</h4>
+                <p>Gọi ngay để được hỗ trợ nhanh chóng</p>
+                <a href="tel:0964596069" class="support-phone">0964.59.60.69</a>
+                </div>
+            </div>
+            </div>
+                </aside>
+</div>
+    
+<!-- Cuối trang -->
+<section class="footer-map-section">
+    <div class="container-map">
+        <div class="logo-box">
+            <img src="https://thegioilopxe.com/wp-content/uploads/2024/05/logo-thegioilopxe-1.jpg.webp" alt="The Gioi Lop Xe"> 
+        </div>
+      
+        <!-- Bản đồ bên phải -->
+        <div class="map-box">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.1604402216813!2d106.6634957796204!3d10.861391961684232!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752933bf2992b3%3A0xabd8da73ba88820f!2sVGjhur8gR2nhu5tpIEzhu5FwIFhl!5e1!3m2!1svi!2s!4v1784541958019!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+    </div>
+</section>
+
+<section class="footer">
+  <footer class="main-footer">
+    <!-- Cột 1: Chính sách -->
+    <div class="footer-col">
+        <h3>Chính Sách</h3>
+        <ul>
+            <li><a href="#">Chính sách bảo hành</a></li>
+            <li><a href="#">Chính sách bảo mật</a></li>
+            <li><a href="#">Chính sách thanh toán</a></li>
+            <li><a href="#">Chính sách vận chuyển và giao nhận</a></li>
+        </ul>
+    </div>
+
+    <!-- Cột 2: Thông tin liên hệ -->
+    <div class="footer-col">
+        <h3>Thông tin liên hệ</h3>
+        <p>Địa chỉ: 1125 Quốc Lộ 1A (Ấp Mới), Khu Phố 56, Phường Thới An, Tp Hồ Chí Minh</p>
+        <p>Hotline: 0964.59.69.69</p>
+    </div>
+
+    <!-- Cột 3: Phản hồi & Mạng xã hội -->
+    <div class="footer-col feedback-col">
+        <h3 style="color: #ffc107;">Phản hồi với chúng tôi</h3>
+        <p>Phản hồi của bạn giúp chúng tôi ngày càng cải thiện và hoàn thiện hơn về dịch vụ, chất lượng, xin cảm ơn !</p>
+        <a href="/thegioilopxe-demo/kien-thuc/contact.php?scroll=lien-he" class="feedback-link">Gửi Phản Hồi Tại Đây &gt;</a>
+        <div class="social-icons">
+            <i class="fab fa-facebook"></i>
+            <i class="fab fa-tiktok"></i>
+            <i class="fab fa-youtube"></i>
+        </div>
+    </div>
+</footer>
+</section>
+<a href="javascript:void(0)" id="backToTopBtn" title="Lên đầu trang" onclick="
+     window.scrollTo({top: 0, behavior: 'smooth'});
+     document.documentElement.scrollTop = 0;
+     document.body.scrollTop = 0;
+     document.querySelectorAll('*').forEach(el =&gt; { if(el.scrollTop &gt; 0) el.scrollTo({top: 0, behavior: 'smooth'}); });
+   ">↑</a>
+<script>
+          $(document).ready(function() {
+            $('select').select2({
+            // Bạn có thể tùy chỉnh ngôn ngữ, ô tìm kiếm... tại đây
+            });
+          });
+        </script>
+</body>
+
+
+</html>

@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="vn">
+    <head><meta charset="UTF-8">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Thế Giới Lốp Xe</title>
+        <link rel="stylesheet" href="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/trangchu.css?ver=1.0.4">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+      </head>
+<body id="top">
+<div class="header-top">
+<div class="hotline">
+  <i class="fas fa-phone-alt"></i> Hotline: 0964.59.69.69
+</div>
+
+<div class="header-top-right">
+    <form class="search-box-brand">
+    <input type="text" placeholder="Tìm kiếm...">
+    <button type="submit">Tìm</button>
+  </form>
+  <!--Thông báo khi có phản hồi-->
+  <div class="notification-wrapper">
+    <button type="button" id="notifBtn" class="notif-btn">
+        <i class="fas fa-bell"></i> <span id="notifBadge" class="notif-badge">0</span>
+    </button>
+    
+    <div id="notifBox" class="notif-box">
+        <div class="notif-header">Thông báo phản hồi</div>
+        <ul id="notifList" class="notif-list">
+            <li class="empty-msg">Chưa có phản hồi nào</li>
+        </ul>
+    </div>
+    </div>
+</div>
+</div>
+
+<!-- Header chính -->
+<header class="site-header">
+  <div class="logo">
+    <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/logo-thegioilopxe-1.webp" alt="Logo">
+  </div>
+  <button class="menu-toggle" id="menuToggle" type="button" aria-label="Mở menu" aria-expanded="false"><i class="fas fa-bars"></i></button>
+  <nav class="main-nav">
+    <ul>
+      <li><a href="/thegioilopxe-demo/">Trang chủ</a></li>
+      <li><a href="/thegioilopxe-demo/about/">Giới thiệu</a></li>
+      <li class="dropdown">
+            <a href="/thegioilopxe-demo/" class="product-link">
+                Sản phẩm <span class="arrow">▼</span>
+            </a>
+            <ul class="dropdown-menu">
+                 <li class="has-submenu">
+                    <a href="/thegioilopxe-demo/" class="submenu-toggle">
+                         Máy tráng keo chống định<span class="arrow-right">▸</span>
+                    </a>
+    <ul class="submenu">
+      <li><a href="/thegioilopxe-demo/may-trang-keo-xe-may/">Máy tráng keo xe máy</a></li>
+      <li><a href="/thegioilopxe-demo/may-trang-keo-o-to/">Máy tráng keo ô tô</a></li>
+      <li><a href="/thegioilopxe-demo/may-ve-sinh-lop-xe/">Máy vệ sinh lốp xe</a></li>
+    </ul>
+  </li>
+                <li><a href="/thegioilopxe-demo/lop-xe/">Lốp xe</a></li>
+                <li><a href="/thegioilopxe-demo/lop-chong-dinh/">Lốp chống định</a></li>
+                <li><a href="/thegioilopxe-demo/keo/">Keo</a></li>
+                <li><a href="/thegioilopxe-demo/mam-xe/">Mâm xe</a></li>
+            </ul>
+        </li>
+      <li class="dropdown">
+            <a href="/thegioilopxe-demo/" class="blog-link">
+                Blog <span class="arrow">▼</span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="/thegioilopxe-demo/kien-thuc/">Kiến thức</a></li>
+                <li><a href="/thegioilopxe-demo/tin-tuc/">Tin tức</a></li>
+                <li><a href="/thegioilopxe-demo/lop-theo-xe/">Lốp theo xe</a></li>
+            </ul>
+        </li>
+      <li><a href="/thegioilopxe-demo/contact/">Liên hệ tư vấn</a></li>
+      <li><a href="/thegioilopxe-demo/machine/">Chuyển giao công nghệ tráng keo</a></li>
+    </ul>
+  </nav>
+<script src="/thegioilopxe-demo/lop-xe/Notification.js?ver=1.0.5"></script>
+
+</header>
+
+<!-- khung tìm kiếm -->
+<section class="banner">
+  <div class="image-box">
+    <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/May-Trang-Keo-O-to.jpg" alt="Máy tráng keo">
+    <div class="text-overlay">
+      <h2>Máy tráng keo lốp xe</h2>
+      <h3>Chuyển giao công nghệ tráng keo chống định</h3>
+    </div>
+  </div>
+
+  <div class="search-box">
+    <h3>Tìm sản phẩm phù hợp</h3>
+    <form>
+      <select id="select-dong-xe" onchange="enableOtherFields()">
+            <option value="" selected disabled>1. Chọn dòng xe</option>
+            <option value="xe-may">Xe máy</option>
+            <option value="o-to">Ô tô</option>
+         </select>
+
+      <select id="select-hang" size="5" disabled onchange="updatePhienBan()">
+        <option value="" selected disabled>2. Chọn hãng xe</option>
+      </select>
+
+      <select id="select-phien-ban" disabled> 
+        <option value="" selected disabled>4. Chọn phiên bản (Nếu Có)</option>
+      </select>
+
+  <button type="submit" class="btn-search">TÌM KIẾM</button>
+
+  <div class="featured-section">
+  <h3 class="featured-title">LỰA CHỌN NỔI BẬT</h3>
+  
+  <div class="featured-grid">
+    <!-- Thứ 1 -->
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/may-trang-keo-xe-may-1.jpg" alt="Máy Tráng Keo Xe Máy">
+      <div class="card-caption">Công Nghệ Tráng Keo chống định dành cho xe máy</div>
+    </div>
+
+    <!-- Thứ 2 -->
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/May-Trang-Keo-O-to-2.jpg" alt="Máy Tráng Keo Ô Tô">
+      <div class="card-caption">Công Nghệ Tráng Keo chống định dành cho ô tô</div>
+    </div>
+
+    <!-- Thứ 3 -->
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/May-Ve-Sinh-Lop-2.jpg" alt="Máy Vệ Sinh Lốp Xe">
+      <div class="card-caption">Vệ sinh sạch sẽ lốp xe cho bạn</div>
+    </div>
+
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/lop-xe/images/lop-maxxis.jpg" alt="Lốp Maxxis">
+      <div class="card-caption">Lốp Maxxis an toàn trên chuyến đi</div>
+    </div>
+
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/lop-xe/images/Lop-michelin.webp" alt="Lốp Michelin">
+      <div class="card-caption">Hương hiệu nổi bật hàng đầu</div>
+    </div>
+
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/lop-xe/images/Lop-rovelo.gif" alt="Lốp chống định Rovelo">
+      <div class="card-caption">Công nghệ chống định chất lượng</div>
+    </div>
+  </div>
+</div>
+    </form>
+    <script src="/thegioilopxe-demo/lop-xe/hangxe.js"></script>
+  </div>
+</section>
+
+<div class="article-container">
+  <main class="container product-detail-layout">
+    
+    <!-- CỘT BÊN TRÁI: DANH MỤC & SẢN PHẨM PHỔ BIẾN -->
+    <aside class="shop-sidebar">
+      <div class="sidebar-widget">
+        <h3 class="sidebar-title">Danh Mục Sản Phẩm</h3>
+        <ul class="category-list">
+          <li><a href="/thegioilopxe-demo/may-trang-keo-chong-dinh/">Công Nghệ Tráng Keo Chống Đinh</a></li>
+          <li><a href="/thegioilopxe-demo/lop-chong-dinh/">Lốp chống định</a></li>
+          <li class="active"><a href="/thegioilopxe-demo/lop-xe/">Lốp Xe</a></li>
+          <li><a href="/thegioilopxe-demo/mam-xe/">Mâm xe</a></li>
+          <li><a href="/thegioilopxe-demo/keo/">Keo</a></li>
+          
+        </ul>
+      </div>
+    </aside>
+
+    <!-- CỘT BÊN PHẢI: KHU VỰC CHI TIẾT SẢN PHẨM -->
+<section class="product-detail-main">
+  
+  <!-- KHU VỰC THÔNG TIN CHÍNH (ẢNH 1) -->
+  <div class="product-top-info">
+    
+    <!-- Ảnh sản phẩm -->
+    <div class="product-gallery">
+      <!-- KHUNG CHỨA ẢNH VÀ NÚT (Phải bọc chung như này) -->
+      <div class="main-image">
+        <img id="myProductImg" src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/Lop-tbb.webp" alt="Lốp Chống Đinh Rovelo">
+        
+        <!-- Nút con mắt phóng to ảnh -->
+        <a href="javascript:void(0);" onclick="openModal()" class="zoom-btn" title="Phóng to ảnh">
+          🔍
+        </a>
+      </div>
+    </div>
+
+<!-- Modal hiển thị khi phóng to (ĐẶT Ở BẤT KỲ ĐÂU NGOÀI KHUNG TRÊN) -->
+<div id="imageModal" class="modal-overlay">
+  <span class="modal-close" onclick="closeModal()">×</span>
+  <img class="modal-content" id="imgExpanded" alt="Ảnh phóng to">
+</div>
+
+<!-- Thông tin tóm tắt & Tính năng -->
+<div class="product-summary">
+  <span class="stock-status">CÒN HÀNG</span>
+  <div class="nav-prev-next">
+        <a href="/thegioilopxe-demo/lop-xe/lop-drf/">← TRƯỚC</a>
+        <a href="/thegioilopxe-demo/lop-xe/lop-michelin/">KẾ TIẾP →</a>
+  </div>
+
+  <h1 class="product-detail-title">
+    Lốp Xe Ô Tô TBB Chính Hãng | Đủ Size Cho Tất Cả Các Dòng Xe
+  </h1>
+  <div class="product-brand">Thương hiệu: <a href="/thegioilopxe-demo/">Lốp TBB</a></div>
+
+  <div class="product-features-box">
+    <h3>Ưu điểm và tính năng lốp TBB</h3>
+    <ul>
+        <li>
+            <strong>An toàn và ổn định:</strong> Lốp TBB được sản xuất với công nghệ hiện đại,
+                sử dụng hợp chất cao su chất lượng cao giúp tăng độ bám, giảm mài mòn và mang lại
+                khả năng vận hành ổn định trên nhiều điều kiện đường khác nhau.
+        </li>
+        <li>
+            <strong>Vận hành êm ái:</strong> Cấu trúc lốp được tối ưu nhằm giảm tiếng ồn và
+                rung động trong quá trình di chuyển, mang đến cảm giác lái thoải mái cho người sử dụng.
+        </li>
+        <li>
+            <strong>Độ bám đường vượt trội:</strong> Thiết kế gai lốp tối ưu cùng hệ thống rãnh
+                thoát nước hiệu quả giúp tăng độ bám đường, cải thiện khả năng phanh và hạn chế
+                hiện tượng trượt khi di chuyển trên đường ướt.  
+        </li>
+        <li>
+            <strong>Tiết kiệm nhiên liệu &amp; Độ bền cao:</strong> Với thiết kế giảm lực cản
+                lăn, lốp TBB giúp tối ưu mức tiêu hao nhiên liệu, đồng thời kéo dài tuổi thọ lốp,
+                giảm chi phí bảo dưỡng và thay thế.
+        </li>
+    </ul>
+          </div>
+        </div>
+
+      </div> <!-- End .product-top-info -->
+
+      <!-- KHU VỰC TABS CHI TIẾT (ẢNH 2) -->
+    <div class="tab-content product-description-content">
+
+
+      <h3>Dưới đây là danh sách tổng hợp các mã lốp ô tô TBB chính hãng theo kích thước mâm từ R15 đến R20.</h3>
+
+    <!-- ==========================================
+         BẢNG 1: LỐP TBB R13
+         ========================================== -->
+    <h3>1. Lốp TBB Mâm R15</h3>
+    <table class="kenda-table">
+        <thead>
+            <tr><th>STT</th><th>Thương Hiệu</th><th>Thông số lốp</th><th>Mã Gai</th><th>Mâm</th><th>Dòng xe phù hợp</th><th>Giá bán (VND)</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td>TBB</td><td>175/65R15</td><td>TP-16</td><td>15</td><td>Honda City, Toyota Yaris, Suzuki Swift, Hyundai Accent (bản tiêu chuẩn)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>2</td><td>TBB</td><td>185/55R15</td><td>TP-16</td><td>15</td><td>Mitsubishi Attrage, Mitsubishi Mirage, Ford Fiesta</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>3</td><td>TBB</td><td>185/60R15</td><td>TP-16</td><td>15</td><td>Toyota Vios, Toyota Yaris (đời cũ), Volkswagen Polo</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>4</td><td>TBB</td><td>185/65R15</td><td>TP-16</td><td>15</td><td>Hyundai Accent, Mitsubishi Xpander (bản MT), Suzuki Ertiga</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>5</td><td>TBB</td><td>195/55R15</td><td>TP-16</td><td>15</td><td>Chevrolet Gentra, Daewoo Lacetti EX, Ford Fiesta độ lốp bản rộng</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>6</td><td>TBB</td><td>195/60R15</td><td>TP-16</td><td>15</td><td>Ford Laser, Chevrolet Lacetti, Mitsubishi Lancer</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>7</td><td>TBB</td><td>195/65R15</td><td>TP-16</td><td>15</td><td>Toyota Corolla Altis (đời cũ), Kia Carens (đời cũ)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>8</td><td>TBB</td><td>205/65R15</td><td>TP-16</td><td>15</td><td>Toyota Innova (đời 2006 - 2016), Isuzu Hilander</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>9</td><td>TBB</td><td>235/75R15</td><td>TS-07 HT</td><td>15</td><td>Ford Ranger (đời cũ Mâm 15), Isuzu D-Max (đời cũ)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>10</td><td>TBB</td><td>235/75R15</td><td>Wildtraxx AT</td><td>15</td><td>Mitsubishi Triton, Suzuki Jimny (độ bánh to Mâm 15)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>11</td><td>TBB</td><td>LT31*10.50R15</td><td>Wildtraxx AT</td><td>15</td><td>Ford Ranger, Mitsubishi Pajero V31/V33</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>12</td><td>TBB</td><td>LT33*12.50R15</td><td>TS-67 MT</td><td>15</td><td>Toyota Hilux, Land Cruiser Series 70/80</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+        </tbody>
+    </table>
+
+    <h3>1. Lốp TBB Mâm R16</h3>
+    <table class="kenda-table">
+        <thead>
+            <tr><th>STT</th><th>Thương Hiệu</th><th>Thông số lốp</th><th>Mã Gai</th><th>Mâm</th><th>Dòng xe phù hợp</th><th>Giá bán (VND)</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td>TBB</td><td>185/55R16</td><td>Citytraxx GP</td><td>16</td><td>Honda City (TOP/RS), Ford Fiesta, Kia Rio</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>2</td><td>TBB</td><td>195/50R16</td><td>Citytraxx GP</td><td>16</td><td>Toyota Yaris, Mazda 2, Ford Fiesta</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>3</td><td>TBB</td><td>195/55R16</td><td>TR-66</td><td>16</td><td>Hyundai Accent, MG5, Mini Cooper, Hyundai i20</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>4</td><td>TBB</td><td>205/55R16</td><td>TR-66</td><td>16</td><td>Toyota Corolla Altis, MITSUBISHI XPANDER, Honda Civic</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>5</td><td>TBB</td><td>205/60R16</td><td>TR-66</td><td>16</td><td>Mazda 3, Ford EcoSport, Hyundai Kona, Chevrolet Cruze</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>6</td><td>TBB</td><td>205/65R16</td><td>TR-66</td><td>16</td><td>Toyota Innova (đời 2016+), Hyundai Creta, Kia Carens</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>7</td><td>TBB</td><td>215/55R16</td><td>TR-66</td><td>16</td><td>Honda Civic, Ford Mondeo, Volkswagen Passat, Audi A4</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>8</td><td>TBB</td><td>215/60R16</td><td>TR-66</td><td>16</td><td>Toyota Camry, Honda Accord, Mitsubishi Xpander Cross</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>9</td><td>TBB</td><td>215/70R16</td><td>TS-07 HT</td><td>16</td><td>Suzuki Vitara, Hyundai Tucson (đời cũ)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>10</td><td>TBB</td><td>215/70R16C 6PR</td><td>TS-07 HT</td><td>16</td><td>Toyota Hiace, Ford Transit (đời cũ)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>11</td><td>TBB</td><td>225/55R16</td><td>TR-66</td><td>16</td><td>Mercedes-Benz E-Class (W211/W212), BMW 5 Series (E60)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>12</td><td>TBB</td><td>225/60R16</td><td>TR-66</td><td>16</td><td>Lexus LS400, Subaru Outback (đời cũ), Hyundai Grandeur</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>13</td><td>TBB</td><td>225/70R16</td><td>TS-07 HT</td><td>16</td><td>Chevrolet Colorado, Isuzu D-Max, Suzuki Grand Vitara</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>14</td><td>TBB</td><td>235/60R16</td><td>TR-66</td><td>16</td><td>Hyundai Tucson, Kia Sportage, Suzuki Grand Vitara</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>15</td><td>TBB</td><td>235/65R16C 10PR</td><td>TC-78</td><td>16</td><td>Ford Transit, Hyundai Solati, Mercedes-Benz Sprinter</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>16</td><td>TBB</td><td>P235/70R16</td><td>TS-37 AT</td><td>16</td><td>Ford Ranger, Mazda BT-50, Chevrolet Colorado, Isuzu D-Max</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>17</td><td>TBB</td><td>235/85R16</td><td>Wildtraxx AT</td><td>16</td><td>Land Rover Defender (đời cũ), Toyota Land Cruiser HZJ</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>18</td><td>TBB</td><td>245/70R16</td><td>TS-07 HT</td><td>16</td><td>Isuzu D-Max, Chevrolet Colorado, Ford Ranger XLS</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>19</td><td>TBB</td><td>245/70R16</td><td>Wildtraxx AT</td><td>16</td><td>Ford Ranger, Isuzu D-Max, Mitsubishi Triton, Toyota Hilux</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>20</td><td>TBB</td><td>245/75R16</td><td>Wildtraxx AT</td><td>16</td><td>Jeep Wrangler, Toyota Hilux, Nissan Navara</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>21</td><td>TBB</td><td>255/70R16</td><td>TS-07 HT</td><td>16</td><td>Ford Ranger XLT, Mitsubishi Triton, Nissan Navara</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>22</td><td>TBB</td><td>255/70R16</td><td>TS-37 AT</td><td>16</td><td>Ford Ranger, Mitsubishi Triton, Nissan Navara, Toyota Fortuner</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>23</td><td>TBB</td><td>265/70R16</td><td>TS-07 HT</td><td>16</td><td>Toyota Land Cruiser Prado (đời cũ), Toyota Fortuner, Ford Everest</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>24</td><td>TBB</td><td>265/70R16</td><td>TS-37 AT</td><td>16</td><td>Toyota Land Cruiser Prado, Mitsubishi Pajero, Ford Everest</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>25</td><td>TBB</td><td>LT265/75R16</td><td>Wildtraxx MT</td><td>16</td><td>Jeep Wrangler, Ford Ranger độ Off-road (Lốp M/T)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>26</td><td>TBB</td><td>275/70R16</td><td>TS-37 AT</td><td>16</td><td>Toyota Land Cruiser 80/100 Series, Nissan Patrol, Lexus LX470</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+        </tbody>
+    </table>
+
+    <h3>1. Lốp TBB Mâm R17</h3>
+    <table class="kenda-table">
+        <thead>
+            <tr><th>STT</th><th>Thương Hiệu</th><th>Thông số lốp</th><th>Mã Gai</th><th>Mâm</th><th>Dòng xe phù hợp</th><th>Giá bán (VND)</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td>TBB</td><td>205/45ZR17</td><td>TR-66</td><td>17</td><td>Ford Fiesta, Kia Rio, Mini Cooper, Honda City (Mâm độ 17)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>2</td><td>TBB</td><td>205/50ZR17</td><td>TR-66</td><td>17</td><td>Ford Focus, Subaru Impreza, Mazda 3 (đời cũ), Honda Civic</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>3</td><td>TBB</td><td>215/45ZR17</td><td>TR-66</td><td>17</td><td>Kia Cerato/K3, Hyundai Elantra, Subaru BRZ / Toyota 86</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>4</td><td>TBB</td><td>215/50ZR17</td><td>TR-66</td><td>17</td><td>Honda Civic (Gen 10/11), Ford Focus, Chevrolet Cruze, MG5</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>5</td><td>TBB</td><td>215/55ZR17</td><td>TR-66</td><td>17</td><td>Toyota Camry, Honda Accord, Kia Seltos, Hyundai Creta, MG ZS</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>6</td><td>TBB</td><td>215/60R17</td><td>TS-07 HT</td><td>17</td><td>Hyundai Kona, Mitsubishi Xpander Cross, Jeep Compass</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>7</td><td>TBB</td><td>225/45ZR17</td><td>TR-66</td><td>17</td><td>Volkswagen Golf, Audi A3/A4, Mercedes-Benz C-Class, BMW 3 Series</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>8</td><td>TBB</td><td>225/50ZR17</td><td>TR-66</td><td>17</td><td>Audi A4, Mercedes C-Class, Honda Accord, VinFast Lux A2.0</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>9</td><td>TBB</td><td>225/55ZR17</td><td>TR-66</td><td>17</td><td>Mazda 6, Subaru Forester, Infiniti G37, Audi A6 (đời cũ)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>10</td><td>TBB</td><td>225/60R17</td><td>TS-07 HT</td><td>17</td><td>Hyundai Tucson, Kia Sportage, Subaru Forester, Jeep Cherokee</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>11</td><td>TBB</td><td>225/65R17</td><td>TS-07 HT</td><td>17</td><td>Mazda CX-5, Honda CR-V, Nissan X-Trail, Toyota RAV4, Lexus RX300</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>12</td><td>TBB</td><td>235/60R17</td><td>TS-07 HT</td><td>17</td><td>Kia Carnival/Sedona (đời cũ), Honda Odyssey, Ford Escape</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>13</td><td>TBB</td><td>235/65R17</td><td>TS-07 HT</td><td>17</td><td>Audi Q5, Land Rover Freelander, Hyundai SantaFe (đời cũ)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>14</td><td>TBB</td><td>245/40ZR17</td><td>TR-66</td><td>17</td><td>BMW 3 Series M-Sport (bánh sau), Mercedes C-Class AMG, Nissan Silvia</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>15</td><td>TBB</td><td>245/45ZR17</td><td>TR-66</td><td>17</td><td>Mercedes E-Class, Audi A5/A6, Lexus GS300, Ford Mustang (đời cũ)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>16</td><td>TBB</td><td>245/65R17</td><td>TS-07 HT</td><td>17</td><td>Ford Explorer (đời cũ), Honda Pilot, Toyota 4Runner</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>17</td><td>TBB</td><td>LT245/65R17</td><td>Wildtraxx AT</td><td>17</td><td>Jeep Grand Cherokee, Ford Ranger, Isuzu D-Max (độ gai A/T)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>18</td><td>TBB</td><td>255/65R17</td><td>Citytraxx HT</td><td>17</td><td>Chevrolet Colorado, Isuzu D-Max, Nissan Navara, Mitsubishi Triton</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>19</td><td>TBB</td><td>265/65R17</td><td>TS-07 HT</td><td>17</td><td>Toyota Fortuner, Toyota Hilux, Ford Everest, Isuzu mu-X</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>20</td><td>TBB</td><td>P265/65R17</td><td>TS-37 AT</td><td>17</td><td>Toyota Fortuner, Ford Ranger, Mitsubishi Pajero Sport (Lốp A/T)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>21</td><td>TBB</td><td>275/65R17</td><td>TS-07 HT</td><td>17</td><td>Toyota Land Cruiser Prado, Lexus LX470, Toyota Sequoia</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>22</td><td>TBB</td><td>P275/65R17</td><td>TS-37 AT</td><td>17</td><td>Toyota Land Cruiser 100/200, Lexus GX470/LX470, Nissan Patrol (Lốp A/T)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>23</td><td>TBB</td><td>LT285/70R17</td><td>TS-37 AT</td><td>17</td><td>Jeep Wrangler, Toyota Hilux/Fortuner độ nâng gầm</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>24</td><td>TBB</td><td>LT285/70R17</td><td>TS-67 MT</td><td>17</td><td>Jeep Wrangler, Toyota Land Cruiser Series 70/80/100</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>25</td><td>TBB</td><td>LT315/70R17</td><td>Wildtraxx RT</td><td>17</td><td>RAM TRX, Jeep Wrangler / Gladiator độ khủng (Lốp R/T 35 inch)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+        </tbody>
+    </table>
+
+    <h3>1. Lốp TBB Mâm R18</h3>
+    <table class="kenda-table">
+        <thead>
+            <tr><th>STT</th><th>Thương Hiệu</th><th>Thông số lốp</th><th>Mã Gai</th><th>Mâm</th><th>Dòng xe phù hợp</th><th>Giá bán (VND)</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td>TBB</td><td>215/40ZR18</td><td>TR-66</td><td>18</td><td>Honda Civic, Hyundai Veloster, Toyota Corolla (Mâm độ 18)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>2</td><td>TBB</td><td>215/45ZR18</td><td>TR-66</td><td>18</td><td>Mazda 3 (bản 2.0/Premium), Kia K3/Cerato, Kia Seltos (Mâm độ)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>3</td><td>TBB</td><td>225/40ZR18</td><td>TR-66</td><td>18</td><td>Mercedes-Benz A-Class/CLA, BMW 1/2 Series, Volkswagen Golf GTI</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>4</td><td>TBB</td><td>225/50ZR18</td><td>Citytraxx HP</td><td>18</td><td>Toyota Corolla Cross, Honda HR-V, Subaru Legacy, Infiniti Q30</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>5</td><td>TBB</td><td>225/55ZR18</td><td>Citytraxx HP</td><td>18</td><td>Mitsubishi Outlander, Subaru Forester, Hyundai Tucson, Kia Sportage</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>6</td><td>TBB</td><td>225/60R18</td><td>Citytraxx HT</td><td>18</td><td>Honda CR-V, Subaru Outback, Lexus NX200t/NX300, Toyota RAV4</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>7</td><td>TBB</td><td>235/45ZR18</td><td>TR-66</td><td>18</td><td>Toyota Camry, Honda Accord, Tesla Model 3, Peugeot 508, Kia Optima/K5</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>8</td><td>TBB</td><td>235/50R18</td><td>TR-66</td><td>18</td><td>Toyota Alphard/Vellfire, Mercedes GLA, Audi Q3, Lexus LS460, Ford Mustang</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>9</td><td>TBB</td><td>235/55ZR18</td><td>TR-66</td><td>18</td><td>Hyundai Tucson, Kia Sportage, Toyota RAV4, Lexus RX270/RX350, Chevrolet Captiva</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>10</td><td>TBB</td><td>235/60R18</td><td>TS-07 HT</td><td>18</td><td>Hyundai SantaFe, Kia Sorento, Carnival, Audi Q5, Volvo XC60</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>11</td><td>TBB</td><td>235/65R18</td><td>TS-07 HT</td><td>18</td><td>Lexus RX350, Nissan Murano, Infiniti QX60, Chevrolet Traverse</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>12</td><td>TBB</td><td>245/40ZR18</td><td>TR-66</td><td>18</td><td>BMW 3/5 Series, Mercedes C/E-Class, Audi A4/A5, Subaru WRX</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>13</td><td>TBB</td><td>245/45ZR18</td><td>TR-66</td><td>18</td><td>VinFast Lux A2.0 (bánh trước), BMW 5 Series, Audi A6, Genesis G80</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>14</td><td>TBB</td><td>245/60R18</td><td>TS-07 HT</td><td>18</td><td>Hyundai Palisade, Mazda CX-9, Ford Edge, Honda Pilot</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>15</td><td>TBB</td><td>255/55R18</td><td>TS-07 HT</td><td>18</td><td>Porsche Cayenne, Volkswagen Touareg, Audi Q7, BMW X5 (đời cũ)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>16</td><td>TBB</td><td>255/60R18</td><td>Citytraxx HT</td><td>18</td><td>Ford Ranger Wildtrak (đời 2015-2022), Chevrolet Colorado, Isuzu mu-X</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>17</td><td>TBB</td><td>255/60R18</td><td>TS-37 AT</td><td>18</td><td>Ford Ranger Wildtrak, Chevrolet Colorado High Country, Isuzu D-Max</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>18</td><td>TBB</td><td>255/65R18</td><td>Citytraxx HT</td><td>18</td><td>Land Rover Defender (Mâm 18), Ford Explorer, Chevrolet Tahoe, GMC Acadia</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>19</td><td>TBB</td><td>265/60R18</td><td>TS-37 AT</td><td>18</td><td>Toyota Fortuner, Ford Everest, Toyota Hilux, Mitsubishi Pajero Sport</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>20</td><td>TBB</td><td>265/60R18</td><td>TS-07 HT</td><td>18</td><td>Toyota Fortuner Legender, Mitsubishi Pajero Sport, Toyota Hilux</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>21</td><td>TBB</td><td>265/65R18</td><td>TS-07 HT</td><td>18</td><td>Lexus GX460, Toyota Land Cruiser Prado, Toyota Tundra, Nissan Armada</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>22</td><td>TBB</td><td>LT275/65R18</td><td>TS-37 AT</td><td>18</td><td>RAM 1500, Toyota Tundra TRD, Toyota Land Cruiser 200/300 (Lốp A/T)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>23</td><td>TBB</td><td>LT275/65R18</td><td>Wildtraxx MT</td><td>18</td><td>Ford F-150, RAM 1500, Jeep Wrangler / Gladiator</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+        </tbody>
+    </table>
+
+    <h3>1. Lốp TBB Mâm R19</h3>
+    <table class="kenda-table">
+        <thead>
+            <tr><th>STT</th><th>Thương Hiệu</th><th>Thông số lốp</th><th>Mã Gai</th><th>Mâm</th><th>Dòng xe phù hợp</th><th>Giá bán (VND)</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td>TBB</td><td>225/40ZR19</td><td>Citytraxx HT</td><td>19</td><td>BMW 3 Series / 4 Series, Mercedes C-Class AMG, Lexus IS</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>2</td><td>TBB</td><td>225/45ZR19</td><td>Citytraxx HT</td><td>19</td><td>Mazda 6 (bản 2.5/Premium), Nissan Qashqai, Infiniti Q50</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>3</td><td>TBB</td><td>225/55ZR19</td><td>Citytraxx HP</td><td>19</td><td>Mazda CX-5, Mazda CX-8, Nissan X-Trail, Hyundai Tucson (bản đặc biệt)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>4</td><td>TBB</td><td>235/50ZR19</td><td>Citytraxx HP</td><td>19</td><td>Mercedes-Benz GLB / GLA, Audi Q3, Chevrolet Equinox, Volvo XC40</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>5</td><td>TBB</td><td>235/55ZR19</td><td>Citytraxx HP</td><td>19</td><td>Kia Sorento, Carnival, Lexus RX350 (đời cũ), Audi Q5, Mercedes GLC</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>6</td><td>TBB</td><td>245/40ZR19</td><td>Citytraxx HP</td><td>19</td><td>VinFast Lux A2.0 (bánh trước), Mercedes E-Class AMG, Genesis G80</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>7</td><td>TBB</td><td>245/45ZR19</td><td>Wildtraxx RT</td><td>19</td><td>Hyundai Tucson (bản Turbo), Kia Sportage GT-Line, BMW 7 Series</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>8</td><td>TBB</td><td>245/55ZR19</td><td>Citytraxx HP</td><td>19</td><td>Toyota Highlander, Lexus RX350, Ford Edge, Honda Pilot</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>9</td><td>TBB</td><td>255/35ZR19</td><td>Citytraxx HP</td><td>19</td><td>Audi A5/S5, BMW M3/M4 (bánh trước), Mercedes AMG C63, Lexus GS</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>10</td><td>TBB</td><td>255/55ZR19</td><td>Citytraxx HP</td><td>19</td><td>Land Rover Discovery / Range Rover Sport, Audi Q7, Porsche Cayenne</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>11</td><td>TBB</td><td>275/35ZR19</td><td>Citytraxx HP</td><td>19</td><td>VinFast Lux A2.0 (bánh sau), BMW 5 Series / M5, Mercedes E-Class AMG</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>12</td><td>TBB</td><td>275/40ZR19</td><td>Citytraxx HP</td><td>19</td><td>BMW 7 Series (bánh sau), Mercedes-Benz S-Class, Porsche Panamera</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+        </tbody>
+    </table>
+    <h3>1. Lốp TBB Mâm R20</h3>
+    <table class="kenda-table">
+        <thead>
+            <tr><th>STT</th><th>Thương Hiệu</th><th>Thông số lốp</th><th>Mã Gai</th><th>Mâm</th><th>Dòng xe phù hợp</th><th>Giá bán (VND)</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td>TBB</td><td>245/40ZR20</td><td>Citytraxx HP</td><td>20</td><td>VinFast Lux A2.0 (bánh trước), BMW 7 Series, Mercedes S-Class</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>2</td><td>TBB</td><td>245/45ZR20</td><td>TR-66</td><td>20</td><td>VinFast VF8, Porsche Macan (bánh trước), Lexus RX / NX, Mazda CX-60</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>3</td><td>TBB</td><td>245/50ZR20</td><td>Citytraxx HP</td><td>20</td><td>Toyota Highlander, Mazda CX-9, Hyundai Palisade, Ford Edge</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>4</td><td>TBB</td><td>255/50ZR20</td><td>Citytraxx HP</td><td>20</td><td>Ford Explorer, VinFast VF9, Land Rover Range Rover Velar</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>5</td><td>TBB</td><td>255/55ZR20</td><td>Citytraxx HP</td><td>20</td><td>Ford Explorer, Land Rover Discovery, Range Rover Sport, Audi Q7</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>6</td><td>TBB</td><td>265/50R20</td><td>TX-01</td><td>20</td><td>Ford Everest Titanium+, Jeep Grand Cherokee, Lexus RX350, Dodge Durango</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>7</td><td>TBB</td><td>265/50R20</td><td>TS-37 AT</td><td>20</td><td>Ford Everest Titanium, Toyota Hilux / Fortuner (Mâm 20)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>8</td><td>TBB</td><td>275/35ZR20</td><td>Citytraxx HP</td><td>20</td><td>VinFast Lux A2.0 (bánh sau), Porsche Panamera, BMW M5</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>9</td><td>TBB</td><td>275/40ZR20</td><td>Citytraxx HP</td><td>20</td><td>BMW X5 / X6 (bánh sau), Maserati Levante, Land Rover Range Rover</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>10</td><td>TBB</td><td>275/45ZR20</td><td>TR-66</td><td>20</td><td>Audi Q7 / Q8, Porsche Cayenne, Volvo XC90, Volkswagen Touareg</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>11</td><td>TBB</td><td>275/55R20</td><td>TS-37 AT</td><td>20</td><td>Ford F-150, RAM 1500, Toyota Tundra, Lexus LX570 / LX600</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>12</td><td>TBB</td><td>285/55R20</td><td>TS-57 RT</td><td>20</td><td>Ford F-150, RAM 1500, Land Cruiser 200/300 (Lốp R/T béo 33 inch)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>13</td><td>TBB</td><td>LT305/55R20</td><td>Wildtraxx AT</td><td>20</td><td>RAM 1500 TRX, GMC Sierra (Lốp A/T 33x12.5 R20 bản rộng)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>14</td><td>TBB</td><td>315/35ZR20</td><td>Citytraxx HP</td><td>20</td><td>BMW X5 / X6 M-Sport (bánh sau), BMW X7, Porsche Cayenne Turbo</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+            <tr><td>15</td><td>TBB</td><td>285/45R22</td><td>TS-37 AT</td><td>22</td><td>Cadillac Escalade, Lincoln Navigator, GMC Yukon Denali (Lốp A/T)</td><td><a href="/thegioilopxe-demo/contact/">Liên hệ</a></td></tr>
+        </tbody>
+    </table>
+
+
+</div>
+
+        <div class="nav-prev-next">
+            <a href="/thegioilopxe-demo/lop-xe/lop-drf/">← TRƯỚC</a>
+            <a href="/thegioilopxe-demo/lop-xe/lop-michelin/">KẾ TIẾP →</a>
+          </div>
+
+    </section>
+
+  </main>
+<!-- Bài Viết liên quan -->
+  <aside class="news-sidebar">
+        <!-- Tìm kiếm -->
+        
+
+        <!-- Danh mục -->
+        <div class="widget">
+            <h3 class="widget-title">Danh Mục</h3>
+            <ul class="widget-list">
+                <li><a href="/thegioilopxe-demo/kien-thuc/">Kiến thức <span>(7)</span></a></li>
+                <li><a href="/thegioilopxe-demo/tin-tuc/">Tin tức <span>(4)</span></a></li>
+                <li><a href="/thegioilopxe-demo/lop-theo-xe/">Lốp theo xe <span>(7)</span></a></li>
+            </ul>
+        </div>
+
+        <!-- Bình luận gần đây -->
+        <div class="widget">
+            <h3 class="widget-title">Bình Luận Gần Đây</h3>
+            <div class="recent-comment">
+                <p><strong>thegioilopxe.com</strong> trong <a href="/thegioilopxe-demo/lop-xe/KienThuc/BaiVietKT1.php">Cần nên bơm khí nitơ cho lốp xe ô tô không? Ưu và nhược điểm</a></p>
+            </div>
+        </div>
+
+        <!-- Bài viết phổ biến -->
+        <div class="widget popular-widget">
+            <h3 class="widget-title">Bài Viết Phổ Biến</h3>
+            <div class="popular-list">
+
+            <!-- Bài 1: Dòng chốt (Khẳng định) -->
+            <div class="popular-item">
+                <div class="popular-info">
+                <span class="popular-date">23/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/lop-xe/TinTuc/baiViet4.php">Giới Thiệu Máy Tráng Keo Chống Đinh</a>
+                </h4>
+                </div>
+            </div>
+
+            <!-- Bài 2: Cảnh báo -->
+            <div class="popular-item has-thumb">
+                <a href="/thegioilopxe-demo/lop-xe/KienThuc/BaiVietKT3.php" class="popular-thumb">
+                <img src="/thegioilopxe-demo/lop-xe/images/dauhieunenthaylopanhngoai.webp" alt="Lốp Xe Kia Forte">
+                </a>
+                <div class="popular-info">
+                <span class="popular-date">21/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/lop-xe/KienThuc/BaiVietKT3.php">5 dấu hiệu cảnh báo bạn cần phải...</a>
+                </h4>
+                </div>
+            </div>
+
+            <!-- Bài 3: Cảnh báo -->
+            <div class="popular-item has-thumb">
+                <a href="/thegioilopxe-demo/lop-xe/KienThuc/BaiVietKT5.php" class="popular-thumb">
+                <img src="/thegioilopxe-demo/lop-xe/images/dao-lop-o-to-1.jpg" alt="Quy trình đào lốp xe định kỳ">
+                </a>
+                <div class="popular-info">
+                <span class="popular-date">19/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/lop-xe/KienThuc/BaiVietKT5.php">Quy trình đào lốp xe định kỳ...</a>
+                </h4>
+                </div>
+            </div>
+
+            <!-- Bài 4: Cảnh báo -->
+            <div class="popular-item has-thumb">
+                <a href="/thegioilopxe-demo/lop-xe/TinTuc/baiViet1.php" class="popular-thumb">
+                <img src="/thegioilopxe-demo/lop-xe/images/May-Trang-Keo-O-to-2.jpg" alt="Máy Chống Đinh">
+                </a>
+                <div class="popular-info">
+                <span class="popular-date">16/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/lop-xe/TinTuc/baiViet1.php">Công nghệ tráng keo chống định...</a>
+                </h4>
+                </div>
+            </div>
+
+            </div>
+        </div>
+
+        <!-- WIDGET 1: BÀI VIẾT / SẢN PHẨM PHỔ BIẾN -->
+            <div class="widget popularity-widget">
+            <h3 class="widget-title">Sản Phẩm Phổ Biến</h3>
+            <div class="pop-list">
+                
+                <!-- Item 1 -->
+                <a href="/thegioilopxe-demo/may-ve-sinh-lop-xe/" class="pop-item">  
+                <div class="pop-thumb">     
+                    <img src="/thegioilopxe-demo/lop-xe/images/May-Ve-Sinh-Lop-2.jpg" alt="Máy vệ sinh lốp xe">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Máy Vệ Sinh Lốp</h4>
+                    <div class="pop-rating">★★★★★ <span>(70)</span></div>
+                </div>
+                </a>
+
+                <!-- Item 2 -->
+                <a href="/thegioilopxe-demo/may-trang-keo-o-to/" class="pop-item">    
+                <div class="pop-thumb">                   
+                    <img src="/thegioilopxe-demo/lop-xe/images/May-Trang-Keo-O-to-3.jpg" alt="Máy tráng keo ô tô">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Máy Tráng Keo Chống Đinh Ố Tô</h4>
+                    <div class="pop-rating">★★★★★ <span>(97)</span></div>
+                </div>
+                </a>
+
+                <!-- Item 3 -->
+                <a href="/thegioilopxe-demo/may-trang-keo-xe-may/" class="pop-item">  
+                <div class="pop-thumb">                   
+                    <img src="/thegioilopxe-demo/lop-xe/images/may-trang-keo-xe-may-1.jpg" alt="Máy tráng keo xe máy">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Máy Tráng Keo Chống Đinh Xe Máy</h4>
+                    <div class="pop-rating">★★★★★ <span>(65)</span></div>
+                </div>
+                </a>
+
+                <!-- Item 4 -->
+                <a href="/thegioilopxe-demo/keo/" class="pop-item">   
+                <div class="pop-thumb">                 
+                    <img src="/thegioilopxe-demo/lop-xe/images/keo-xe.jpg" alt="Keo Tráng Lốp">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Keo Tráng Lốp xe</h4>
+                    <div class="pop-rating">★★★★★ <span>(341)</span></div>
+                </div>
+                </a>
+
+
+            </div>
+            </div>
+
+            <!-- WIDGET 2: BOX HỖ TRỢ KHÁCH HÀNG -->
+            <div class="widget support-box">
+            <div class="support-content">
+                <div class="support-avatar">
+                <img src="https://i.pravatar.cc/150?img=60" alt="Hỗ trợ viên">
+                </div>
+                <div class="support-text">
+                <h4>Anh/chị cần em hỗ trợ gì?</h4>
+                <p>Gọi ngay để được hỗ trợ nhanh chóng</p>
+                <a href="tel:0964596069" class="support-phone">0964.59.60.69</a>
+                </div>
+            </div>
+            </div>
+                </aside>
+</div>
+    
+<!-- Cuối trang -->
+<section class="footer-map-section">
+    <div class="container-map">
+        <div class="logo-box">
+            <img src="https://thegioilopxe.com/wp-content/uploads/2024/05/logo-thegioilopxe-1.jpg.webp" alt="The Gioi Lop Xe"> 
+        </div>
+      
+        <!-- Bản đồ bên phải -->
+        <div class="map-box">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.1604402216813!2d106.6634957796204!3d10.861391961684232!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752933bf2992b3%3A0xabd8da73ba88820f!2zVGjhur8gR2nhu5tpIEzhu5FwIFhl!5e1!3m2!1svi!2s!4v1784541958019!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+    </div>
+</section>
+
+<section class="footer">
+  <footer class="main-footer">
+    <!-- Cột 1: Chính sách -->
+    <div class="footer-col">
+        <h3>Chính Sách</h3>
+        <ul>
+            <li><a href="#">Chính sách bảo hành</a></li>
+            <li><a href="#">Chính sách bảo mật</a></li>
+            <li><a href="#">Chính sách thanh toán</a></li>
+            <li><a href="#">Chính sách vận chuyển và giao nhận</a></li>
+        </ul>
+    </div>
+
+    <!-- Cột 2: Thông tin liên hệ -->
+    <div class="footer-col">
+        <h3>Thông tin liên hệ</h3>
+        <p>Địa chỉ: 1125 Quốc Lộ 1A (Đường Mới), Khu Phố 56, Phường Thới An, TP Hồ Chí Minh</p>
+        <p>Hotline: 0964.59.69.69</p>
+    </div>
+
+    <!-- Cột 3: Phản hồi & Mạng xã hội -->
+    <div class="footer-col feedback-col">
+        <h3 style="color: #ffc107;">Phản hồi với chúng tôi</h3>
+        <p>Phản hồi của bạn giúp chúng tôi ngày càng cải thiện và hoàn thiện hơn về dịch vụ, chất lượng, xin cảm ơn!</p>
+        <a href="/thegioilopxe-demo/lop-xe/contact.php?scroll=lien-he" class="feedback-link">Gửi Phản Hồi Tại Đây &gt;</a>
+        <div class="social-icons">
+            <i class="fab fa-facebook"></i>
+            <i class="fab fa-tiktok"></i>
+            <i class="fab fa-youtube"></i>
+        </div>
+    </div>
+</footer>
+</section>
+<script src="/thegioilopxe-demo/lop-xe/zoom.js"></script>
+<a href="javascript:void(0)" id="backToTopBtn" title="Lên đầu trang" onclick="
+     window.scrollTo({top: 0, behavior: 'smooth'});
+     document.documentElement.scrollTop = 0;
+     document.body.scrollTop = 0;
+     document.querySelectorAll('*').forEach(el =&gt; { if(el.scrollTop &gt; 0) el.scrollTo({top: 0, behavior: 'smooth'}); });
+   ">⬆</a>
+<script>
+          $(document).ready(function() {
+            $('select').select2({
+            // Bạn có thể tùy chỉnh ngôn ngữ, tìm kiếm... tại đây
+            });
+          });
+        </script>
+</body>
+
+
+
+</html>

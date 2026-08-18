@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="vn">
+    <head><meta charset="UTF-8">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Thế Giới Lốp Xe</title>
+        <link rel="stylesheet" href="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/trangchu.css?ver=1.0.4">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+      </head>
+<body id="top">
+<div class="header-top">
+<div class="hotline">
+  <i class="fas fa-phone-alt"></i> Hotline: 0964.59.69.69
+</div>
+
+<div class="header-top-right">
+    <form class="search-box-brand">
+    <input type="text" placeholder="Tìm kiếm...">
+    <button type="submit">Tìm</button>
+  </form>
+  <!--Thông báo khi có phản hồi-->
+  <div class="notification-wrapper">
+    <button type="button" id="notifBtn" class="notif-btn">
+        <i class="fas fa-bell"></i> <span id="notifBadge" class="notif-badge">0</span>
+    </button>
+    
+    <div id="notifBox" class="notif-box">
+        <div class="notif-header">Thông báo phản hồi</div>
+        <ul id="notifList" class="notif-list">
+            <li class="empty-msg">Chưa có phản hồi nào</li>
+        </ul>
+    </div>
+    </div>
+</div>
+</div>
+
+<!-- Header chính -->
+<header class="site-header">
+  <div class="logo">
+    <img src="/thegioilopxe-demo/lop-chong-dinh/images/logo-thegioilopxe-1.webp" alt="Logo">
+  </div>
+  <button class="menu-toggle" id="menuToggle" type="button" aria-label="Mở menu" aria-expanded="false"><i class="fas fa-bars"></i></button>
+  <nav class="main-nav">
+    <ul>
+      <li><a href="/thegioilopxe-demo/">Trang chủ</a></li>
+      <li><a href="/thegioilopxe-demo/about/">Giới thiệu</a></li>
+      <li class="dropdown">
+            <a href="/thegioilopxe-demo/" class="product-link">
+                Sản phẩm <span class="arrow">▼</span>
+            </a>
+            <ul class="dropdown-menu">
+                 <li class="has-submenu">
+                    <a href="/thegioilopxe-demo/" class="submenu-toggle">
+                         Máy tráng keo chống định<span class="arrow-right">▸</span>
+                    </a>
+    <ul class="submenu">
+      <li><a href="/thegioilopxe-demo/may-trang-keo-xe-may/">Máy tráng keo xe máy</a></li>
+      <li><a href="/thegioilopxe-demo/may-trang-keo-o-to/">Máy tráng keo ô tô</a></li>
+      <li><a href="/thegioilopxe-demo/may-ve-sinh-lop-xe/">Máy vệ sinh lốp xe</a></li>
+    </ul>
+  </li>
+                <li><a href="/thegioilopxe-demo/lop-xe/">Lốp xe</a></li>
+                <li><a href="/thegioilopxe-demo/lop-chong-dinh/">Lốp chống định</a></li>
+                <li><a href="/thegioilopxe-demo/keo/">Keo</a></li>
+                <li><a href="/thegioilopxe-demo/mam-xe/">Mâm xe</a></li>
+            </ul>
+        </li>
+      <li class="dropdown">
+            <a href="/thegioilopxe-demo/" class="blog-link">
+                Blog <span class="arrow">▼</span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="/thegioilopxe-demo/kien-thuc/">Kiến thức</a></li>
+                <li><a href="/thegioilopxe-demo/tin-tuc/">Tin tức</a></li>
+                <li><a href="/thegioilopxe-demo/lop-theo-xe/">Lốp theo xe</a></li>
+            </ul>
+        </li>
+      <li><a href="/thegioilopxe-demo/contact/">Liên hệ tư vấn</a></li>
+      <li><a href="/thegioilopxe-demo/machine/">Chuyển giao công nghệ tráng keo</a></li>
+    </ul>
+  </nav>
+<script src="/thegioilopxe-demo/lop-chong-dinh/Notification.js?ver=1.0.5"></script>
+
+</header>
+
+<!-- khung tìm kiếm -->
+<section class="banner">
+  <div class="image-box">
+    <img src="/thegioilopxe-demo/lop-chong-dinh/images/May-Trang-Keo-O-to.jpg" alt="Máy tráng keo">
+    <div class="text-overlay">
+      <h2>Máy tráng keo lốp xe</h2>
+      <h3>Chuyển giao công nghệ tráng keo chống định</h3>
+    </div>
+  </div>
+
+  <div class="search-box">
+    <h3>Tìm sản phẩm phù hợp</h3>
+    <form>
+      <select id="select-dong-xe" onchange="enableOtherFields()">
+            <option value="" selected disabled>1. Chọn dòng xe</option>
+            <option value="xe-may">Xe máy</option>
+            <option value="o-to">Ô tô</option>
+         </select>
+
+      <select id="select-hang" size="5" disabled onchange="updatePhienBan()">
+        <option value="" selected disabled>2. Chọn hãng xe</option>
+      </select>
+
+      <select id="select-phien-ban" disabled> 
+        <option value="" selected disabled>4. Chọn phiên bản (Nếu Có)</option>
+      </select>
+
+  <button type="submit" class="btn-search">TÌM KIẾM</button>
+
+  <div class="featured-section">
+  <h3 class="featured-title">LỰA CHỌN NỔI BẬT</h3>
+  
+  <div class="featured-grid">
+    <!-- Thứ 1 -->
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/lop-chong-dinh/images/may-trang-keo-xe-may-1-copy.jpg" alt="Máy Tráng Keo Xe Máy">
+      <div class="card-caption">Công Nghệ Tráng Keo chống định dành cho xe máy</div>
+    </div>
+
+    <!-- Thứ 2 -->
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/lop-chong-dinh/images/May-Trang-Keo-O-to-2.jpg" alt="Máy Tráng Keo Ô Tô">
+      <div class="card-caption">Công Nghệ Tráng Keo chống định dành cho ô tô</div>
+    </div>
+
+    <!-- Thứ 3 -->
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/lop-chong-dinh/images/May-Ve-Sinh-Lop-2.jpg" alt="Máy Vệ Sinh Xe Máy">
+      <div class="card-caption">Vệ sinh sạch sẽ lốp xe cho bạn</div>
+    </div>
+
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/lop-chong-dinh/images/lop-maxxis.jpg" alt="Lốp Maxxis">
+      <div class="card-caption">Lốp Maxxis an toàn trên chuyến đi</div>
+    </div>
+
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/lop-chong-dinh/images/Lop-michelin.webp" alt="Lốp Michelin">
+      <div class="card-caption">Hương hiệu nổi bật hàng đầu</div>
+    </div>
+
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/lop-chong-dinh/images/Lop-rovelo.gif" alt="Lốp chống định Rovelo">
+      <div class="card-caption">Công nghệ chống định chất lượng</div>
+    </div>
+  </div>
+</div>
+    </form>
+    <script src="/thegioilopxe-demo/lop-chong-dinh/hangxe.js"></script>
+  </div>
+</section>
+
+<div class="article-container">
+  <main class="container product-detail-layout">
+    
+    <!-- CỘT BÊN TRÁI: DANH MỤC & SẢN PHẨM PHỔ BIẾN -->
+    <aside class="shop-sidebar">
+      <div class="sidebar-widget">
+        <h3 class="sidebar-title">Danh Mục Sản Phẩm</h3>
+        <ul class="category-list">
+          <li><a href="/thegioilopxe-demo/may-trang-keo-chong-dinh/">Công Nghệ Tráng Keo Chống Đinh</a></li>
+          <li><a href="/thegioilopxe-demo/lop-chong-dinh/">Lốp chống định</a></li>
+          <li class="active"><a href="/thegioilopxe-demo/lop-xe/">Lốp Xe</a></li>
+          <li><a href="/thegioilopxe-demo/mam-xe/">Mâm xe</a></li>
+          <li><a href="/thegioilopxe-demo/keo/">Keo</a></li>
+          
+        </ul>
+      </div>
+    </aside>
+
+
+    <!-- CỘT BÊN PHẢI: KHU VỰC CHI TIẾT SẢN PHẨM -->
+    <section class="product-detail-main">
+      
+      <!-- KHU VỰC THÔNG TIN CHÍNH (ẢNH 1) -->
+      <!-- KHU VỰC THÔNG TIN CHÍNH -->
+<!-- KHU VỰC THÔNG TIN CHÍNH -->
+<!-- KHU VỰC THÔNG TIN CHÍNH -->
+<!-- KHU VỰC THÔNG TIN CHÍNH -->
+<!-- KHU VỰC THÔNG TIN CHÍNH -->
+<!-- KHU VỰC THÔNG TIN CHÍNH -->
+<!-- KHU VỰC THÔNG TIN CHÍNH -->
+<!-- KHU VỰC THÔNG TIN CHÍNH -->
+<!-- KHU VỰC THÔNG TIN CHÍNH -->
+<!-- KHU VỰC THÔNG TIN CHÍNH -->
+<!-- KHU VỰC THÔNG TIN CHÍNH -->
+<!-- KHU VỰC THÔNG TIN CHÍNH -->
+<!-- KHU VỰC THÔNG TIN CHÍNH -->
+<div class="product-top-info">
+
+  <!-- Khung ảnh sản phẩm -->
+  <div class="product-gallery">
+    <div class="main-image">
+      <img id="myProductImg17" src="/thegioilopxe-demo/lop-chong-dinh/images/lop-sailun.jpg" alt="Lốp Chống Đinh Sailun 225/60R17">
+      
+      <!-- Nút con mắt phóng to -->
+      <a href="javascript:void(0);" onclick="openModalById('myProductImg17')" class="zoom-btn" title="Phóng to ảnh">
+        🔍
+      </a>
+    </div>
+  </div>
+
+  <!-- Modal hiển thị khi phóng to -->
+  <div id="imageModal" class="modal-overlay">
+    <span class="modal-close" onclick="closeModal()">×</span>
+    <img class="modal-content" id="imgExpanded" alt="Ảnh phóng to">
+  </div>
+
+  <!-- Thông tin tóm tắt & Tính năng -->
+  <div class="product-summary">
+    <span class="stock-status">CÒN HÀNG</span>
+    <div class="nav-prev-next">
+      <a href="/thegioilopxe-demo/lop-chong-dinh/lop-18/Lop17.php">← TRƯỚC</a>
+      <a href="/thegioilopxe-demo/lop-chong-dinh/lop-18/Lop19.php">KẾ TIẾP →</a>
+    </div>
+
+    <h1 class="product-detail-title">
+      Lốp Chống Đinh Sailun 225/60R17 | Lốp xe VinFast VF6s
+    </h1>
+    <div class="product-brand">Thương hiệu: <a href="#">Sailun (Việt Nam)</a></div>
+
+    <div class="product-features-box">
+      <h3>Ưu điểm và tính năng lốp Sailun 225/60R17</h3>
+      <ul>
+        <li>
+          <strong>Tráng keo chống đinh tự vá:</strong> Tích hợp lớp keo chống đinh cao cấp, tự động lấp đầy lỗ thủng ngay lập tức khi xe VinFast VF6s cán phải vật nhọn, đảm bảo di chuyển liên tục an toàn.
+        </li>
+        <li>
+          <strong>Tối ưu hóa cho xe điện (EV):</strong> Cấu trúc lốp chịu tải cao, hạn chế ma sát lăn giúp tiết kiệm pin tối đa và tối ưu phạm vi di chuyển cho xe điện VinFast.
+        </li>
+        <li>
+          <strong>Khả năng chống ồn vượt trội:</strong> Thiết kế gai lốp giảm thiểu tối đa tiếng ồn rãnh ma sát với mặt đường, duy trì không gian cực kỳ yên tĩnh trong khoang lái xe điện.
+        </li>
+        <li>
+          <strong>Bám đường &amp; Chống mòn cao:</strong> Hợp chất cao su tiên tiến tăng diện tích tiếp xúc, hỗ trợ gia tốc nhanh và phanh an toàn ngay cả trên đường trơn trượt.
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div> <!-- End .product-top-info -->
+
+
+<!-- KHU V?C TABS CHI TI?T -->
+<div class="product-tabs-container">
+  <ul class="tab-header">
+    <li class="tab-item active">Mï¿½ t?</li>
+    <li class="tab-item">Thï¿½ng tin b? sung</li>
+    <li class="tab-item">ï¿½ï¿½nh giï¿½ (0)</li>
+  </ul>
+
+  <div class="tab-content">
+
+    <!-- Ph?n 1: Thuong hi?u -->
+    <div class="content-block">
+      <h2 class="section-heading text-blue">1. Thuong hi?u l?p Sailun 225/60R17</h2>
+      <p>- Sailun lï¿½ thuong hi?u l?p ï¿½ tï¿½ hï¿½ng d?u toï¿½n c?u cï¿½ nhï¿½ mï¿½y s?n xu?t quy mï¿½ l?n t?i Vi?t Nam, dï¿½p ?ng cï¿½c tiï¿½u chu?n kh?t khe v? d? báº¡n vï¿½ an toï¿½n qu?c t?.</p>
+      <p>- Dï¿½ng l?p chá»‘ng Ä‘á»‹nh Sailun lï¿½ gi?i phï¿½p hoï¿½n h?o cho ch? xe di?n VinFast VF6s, giï¿½p lo?i b? n?i lo b? x?p l?p gi?a du?ng.</p>
+    </div>
+
+    <!-- Ph?n 2: Thï¿½ng s? k? thu?t -->
+    <div class="content-block">
+      <h2 class="section-heading text-yellow">2. THï¿½NG S? K? THU?T:</h2>
+      <table class="specs-table">
+        <tbody>
+          <tr><td><strong>Tï¿½n s?n ph?m:</strong></td><td>L?p Ch?ng ï¿½inh Sailun 225/60R17</td></tr>
+          <tr><td><strong>Thuong hi?u l?p:</strong></td><td>Sailun</td></tr>
+          <tr><td><strong>Kï¿½ch thu?c l?p:</strong></td><td>225/60R17</td></tr>
+          <tr><td><strong>Dï¿½ng xe tuong thï¿½ch:</strong></td><td>VinFast VF6s, Hyundai Tucson, Subaru Forester, Mitsubishi Outlander vï¿½ cï¿½c xe cĂ´ng c? mï¿½m 17 inch</td></tr>
+          <tr><td><strong>ï¿½? r?ng l?p:</strong></td><td>225mm</td></tr>
+          <tr><td><strong>T? l? chi?u cao:</strong></td><td>60%</td></tr>
+          <tr><td><strong>Kï¿½ch thu?c mï¿½m xe (lazang):</strong></td><td>17 inch</td></tr>
+          <tr><td><strong>Xu?t x?:</strong></td><td>Vi?t Nam</td></tr>
+          <tr><td><strong>Lo?i l?p:</strong></td><td>L?p khï¿½ng xam (Trï¿½ng keo chá»‘ng Ä‘á»‹nh)</td></tr>
+          <tr><td><strong>Tï¿½nh tr?ng:</strong></td><td>M?i 100%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Ph?n 3: Tï¿½nh nang -->
+    <div class="content-block">
+      <h2 class="section-heading text-yellow">3. Tï¿½nh nang c?a l?p Sailun 225/60R17</h2>
+      <p>L?p Sailun 225/60R17 h? tr? ki?m soï¿½t tay lï¿½i tuy?t vá»›i, duy trï¿½ d? d?m ch?c khi ï¿½m cua vï¿½ cï¿½n báº¡ng xe ? d?i t?c d? cao.</p>
+      <p>L?p keo trĂ¡ng chá»‘ng Ä‘á»‹nh báº¡n b?, ch?u nhi?t d? ma sï¿½t cao vï¿½ khï¿½ng b? bi?n d?ng hay xï¿½ d?ch lï¿½m m?t cï¿½n báº¡ng d?ng bï¿½nh xe.</p>
+    </div>
+
+  </div> <!-- End .tab-content -->
+</div> <!-- End .product-tabs-container -->
+<div class="nav-prev-next">
+      <a href="/thegioilopxe-demo/lop-chong-dinh/lop-18/Lop17.php">← TRU?C</a>
+      <a href="/thegioilopxe-demo/lop-chong-dinh/lop-18/Lop19.php">K? TI?P →</a>
+    </div>
+    </section>
+
+  </main>
+<!-- Bài Viết liên quan -->
+  <aside class="news-sidebar">
+        <!-- Tìm kiếm -->
+        
+
+        <!-- Danh mục -->
+        <div class="widget">
+            <h3 class="widget-title">Danh Mục</h3>
+            <ul class="widget-list">
+                <li><a href="/thegioilopxe-demo/kien-thuc/">Kiến thức <span>(7)</span></a></li>
+                <li><a href="/thegioilopxe-demo/tin-tuc/">Tin tức <span>(4)</span></a></li>
+                <li><a href="/thegioilopxe-demo/lop-theo-xe/">Lốp theo xe <span>(7)</span></a></li>
+            </ul>
+        </div>
+
+        <!-- Bình luận gần đây -->
+        <div class="widget">
+            <h3 class="widget-title">Bình Luận Gần Đây</h3>
+            <div class="recent-comment">
+                <p><strong>thegioilopxe.com</strong> trong <a href="/thegioilopxe-demo/lop-chong-dinh/KienThuc/BaiVietKT1.php">Cần nên bơm khí nitơ cho lốp xe ô tô không? Ưu và nhược điểm</a></p>
+            </div>
+        </div>
+
+        <!-- Bài viết phổ biến -->
+        <div class="widget popular-widget">
+            <h3 class="widget-title">Bài Viết Phổ Biến</h3>
+            <div class="popular-list">
+
+            <!-- Bài 1: Dòng chốt (Khẳng định) -->
+            <div class="popular-item">
+                <div class="popular-info">
+                <span class="popular-date">23/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/lop-chong-dinh/TinTuc/baiViet4.php">Giới Thiệu Máy Tráng Keo Chống Đinh</a>
+                </h4>
+                </div>
+            </div>
+
+            <!-- Bài 2: Cảnh báo -->
+            <div class="popular-item has-thumb">
+                <a href="/thegioilopxe-demo/lop-chong-dinh/KienThuc/BaiVietKT3.php" class="popular-thumb">
+                <img src="/thegioilopxe-demo/lop-chong-dinh/images/dauhieunenthaylopanhngoai.webp" alt="Lốp Xe Kia Forte">
+                </a>
+                <div class="popular-info">
+                <span class="popular-date">21/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/lop-chong-dinh/KienThuc/BaiVietKT3.php">5 dấu hiệu cảnh báo bạn cần phải...</a>
+                </h4>
+                </div>
+            </div>
+
+            <!-- Bài 3: Cảnh báo -->
+            <div class="popular-item has-thumb">
+                <a href="/thegioilopxe-demo/lop-chong-dinh/KienThuc/BaiVietKT5.php" class="popular-thumb">
+                <img src="/thegioilopxe-demo/lop-chong-dinh/images/dao-lop-o-to-1.jpg" alt="Quy trình đào lốp xe định kỳ">
+                </a>
+                <div class="popular-info">
+                <span class="popular-date">19/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/lop-chong-dinh/KienThuc/BaiVietKT5.php">Quy trình đào lốp xe định kỳ...</a>
+                </h4>
+                </div>
+            </div>
+
+            <!-- Bài 4: Cảnh báo -->
+            <div class="popular-item has-thumb">
+                <a href="/thegioilopxe-demo/lop-chong-dinh/TinTuc/baiViet1.php" class="popular-thumb">
+                <img src="/thegioilopxe-demo/lop-chong-dinh/images/May-Trang-Keo-O-to-2.jpg" alt="Máy Chống Đinh">
+                </a>
+                <div class="popular-info">
+                <span class="popular-date">16/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/lop-chong-dinh/TinTuc/baiViet1.php">Công nghệ tráng keo chống định...</a>
+                </h4>
+                </div>
+            </div>
+
+            </div>
+        </div>
+
+        <!-- WIDGET 1: BÀI VIẾT / SẢN PHẨM PHỔ BIẾN -->
+            <div class="widget popularity-widget">
+            <h3 class="widget-title">Sản Phẩm Phổ Biến</h3>
+            <div class="pop-list">
+                
+                <!-- Item 1 -->
+                <a href="/thegioilopxe-demo/may-ve-sinh-lop-xe/" class="pop-item">  
+                <div class="pop-thumb">     
+                    <img src="/thegioilopxe-demo/lop-chong-dinh/images/May-Ve-Sinh-Lop-2.jpg" alt="Máy vệ sinh lốp xe">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Máy Vệ Sinh Lốp</h4>
+                    <div class="pop-rating">★★★★★ <span>(70)</span></div>
+                </div>
+                </a>
+
+                <!-- Item 2 -->
+                <a href="/thegioilopxe-demo/may-trang-keo-o-to/" class="pop-item">    
+                <div class="pop-thumb">                   
+                    <img src="/thegioilopxe-demo/lop-chong-dinh/images/May-Trang-Keo-O-to-3.jpg" alt="Máy tráng keo ô tô">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Máy Tráng Keo Chống Đinh Ố Tô</h4>
+                    <div class="pop-rating">★★★★★ <span>(97)</span></div>
+                </div>
+                </a>
+
+                <!-- Item 3 -->
+                <a href="/thegioilopxe-demo/may-trang-keo-xe-may/" class="pop-item">  
+                <div class="pop-thumb">                   
+                    <img src="/thegioilopxe-demo/lop-chong-dinh/images/may-trang-keo-xe-may-1.jpg" alt="Máy tráng keo xe máy">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Máy Tráng Keo Chống Đinh Xe Máy</h4>
+                    <div class="pop-rating">★★★★★ <span>(65)</span></div>
+                </div>
+                </a>
+
+                <!-- Item 4 -->
+                <a href="/thegioilopxe-demo/keo/" class="pop-item">   
+                <div class="pop-thumb">                 
+                    <img src="/thegioilopxe-demo/lop-chong-dinh/images/keo-xe.jpg" alt="Keo Tráng Lốp">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Keo Tráng Lốp xe</h4>
+                    <div class="pop-rating">★★★★★ <span>(341)</span></div>
+                </div>
+                </a>
+
+
+            </div>
+            </div>
+
+            <!-- WIDGET 2: BOX HỖ TRỢ KHÁCH HÀNG -->
+            <div class="widget support-box">
+            <div class="support-content">
+                <div class="support-avatar">
+                <img src="https://i.pravatar.cc/150?img=60" alt="Hỗ trợ viên">
+                </div>
+                <div class="support-text">
+                <h4>Anh/chị cần em hỗ trợ gì?</h4>
+                <p>Gọi ngay để được hỗ trợ nhanh chóng</p>
+                <a href="tel:0964596069" class="support-phone">0964.59.60.69</a>
+                </div>
+            </div>
+            </div>
+                </aside>
+</div>
+    
+<!-- Cuối trang -->
+<section class="footer-map-section">
+    <div class="container-map">
+        <div class="logo-box">
+            <img src="https://thegioilopxe.com/wp-content/uploads/2024/05/logo-thegioilopxe-1.jpg.webp" alt="The Gioi Lop Xe"> 
+        </div>
+      
+        <!-- Bản đồ bên phải -->
+        <div class="map-box">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.1604402216813!2d106.6634957796204!3d10.861391961684232!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752933bf2992b3%3A0xabd8da73ba88820f!2zVGjhur8gR2nhu5tpIEzhu5FwIFhl!5e1!3m2!1svi!2s!4v1784541958019!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+    </div>
+</section>
+
+<section class="footer">
+  <footer class="main-footer">
+    <!-- Cột 1: Chính sách -->
+    <div class="footer-col">
+        <h3>Chính Sách</h3>
+        <ul>
+            <li><a href="#">Chính sách bảo hành</a></li>
+            <li><a href="#">Chính sách bảo mật</a></li>
+            <li><a href="#">Chính sách thanh toán</a></li>
+            <li><a href="#">Chính sách vận chuyển và giao nhận</a></li>
+        </ul>
+    </div>
+
+    <!-- Cột 2: Thông tin liên hệ -->
+    <div class="footer-col">
+        <h3>Thông tin liên hệ</h3>
+        <p>Địa chỉ: 1125 Quốc Lộ 1A (Đường Mới), Khu Phố 56, Phường Thới An, TP Hồ Chí Minh</p>
+        <p>Hotline: 0964.59.69.69</p>
+    </div>
+
+    <!-- Cột 3: Phản hồi & Mạng xã hội -->
+    <div class="footer-col feedback-col">
+        <h3 style="color: #ffc107;">Phản hồi với chúng tôi</h3>
+        <p>Phản hồi của bạn giúp chúng tôi ngày càng cải thiện và hoàn thiện hơn về dịch vụ, chất lượng, xin cảm ơn!</p>
+        <a href="/thegioilopxe-demo/lop-chong-dinh/contact.php?scroll=lien-he" class="feedback-link">Gửi Phản Hồi Tại Đây &gt;</a>
+        <div class="social-icons">
+            <i class="fab fa-facebook"></i>
+            <i class="fab fa-tiktok"></i>
+            <i class="fab fa-youtube"></i>
+        </div>
+    </div>
+</footer>
+</section>
+<script src="/thegioilopxe-demo/lop-chong-dinh/zoom.js"></script>
+<a href="javascript:void(0)" id="backToTopBtn" title="Lên đầu trang" onclick="
+     window.scrollTo({top: 0, behavior: 'smooth'});
+     document.documentElement.scrollTop = 0;
+     document.body.scrollTop = 0;
+     document.querySelectorAll('*').forEach(el =&gt; { if(el.scrollTop &gt; 0) el.scrollTo({top: 0, behavior: 'smooth'}); });
+   ">⬆</a>
+<script>
+          $(document).ready(function() {
+            $('select').select2({
+            // Bạn có thể tùy chỉnh ngôn ngữ, tìm kiếm... tại đây
+            });
+          });
+        </script>
+</body>
+
+
+</html>
