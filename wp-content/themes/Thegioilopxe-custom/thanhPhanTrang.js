@@ -1,5 +1,5 @@
 // Cấu hình phân trang
-const itemsPerPage = 13;
+const itemsPerPage = 14;
 let currentPage = 1;
 
 function displayProducts() {
