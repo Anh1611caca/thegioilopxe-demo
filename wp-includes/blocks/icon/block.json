@@ -11,18 +11,6 @@
 		"icon": {
 			"type": "string",
 			"role": "content"
-		},
-		"flipHorizontal": {
-			"type": "boolean",
-			"default": false
-		},
-		"flipVertical": {
-			"type": "boolean",
-			"default": false
-		},
-		"rotation": {
-			"type": "number",
-			"default": 0
 		}
 	},
 	"supports": {
@@ -33,11 +21,9 @@
 		"align": [ "left", "center", "right" ],
 		"html": false,
 		"color": {
-			"__experimentalSkipSerialization": true,
-			"__experimentalDefaultControls": {
-				"background": true,
-				"text": true
-			}
+			"background": true,
+			"text": true,
+			"__experimentalSkipSerialization": true
 		},
 		"interactivity": {
 			"clientNavigation": true

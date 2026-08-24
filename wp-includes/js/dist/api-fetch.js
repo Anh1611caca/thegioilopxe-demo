@@ -1,4 +1,3 @@
-(function() {
 "use strict";
 var wp;
 (wp ||= {}).apiFetch = (() => {
@@ -40,13 +39,6 @@ var wp;
     }
   });
 
-  // package-external:@wordpress/private-apis
-  var require_private_apis = __commonJS({
-    "package-external:@wordpress/private-apis"(exports, module) {
-      module.exports = window.wp.privateApis;
-    }
-  });
-
   // package-external:@wordpress/url
   var require_url = __commonJS({
     "package-external:@wordpress/url"(exports, module) {
@@ -60,13 +52,6 @@ var wp;
     default: () => index_default
   });
   var import_i18n3 = __toESM(require_i18n(), 1);
-
-  // packages/api-fetch/build-module/lock-unlock.mjs
-  var import_private_apis = __toESM(require_private_apis(), 1);
-  var { lock, unlock } = (0, import_private_apis.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
-    "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.",
-    "@wordpress/api-fetch"
-  );
 
   // packages/api-fetch/build-module/middlewares/nonce.mjs
   function createNonceMiddleware(nonce) {
@@ -139,19 +124,14 @@ var wp;
 
   // packages/api-fetch/build-module/middlewares/preloading.mjs
   var import_url = __toESM(require_url(), 1);
-  var ENABLE_MULTI_USE = /* @__PURE__ */ Symbol("preloadingEnableMultiUse");
-  var CLEAR = /* @__PURE__ */ Symbol("preloadingClear");
   function createPreloadingMiddleware(preloadedData) {
-    const { OPTIONS = {}, ...GET } = Object.fromEntries(
+    const cache = Object.fromEntries(
       Object.entries(preloadedData).map(([path, data]) => [
         (0, import_url.normalizePath)(path),
         data
       ])
     );
-    const unusedGet = new Set(Object.keys(GET));
-    const unusedOptions = new Set(Object.keys(OPTIONS));
-    let multiUse = false;
-    const middleware = (options, next) => {
+    return (options, next) => {
       const { parse = true } = options;
       let rawPath = options.path;
       if (!rawPath && options.url) {
@@ -167,49 +147,17 @@ var wp;
       }
       const method = options.method || "GET";
       const path = (0, import_url.normalizePath)(rawPath);
-      if ("GET" === method && GET[path]) {
-        const data = GET[path];
-        if (!multiUse) {
-          delete GET[path];
-        }
-        unusedGet.delete(path);
-        return prepareResponse(data, !!parse);
-      } else if ("OPTIONS" === method && OPTIONS[path]) {
-        const data = OPTIONS[path];
-        if (!multiUse) {
-          delete OPTIONS[path];
-        }
-        unusedOptions.delete(path);
-        return prepareResponse(data, !!parse);
+      if ("GET" === method && cache[path]) {
+        const cacheData = cache[path];
+        delete cache[path];
+        return prepareResponse(cacheData, !!parse);
+      } else if ("OPTIONS" === method && cache[method] && cache[method][path]) {
+        const cacheData = cache[method][path];
+        delete cache[method][path];
+        return prepareResponse(cacheData, !!parse);
       }
       return next(options);
     };
-    middleware[ENABLE_MULTI_USE] = () => {
-      multiUse = true;
-    };
-    middleware[CLEAR] = () => {
-      const tags = [
-        ...Array.from(unusedGet, (p) => `GET ${p}`),
-        ...Array.from(unusedOptions, (p) => `OPTIONS ${p}`)
-      ];
-      if (tags.length) {
-        console.warn(
-          "[api-fetch][preload] Some preloads were never consumed:",
-          tags
-        );
-      } else {
-        console.log("[api-fetch][preload] All preloads consumed.");
-      }
-      unusedGet.clear();
-      unusedOptions.clear();
-      for (const key of Object.keys(GET)) {
-        delete GET[key];
-      }
-      for (const key of Object.keys(OPTIONS)) {
-        delete OPTIONS[key];
-      }
-    };
-    return middleware;
   }
   function prepareResponse(responseData, parse) {
     if (parse) {
@@ -320,9 +268,9 @@ var wp;
       options = {
         ...options,
         headers: {
-          "Content-Type": "application/json",
           ...options.headers,
-          "X-HTTP-Method-Override": method
+          "X-HTTP-Method-Override": method,
+          "Content-Type": "application/json"
         },
         method: "POST"
       };
@@ -491,16 +439,6 @@ var wp;
   function registerMiddleware(middleware) {
     middlewares.unshift(middleware);
   }
-  function enablePreloadMultiUse() {
-    for (const middleware of middlewares) {
-      middleware[ENABLE_MULTI_USE]?.();
-    }
-  }
-  function clearPreloadedData() {
-    for (const middleware of middlewares) {
-      middleware[CLEAR]?.();
-    }
-  }
   var defaultFetchHandler = (nextOptions) => {
     const { url, path, data, parse = true, ...remainingOptions } = nextOptions;
     let { body, headers } = nextOptions;
@@ -575,11 +513,6 @@ var wp;
   };
   apiFetch.use = registerMiddleware;
   apiFetch.setFetchHandler = setFetchHandler;
-  apiFetch.privateApis = {};
-  lock(apiFetch.privateApis, {
-    enablePreloadMultiUse,
-    clearPreloadedData
-  });
   apiFetch.createNonceMiddleware = nonce_default;
   apiFetch.createPreloadingMiddleware = preloading_default;
   apiFetch.createRootURLMiddleware = root_url_default;
@@ -590,5 +523,3 @@ var wp;
   return __toCommonJS(index_exports);
 })();
 if (typeof wp.apiFetch === 'object' && wp.apiFetch.default) { wp.apiFetch = wp.apiFetch.default; }
-(window.wp ||= {}).apiFetch = wp.apiFetch;
-})();

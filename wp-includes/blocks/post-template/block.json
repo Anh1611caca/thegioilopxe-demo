@@ -14,8 +14,7 @@
 		"templateSlug",
 		"previewPostType",
 		"enhancedPagination",
-		"postType",
-		"postId"
+		"postType"
 	],
 	"supports": {
 		"anchor": true,

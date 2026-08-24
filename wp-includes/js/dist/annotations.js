@@ -1,5 +1,3 @@
-(function() {
-"use strict";
 var wp;
 (wp ||= {}).annotations = (() => {
   var __create = Object.create;
@@ -83,9 +81,6 @@ var wp;
   function applyAnnotations(record, annotations2 = []) {
     annotations2.forEach((annotation2) => {
       let { start, end } = annotation2;
-      if (typeof start !== "number" || typeof end !== "number") {
-        return;
-      }
       if (start > record.text.length) {
         start = record.text.length;
       }
@@ -129,10 +124,7 @@ var wp;
     });
     return positions;
   }
-  function updateAnnotationsWithPositions(annotations2, positions, {
-    removeAnnotation,
-    updateAnnotationRange
-  }) {
+  function updateAnnotationsWithPositions(annotations2, positions, { removeAnnotation, updateAnnotationRange }) {
     annotations2.forEach((currentAnnotation) => {
       const position = positions[currentAnnotation.id];
       if (!position) {
@@ -140,11 +132,11 @@ var wp;
         return;
       }
       const { start, end } = currentAnnotation;
-      if (typeof start === "number" && typeof end === "number" && (start !== position.start || end !== (position.end ?? position.start))) {
+      if (start !== position.start || end !== position.end) {
         updateAnnotationRange(
           currentAnnotation.id,
           position.start,
-          position.end ?? position.start
+          position.end
         );
       }
     });
@@ -158,12 +150,10 @@ var wp;
       className: "class",
       id: "id"
     },
-    interactive: false,
-    object: false,
-    edit: () => {
+    edit() {
       return null;
     },
-    __experimentalGetPropsForEditableTreePreparation: (select, { richTextIdentifier, blockClientId }) => {
+    __experimentalGetPropsForEditableTreePreparation(select, { richTextIdentifier, blockClientId }) {
       return {
         annotations: select(
           STORE_NAME
@@ -173,29 +163,23 @@ var wp;
         )
       };
     },
-    __experimentalCreatePrepareEditableTree: ({ annotations: annotations2 }) => {
+    __experimentalCreatePrepareEditableTree({ annotations: annotations2 }) {
       return (formats, text) => {
         if (annotations2.length === 0) {
           return formats;
         }
-        let record = {
-          formats,
-          text,
-          replacements: [],
-          start: 0,
-          end: 0
-        };
+        let record = { formats, text };
         record = applyAnnotations(record, annotations2);
         return record.formats;
       };
     },
-    __experimentalGetPropsForEditableTreeChangeHandler: (dispatch) => {
+    __experimentalGetPropsForEditableTreeChangeHandler(dispatch) {
       return {
         removeAnnotation: dispatch(STORE_NAME).__experimentalRemoveAnnotation,
         updateAnnotationRange: dispatch(STORE_NAME).__experimentalUpdateAnnotationRange
       };
     },
-    __experimentalCreateOnChangeEditableValue: (props) => {
+    __experimentalCreateOnChangeEditableValue(props) {
       return (formats) => {
         const positions = retrieveAnnotationPositions(formats);
         const { removeAnnotation, updateAnnotationRange, annotations: annotations2 } = props;
@@ -213,29 +197,42 @@ var wp;
 
   // packages/annotations/build-module/block/index.mjs
   var import_hooks = __toESM(require_hooks(), 1);
-  var import_data3 = __toESM(require_data(), 1);
+  var import_data = __toESM(require_data(), 1);
+  var addAnnotationClassName = (OriginalComponent) => {
+    return (0, import_data.withSelect)((select, { clientId, className }) => {
+      const annotations2 = select(STORE_NAME).__experimentalGetAnnotationsForBlock(
+        clientId
+      );
+      return {
+        className: annotations2.map((annotation2) => {
+          return "is-annotated-by-" + annotation2.source;
+        }).concat(className).filter(Boolean).join(" ")
+      };
+    })(OriginalComponent);
+  };
+  (0, import_hooks.addFilter)(
+    "editor.BlockListBlock",
+    "core/annotations",
+    addAnnotationClassName
+  );
 
   // packages/annotations/build-module/store/index.mjs
-  var import_data2 = __toESM(require_data(), 1);
+  var import_data3 = __toESM(require_data(), 1);
 
   // packages/annotations/build-module/store/reducer.mjs
   function filterWithReference(collection, predicate) {
     const filteredCollection = collection.filter(predicate);
     return collection.length === filteredCollection.length ? collection : filteredCollection;
   }
-  var mapValues = (obj, callback) => Object.entries(obj).reduce((acc, [key, value]) => {
-    if (value === void 0) {
-      return acc;
-    }
-    return {
+  var mapValues = (obj, callback) => Object.entries(obj).reduce(
+    (acc, [key, value]) => ({
       ...acc,
       [key]: callback(value)
-    };
-  }, {});
+    }),
+    {}
+  );
   function isValidAnnotationRange(annotation2) {
-    return Boolean(
-      annotation2.range && typeof annotation2.range.start === "number" && typeof annotation2.range.end === "number" && annotation2.range.start <= annotation2.range.end
-    );
+    return typeof annotation2.start === "number" && typeof annotation2.end === "number" && annotation2.start <= annotation2.end;
   }
   function annotations(state = {}, action) {
     switch (action.type) {
@@ -249,7 +246,7 @@ var wp;
           selector: action.selector,
           range: action.range
         };
-        if (newAnnotation.selector === "range" && !isValidAnnotationRange(newAnnotation)) {
+        if (newAnnotation.selector === "range" && !isValidAnnotationRange(newAnnotation.range)) {
           return state;
         }
         const previousAnnotationsForBlock = state?.[blockClientId] ?? [];
@@ -311,22 +308,20 @@ var wp;
     __experimentalGetAnnotationsForBlock: () => __experimentalGetAnnotationsForBlock,
     __experimentalGetAnnotationsForRichText: () => __experimentalGetAnnotationsForRichText
   });
-  var import_data = __toESM(require_data(), 1);
+  var import_data2 = __toESM(require_data(), 1);
   var EMPTY_ARRAY = [];
-  var __experimentalGetAnnotationsForBlock = (0, import_data.createSelector)(
+  var __experimentalGetAnnotationsForBlock = (0, import_data2.createSelector)(
     (state, blockClientId) => {
       return (state?.[blockClientId] ?? []).filter((annotation2) => {
         return annotation2.selector === "block";
       });
     },
-    (state, blockClientId) => [
-      state?.[blockClientId] ?? EMPTY_ARRAY
-    ]
+    (state, blockClientId) => [state?.[blockClientId] ?? EMPTY_ARRAY]
   );
   function __experimentalGetAllAnnotationsForBlock(state, blockClientId) {
     return state?.[blockClientId] ?? EMPTY_ARRAY;
   }
-  var __experimentalGetAnnotationsForRichText = (0, import_data.createSelector)(
+  var __experimentalGetAnnotationsForRichText = (0, import_data2.createSelector)(
     (state, blockClientId, richTextIdentifier) => {
       return (state?.[blockClientId] ?? []).filter((annotation2) => {
         return annotation2.selector === "range" && richTextIdentifier === annotation2.richTextIdentifier;
@@ -338,12 +333,10 @@ var wp;
         };
       });
     },
-    (state, blockClientId) => [
-      state?.[blockClientId] ?? EMPTY_ARRAY
-    ]
+    (state, blockClientId) => [state?.[blockClientId] ?? EMPTY_ARRAY]
   );
   function __experimentalGetAnnotations(state) {
-    return Object.values(state).filter((arr) => Boolean(arr)).flat();
+    return Object.values(state).flat();
   }
 
   // packages/annotations/build-module/store/actions.mjs
@@ -355,41 +348,45 @@ var wp;
     __experimentalUpdateAnnotationRange: () => __experimentalUpdateAnnotationRange
   });
 
-  // node_modules/uuid/dist/stringify.js
+  // node_modules/uuid/dist/esm-browser/rng.js
+  var getRandomValues;
+  var rnds8 = new Uint8Array(16);
+  function rng() {
+    if (!getRandomValues) {
+      getRandomValues = typeof crypto !== "undefined" && crypto.getRandomValues && crypto.getRandomValues.bind(crypto);
+      if (!getRandomValues) {
+        throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");
+      }
+    }
+    return getRandomValues(rnds8);
+  }
+
+  // node_modules/uuid/dist/esm-browser/stringify.js
   var byteToHex = [];
   for (let i = 0; i < 256; ++i) {
     byteToHex.push((i + 256).toString(16).slice(1));
   }
   function unsafeStringify(arr, offset = 0) {
-    return (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
+    return byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]];
   }
 
-  // node_modules/uuid/dist/rng.js
-  var rnds8 = new Uint8Array(16);
-  function rng() {
-    return crypto.getRandomValues(rnds8);
-  }
+  // node_modules/uuid/dist/esm-browser/native.js
+  var randomUUID = typeof crypto !== "undefined" && crypto.randomUUID && crypto.randomUUID.bind(crypto);
+  var native_default = {
+    randomUUID
+  };
 
-  // node_modules/uuid/dist/v4.js
+  // node_modules/uuid/dist/esm-browser/v4.js
   function v4(options, buf, offset) {
-    if (!buf && !options && crypto.randomUUID) {
-      return crypto.randomUUID();
+    if (native_default.randomUUID && !buf && !options) {
+      return native_default.randomUUID();
     }
-    return _v4(options, buf, offset);
-  }
-  function _v4(options, buf, offset) {
     options = options || {};
-    const rnds = options.random ?? options.rng?.() ?? rng();
-    if (rnds.length < 16) {
-      throw new Error("Random bytes length must be >= 16");
-    }
+    const rnds = options.random || (options.rng || rng)();
     rnds[6] = rnds[6] & 15 | 64;
     rnds[8] = rnds[8] & 63 | 128;
     if (buf) {
       offset = offset || 0;
-      if (offset < 0 || offset + 16 > buf.length) {
-        throw new RangeError(`UUID byte range ${offset}:${offset + 15} is out of buffer bounds`);
-      }
       for (let i = 0; i < 16; ++i) {
         buf[offset + i] = rnds[i];
       }
@@ -416,7 +413,7 @@ var wp;
       source,
       selector
     };
-    if (selector === "range" && range !== null) {
+    if (selector === "range") {
       action.range = range;
     }
     return action;
@@ -443,31 +440,11 @@ var wp;
   }
 
   // packages/annotations/build-module/store/index.mjs
-  var store = (0, import_data2.createReduxStore)(STORE_NAME, {
+  var store = (0, import_data3.createReduxStore)(STORE_NAME, {
     reducer: reducer_default,
     selectors: selectors_exports,
     actions: actions_exports
   });
-  (0, import_data2.register)(store);
-
-  // packages/annotations/build-module/block/index.mjs
-  var addAnnotationClassName = (OriginalComponent) => {
-    return (0, import_data3.withSelect)((select, ownProps) => {
-      const { clientId, className } = ownProps;
-      const annotations2 = select(store).__experimentalGetAnnotationsForBlock(clientId);
-      return {
-        className: annotations2.map((annotation2) => {
-          return "is-annotated-by-" + annotation2.source;
-        }).concat(className || "").filter(Boolean).join(" ")
-      };
-    })(OriginalComponent);
-  };
-  (0, import_hooks.addFilter)(
-    "editor.BlockListBlock",
-    "core/annotations",
-    addAnnotationClassName
-  );
+  (0, import_data3.register)(store);
   return __toCommonJS(index_exports);
-})();
-(window.wp ||= {}).annotations = wp.annotations;
 })();

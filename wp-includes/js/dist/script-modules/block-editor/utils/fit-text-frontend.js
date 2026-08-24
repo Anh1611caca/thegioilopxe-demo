@@ -60,9 +60,6 @@ store("core/fit-text", {
       const context = getContext();
       const { ref } = getElement();
       const applyFontSize = (fontSize) => {
-        if (!ref) {
-          return;
-        }
         if (fontSize === 0) {
           ref.style.fontSize = "";
         } else {
@@ -70,7 +67,7 @@ store("core/fit-text", {
         }
       };
       context.fontSize = optimizeFitText(ref, applyFontSize);
-      if (window.ResizeObserver && ref?.parentElement) {
+      if (window.ResizeObserver && ref.parentElement) {
         const resizeObserver = new window.ResizeObserver(() => {
           context.fontSize = optimizeFitText(ref, applyFontSize);
         });
@@ -82,7 +79,6 @@ store("core/fit-text", {
           }
         };
       }
-      return void 0;
     }
   }
 });

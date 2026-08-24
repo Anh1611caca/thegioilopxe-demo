@@ -1,4 +1,3 @@
-(function() {
 "use strict";
 var wp;
 (wp ||= {}).dom = (() => {
@@ -346,7 +345,7 @@ var wp;
         selectionStart === null || // when not null, compare the two points
         selectionStart !== selectionEnd
       );
-    } catch {
+    } catch (error) {
       return true;
     }
   }
@@ -524,20 +523,20 @@ var wp;
 
   // packages/dom/build-module/dom/caret-range-from-point.mjs
   function caretRangeFromPoint(doc, x, y) {
-    if (doc.caretPositionFromPoint) {
-      const point = doc.caretPositionFromPoint(x, y);
-      if (!point) {
-        return null;
-      }
-      const range = doc.createRange();
-      range.setStart(point.offsetNode, point.offset);
-      range.collapse(true);
-      return range;
-    }
     if (doc.caretRangeFromPoint) {
       return doc.caretRangeFromPoint(x, y);
     }
-    return null;
+    if (!doc.caretPositionFromPoint) {
+      return null;
+    }
+    const point = doc.caretPositionFromPoint(x, y);
+    if (!point) {
+      return null;
+    }
+    const range = doc.createRange();
+    range.setStart(point.offsetNode, point.offset);
+    range.collapse(true);
+    return range;
   }
 
   // packages/dom/build-module/dom/hidden-caret-range-from-point.mjs
@@ -612,11 +611,6 @@ var wp;
     const containerRect = container.getBoundingClientRect();
     const x = isReverseDir ? containerRect.left + 1 : containerRect.right - 1;
     const y = isReverse ? containerRect.top + 1 : containerRect.bottom - 1;
-    const isFarFromVerticalEdge = (y < 0 || y > defaultView.innerHeight) && rangeRect.top >= 0 && rangeRect.bottom <= defaultView.innerHeight;
-    const isFarFromHorizontalEdge = (x < 0 || x > defaultView.innerWidth) && rangeRect.left >= 0 && rangeRect.right <= defaultView.innerWidth;
-    if (isFarFromVerticalEdge || !onlyVertical && isFarFromHorizontalEdge) {
-      return false;
-    }
     const testRange = scrollIfNoRange(
       container,
       isReverse,
@@ -691,7 +685,7 @@ var wp;
       }
       return;
     }
-    if (container.contentEditable !== "true") {
+    if (!container.isContentEditable) {
       return;
     }
     const range = scrollIfNoRange(
@@ -854,6 +848,11 @@ var wp;
     wbr: {},
     "#text": {}
   };
+  var excludedElements = ["#text", "br"];
+  Object.keys(textContentSchema).filter((element) => !excludedElements.includes(element)).forEach((tag) => {
+    const { [tag]: removedTag, ...restSchema } = textContentSchema;
+    textContentSchema[tag].children = restSchema;
+  });
   var embeddedContentSchema = {
     audio: {
       attributes: [
@@ -909,14 +908,6 @@ var wp;
       children: "*"
     }
   };
-  var excludedElements = ["#text", "br", "wbr"];
-  Object.keys(textContentSchema).filter((element) => !excludedElements.includes(element)).forEach((tag) => {
-    const { [tag]: removedTag, ...restSchema } = textContentSchema;
-    textContentSchema[tag].children = {
-      ...restSchema,
-      img: embeddedContentSchema.img
-    };
-  });
   var phrasingContentSchema = {
     ...textContentSchema,
     ...embeddedContentSchema
@@ -1089,6 +1080,4 @@ var wp;
   // packages/dom/build-module/index.mjs
   var focus = { focusable: focusable_exports, tabbable: tabbable_exports };
   return __toCommonJS(index_exports);
-})();
-(window.wp ||= {}).dom = wp.dom;
 })();

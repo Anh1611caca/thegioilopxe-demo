@@ -1,4 +1,3 @@
-(function() {
 "use strict";
 var wp;
 (wp ||= {}).element = (() => {
@@ -47,10 +46,34 @@ var wp;
     }
   });
 
-  // vendor-external:react-dom/client
+  // node_modules/react-dom/client.js
   var require_client = __commonJS({
-    "vendor-external:react-dom/client"(exports, module) {
-      module.exports = window.ReactDOM;
+    "node_modules/react-dom/client.js"(exports) {
+      "use strict";
+      var m = require_react_dom();
+      if (false) {
+        exports.createRoot = m.createRoot;
+        exports.hydrateRoot = m.hydrateRoot;
+      } else {
+        i = m.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        exports.createRoot = function(c, o) {
+          i.usingClientEntryPoint = true;
+          try {
+            return m.createRoot(c, o);
+          } finally {
+            i.usingClientEntryPoint = false;
+          }
+        };
+        exports.hydrateRoot = function(c, h, o) {
+          i.usingClientEntryPoint = true;
+          try {
+            return m.hydrateRoot(c, h, o);
+          } finally {
+            i.usingClientEntryPoint = false;
+          }
+        };
+      }
+      var i;
     }
   });
 
@@ -162,7 +185,7 @@ var wp;
       children: []
     };
   }
-  function createInterpolateElement(interpolatedString, conversionMap) {
+  var createInterpolateElement = (interpolatedString, conversionMap) => {
     indoc = interpolatedString;
     offset = 0;
     output = [];
@@ -176,7 +199,7 @@ var wp;
     do {
     } while (proceed(conversionMap));
     return (0, import_react.createElement)(import_react.Fragment, null, ...output);
-  }
+  };
   var isValidConversionMap = (conversionMap) => {
     const isObject2 = typeof conversionMap === "object" && conversionMap !== null;
     const values = isObject2 && Object.values(conversionMap);
@@ -941,5 +964,3 @@ is-plain-object/dist/is-plain-object.mjs:
    * Released under the MIT License.
    *)
 */
-(window.wp ||= {}).element = wp.element;
-})();

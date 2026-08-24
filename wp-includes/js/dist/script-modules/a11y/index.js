@@ -15,7 +15,7 @@ var previousMessage = "";
 function filterMessage(message) {
   message = message.replace(/<[^<>]+>/g, " ");
   if (previousMessage === message) {
-    message += " ";
+    message += "\xA0";
   }
   previousMessage = message;
   return message;

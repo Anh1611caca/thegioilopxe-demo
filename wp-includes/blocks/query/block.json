@@ -27,8 +27,7 @@
 				"inherit": true,
 				"taxQuery": null,
 				"parents": [],
-				"format": [],
-				"excludeCurrent": null
+				"format": []
 			}
 		},
 		"tagName": {
@@ -43,7 +42,7 @@
 			"default": false
 		}
 	},
-	"usesContext": [ "templateSlug", "postType" ],
+	"usesContext": [ "templateSlug" ],
 	"providesContext": {
 		"queryId": "queryId",
 		"query": "query",
