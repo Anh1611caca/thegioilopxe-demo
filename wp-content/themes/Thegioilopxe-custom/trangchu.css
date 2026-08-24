@@ -139,7 +139,7 @@ html, body {
   display: flex;
     width: 100%;
 
-    background-image: url('https://anh111caca.github.io/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/00.webp'); /* Đổi tên file ảnh của bạn vào đây */
+    background-image: url('/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/00.webp'); /* Đổi tên file ảnh của bạn vào đây */
   background-size: cover;       /* Phủ kín toàn bộ khung search-box */
   background-position: center;  /* Căn giữa hình ảnh */
   background-repeat: no-repeat;
