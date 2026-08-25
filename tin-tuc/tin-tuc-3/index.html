@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="vn">
+    <head><meta charset="UTF-8">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Thế Giới Lốp Xe</title>
+        <link rel="stylesheet" href="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/trangchu.css?ver=1.0.4">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+      </head>
+<body id="top">
+<div class="header-top">
+<div class="hotline">
+  <i class="fas fa-phone-alt"></i> Hotline: 0964.59.69.69
+</div>
+
+<div class="header-top-right">
+    <form class="search-box-brand">
+    <input type="text" placeholder="Tìm kiếm...">
+    <button type="submit">Tìm</button>
+  </form>
+  <!--Thông báo khi có phản hồi-->
+  <div class="notification-wrapper">
+    <button type="button" id="notifBtn" class="notif-btn">
+        <i class="fas fa-bell"></i> <span id="notifBadge" class="notif-badge">0</span>
+    </button>
+    
+    <div id="notifBox" class="notif-box">
+        <div class="notif-header">Thông báo phản hồi</div>
+        <ul id="notifList" class="notif-list">
+            <li class="empty-msg">Chưa có phản hồi nào</li>
+        </ul>
+    </div>
+    </div>
+</div>
+</div>
+
+<!-- Header chính -->
+<header class="site-header">
+  <div class="logo">
+    <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/logo-thegioilopxe-1.webp" alt="Logo">
+  </div>
+  <button class="menu-toggle" id="menuToggle" type="button" aria-label="Mở menu" aria-expanded="false"><i class="fas fa-bars"></i></button>
+  <nav class="main-nav">
+    <ul>
+      <li><a href="/thegioilopxe-demo/">Trang chủ</a></li>
+      <li><a href="/thegioilopxe-demo/about/">Giới thiệu</a></li>
+      <li class="dropdown">
+            <a href="/thegioilopxe-demo/" class="product-link">
+                Sản phẩm <span class="arrow">▼</span>
+            </a>
+            <ul class="dropdown-menu">
+                 <li class="has-submenu">
+                    <a href="/thegioilopxe-demo/" class="submenu-toggle">
+                         Máy tráng keo chống định<span class="arrow-right">▸</span>
+                    </a>
+    <ul class="submenu">
+      <li><a href="/thegioilopxe-demo/may-trang-keo-xe-may/">Máy tráng keo xe máy</a></li>
+      <li><a href="/thegioilopxe-demo/may-trang-keo-o-to/">Máy tráng keo ô tô</a></li>
+      <li><a href="/thegioilopxe-demo/may-ve-sinh-lop-xe/">Máy vệ sinh lốp xe</a></li>
+    </ul>
+  </li>
+                <li><a href="/thegioilopxe-demo/lop-xe/">Lốp xe</a></li>
+                <li><a href="/thegioilopxe-demo/lop-chong-dinh/">Lốp chống định</a></li>
+                <li><a href="/thegioilopxe-demo/keo/">Keo</a></li>
+                <li><a href="/thegioilopxe-demo/mam-xe/">Mâm xe</a></li>
+            </ul>
+        </li>
+      <li class="dropdown">
+            <a href="/thegioilopxe-demo/" class="blog-link">
+                Blog <span class="arrow">▼</span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="/thegioilopxe-demo/kien-thuc/">Kiến thức</a></li>
+                <li><a href="/thegioilopxe-demo/tin-tuc/">Tin tức</a></li>
+                <li><a href="/thegioilopxe-demo/lop-theo-xe/">Lốp theo xe</a></li>
+            </ul>
+        </li>
+      <li><a href="/thegioilopxe-demo/contact/">Liên hệ tư vấn</a></li>
+      <li><a href="/thegioilopxe-demo/machine/">Chuyển giao công nghệ tráng keo</a></li>
+    </ul>
+  </nav>
+<script src="/thegioilopxe-demo/tin-tuc/Notification.js?ver=1.0.5"></script>
+
+</header>
+
+<!-- khung tìm kiếm -->
+<section class="banner">
+  <div class="image-box">
+    <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/May-Trang-Keo-O-to.jpg" alt="Máy tráng keo">
+    <div class="text-overlay">
+      <h2>Máy tráng keo lốp xe</h2>
+      <h3>Chuyển giao công nghệ tráng keo chống định</h3>
+    </div>
+  </div>
+
+  <div class="search-box">
+    <h3>Tìm sản phẩm phù hợp</h3>
+    <form>
+      <select id="select-dong-xe" onchange="enableOtherFields()">
+            <option value="" selected disabled>1. Chọn dòng xe</option>
+            <option value="xe-may">Xe máy</option>
+            <option value="o-to">Ô tô</option>
+         </select>
+
+      <select id="select-hang" size="5" disabled onchange="updatePhienBan()">
+        <option value="" selected disabled>2. Chọn hãng xe</option>
+      </select>
+
+      <select id="select-phien-ban" disabled> 
+        <option value="" selected disabled>4. Chọn phiên bản (Nếu Có)</option>
+      </select>
+
+  <button type="submit" class="btn-search">TÌM KIẾM</button>
+
+  <div class="featured-section">
+  <h3 class="featured-title">LỰA CHỌN NỔI BẬT</h3>
+  
+  <div class="featured-grid">
+    <!-- Thứ 1 -->
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/may-trang-keo-xe-may-1.jpg" alt="Máy Tráng Keo Xe Máy">
+      <div class="card-caption">Công Nghệ Tráng Keo chống định dành cho xe máy</div>
+    </div>
+
+    <!-- Thứ 2 -->
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/May-Trang-Keo-O-to-2.jpg" alt="Máy Tráng Keo Ô Tô">
+      <div class="card-caption">Công Nghệ Tráng Keo chống định dành cho ô tô</div>
+    </div>
+
+    <!-- Thứ 3 -->
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/May-Ve-Sinh-Lop-2.jpg" alt="Máy Vệ Sinh Lốp Xe">
+      <div class="card-caption">Vệ sinh sạch sẽ lốp xe cho bạn</div>
+    </div>
+
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/lop-maxxis.jpg" alt="Lốp Maxxis">
+      <div class="card-caption">Lốp Maxxis an toàn trên chuyến đi</div>
+    </div>
+
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/Lop-michelin.webp" alt="Lốp Michelin">
+      <div class="card-caption">Hương hiệu nổi bật hàng đầu</div>
+    </div>
+
+    <div class="featured-card">
+      <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/Lop-rovelo.gif" alt="Lốp chống định Rovelo">
+      <div class="card-caption">Công nghệ chống định chất lượng</div>
+    </div>
+  </div>
+</div>
+    </form>
+    <script src="/thegioilopxe-demo/tin-tuc/hangxe.js"></script>
+  </div>
+</section>
+
+<div class="article-container">
+  <main class="article-detail">
+
+  <!-- Tiêu đề chính -->
+  <h1 class="article-main-title">Có nên mua máy vệ sinh lốp xe để tối ưu quy trình làm việc cho Garage?</h1>
+
+  <!-- Thông tin ngày & tác giả -->
+  <div class="card-meta" style="margin-bottom: 20px;">
+    <span>📅 22/03/2026</span> | <span>✍️ Thế Giới Lốp Xe</span>
+  </div>
+
+  <!-- Ảnh đại diện bài viết -->
+  <div class="article-banner">
+    <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/May-Ve-Sinh-Lop-2.jpg" alt="Có nên mua máy vệ sinh lốp xe để tối ưu quy trình làm việc cho Garage?">
+  </div>
+
+  <!-- Nội dung văn bản -->
+  <div class="article-body">
+
+    <p class="lead-text">
+      Trong bối cảnh thị trường dịch vụ ô tô - xe máy ngày càng cạnh tranh gay gắt, chất lượng phục vụ và tốc độ xử lý công việc chính là chìa khóa then chốt quyết định sự sống còn của một Garage. Tuy nhiên, một thực tế tồn tại ở rất nhiều xưởng sửa chữa hiện nay là khâu làm sạch lốp xe vẫn được thực hiện theo phương pháp thủ công: thợ phải dùng bàn chải chà tay, xịt nước xà phòng và lau chùi tốn rất nhiều sức lực. Phương pháp truyền thống này không chỉ tạo ra "nút thắt cổ chai" làm chậm toàn bộ tiến độ công việc mà còn ảnh hưởng trực tiếp đến chất lượng của các kỹ thuật cao cấp phía sau như cân bằng động, vá ép nhiệt hay tráng keo chống đinh. Vậy <strong>có nên mua máy vệ sinh lốp xe chuyên dụng</strong>? Đầu tư thiết bị này mang lại lợi ích kinh tế thực tế ra sao và bao lâu thu hồi vốn? Hãy cùng Thế Giới Lốp Xe phân tích chi tiết từ A-Z trong bài viết dưới đây!
+    </p>
+
+    <h2>1. Bất cập và rủi ro từ thói quen vệ sinh lốp xe thủ công</h2>
+    <p>
+      Nhiều chủ Garage thường cho rằng rửa lốp chỉ là công đoạn phụ nên không nhất thiết phải đầu tư máy móc đắt tiền. Thế nhưng, nếu phân tích kỹ quy trình vận hành thực tế, việc vệ sinh lốp bằng tay đang tiêm ẩn hàng loạt hạn chế lớn:
+    </p>
+    <ul>
+      <li>
+        <strong>Lãng phí thời gian &amp; Tốn chi phí nhân công:</strong> Để làm sạch hoàn toàn bùn đất, dầu mỡ bám trên mặt bộ 4 bánh xe ô tô bằng tay, một người thợ phải mất từ 30 - 45 phút. Vào các ngày cao điểm, khâu rửa lốp khiến xe bị ùn tắc, thợ quá tải và kéo dài thời gian chờ đợi của khách hàng.
+      </li>
+      <li>
+        <strong>Không thể loại bỏ màng dầu và chất bẩn lòng lốp:</strong> Lòng trong của lốp xe luôn có một lớp màng dầu chống dính khuôn do nhà sản xuất phủ lên, cộng với cặn bẩn cao su tích tụ qua thời gian. Việc rửa tay xà phòng thông thường hoàn toàn bất lực trong việc tẩy sạch lớp dầu này.
+      </li>
+      <li>
+        <strong>Gây sai số nghiêm trọng khi cân bằng động:</strong> Bùn đất, đá dăm nhỏ kẹp trong rãnh gai lốp nếu không được đánh sạch triệt để sẽ làm thay đổi phân bố trọng lượng của bánh xe. Khi đưa lên máy cân bằng động dán chì, kết quả sẽ bị sai lệch, dẫn đến tình trạng xe chạy tốc độ cao trên 80km/h vẫn bị rung vô-lăng.
+      </li>
+      <li>
+        <strong>Giảm độ bám miếng vá và lớp keo chống đinh:</strong> Khi thực hiện vá nấm, vá ép hay tráng keo chống đinh Polymer, nếu lòng lốp vẫn còn ẩm ướt hoặc dính vết dầu mỡ, lớp keo sẽ không thể bám dính tuyệt đối vào cao su, dễ gây ra hiện tượng rộp hơi hoặc bong tróc sau vài tuần sử dụng.
+      </li>
+      <li>
+        <strong>Hình ảnh xưởng thiếu chuyên nghiệp:</strong> Khách hàng sở hữu những dòng xe đắt tiền sẽ cảm thấy không hài lòng khi chứng kiến cảnh người thợ ngồi chà rửa lốp nhếch nhác trên nền xưởng ướt đọng nước.
+      </li>
+    </ul>
+
+    <h2>2. Những lợi ích chiến lược khi đầu tư máy vệ sinh lốp xe chuyên dụng</h2>
+    <p>
+      Trang bị máy vệ sinh lốp xe tự động không đơn thuần là mua sắm một thiết bị hỗ trợ, mà là bước chuyển mình chuẩn hóa quy trình dịch vụ cho Garage theo tiêu chuẩn hiện đại:
+    </p>
+
+    <h3>2.1. Rút ngắn 80% thời gian – Tăng gấp 3 lần năng suất xưởng</h3>
+    <p>
+      Máy vệ sinh lốp xe ứng dụng cơ chế xoay tròn ly tâm kết hợp cụm chổi đánh áp lực và vòi xịt xoáy cao áp. Thiết bị có khả năng đánh bay triệt để bùn đất, nhựa đường, mạt kim loại ở cả mặt gai ngoài lẫn lòng trong của lốp chỉ trong <strong>2 đến 3 phút/bánh</strong>. Tốc độ này giúp Garage giải phóng mặt bằng nhanh chóng và nâng cao năng suất phục vụ xe mỗi ngày.
+    </p>
+
+    <h3>2.2. Đảm bảo bề mặt cao su hoàn hảo cho các dịch vụ kỹ thuật cao</h3>
+    <p>
+      Nhờ tích hợp hệ thống phun dung dịch tẩy rửa tách mỡ chuyên dụng cùng chức năng sấy khô bằng khí nén cao áp, lốp xe sau khi ra khỏi máy sẽ đạt độ sạch và khô ráo tuyệt đối 100%:
+    </p>
+    <ul>
+      <li><strong>Đối với dịch vụ tráng keo chống đinh:</strong> Lớp keo Polymer dính chặt tuyệt đối vào cao su lốp, không lo bị xì hơi hay bong rộp do vết dầu mỡ tồn đọng.</li>
+      <li><strong>Đối với dịch vụ vá lốp cao cấp (Vá nấm, vá ép):</strong> Bề mặt cao su lòng lốp được làm sạch chuẩn kỹ thuật, giúp miếng vá ăn sâu và bền bỉ theo tuổi thọ lốp.</li>
+      <li><strong>Đối với dịch vụ cân bằng động Laser:</strong> Máy đo chính xác đến từng gram chì, loại bỏ hoàn toàn rủi ro rung lắc vô-lăng khi chạy đường dài.</li>
+    </ul>
+
+    <h3>2.3. Tạo lợi thế cạnh tranh &amp; Xây dựng niềm tin với khách hàng</h3>
+    <p>
+      Khi khách hàng thấy bánh xe của mình được đưa vào hệ thống máy rửa và sấy khô tự động khép kín, họ sẽ cảm nhận được sự chuyên nghiệp, bài bản và độ tin cậy của Garage. Bánh xe khi bàn giao cho khách luôn trong trạng thái sạch sẽ, đen bóng, giúp tăng mức độ hài lòng và tỷ lệ khách hàng quay lại lên đáng kể.
+    </p>
+
+    <h2>3. Bài toán tài chính chi tiết: Bao lâu Garage thu hồi vốn?</h2>
+    <p>
+      Để giúp các chủ xưởng có cái nhìn thực tế về tính hiệu quả của khoản đầu tư này, hãy cùng phân tích bài toán kinh doanh cụ thể dưới đây:
+    </p>
+    <ul>
+      <li>
+        <strong>Tiết kiệm chi phí nhân sự:</strong> Nhờ máy vận hành tự động, Garage có thể giảm bớt 1 - 2 vị trí thợ phụ chuyên rửa lốp. Tính trung bình mức lương 8 - 10 triệu/tháng/thợ, Garage đã tiết kiệm được từ 96 - 120 triệu VNĐ/năm.
+      </li>
+      <li>
+        <strong>Tăng doanh thu từ việc Bán kèm dịch vụ (Cross-sell):</strong> Việc làm sạch lốp nhanh chóng tạo điều kiện thuận lợi để kỹ thuật viên tư vấn khách hàng thực hiện thêm các dịch vụ có biên lợi nhuận cao như Cân bằng động (100.000đ - 200.000đ/bánh) hoặc Tráng keo chống đinh (400.000đ - 800.000đ/bánh).
+      </li>
+      <li>
+        <strong>Thời gian thu hồi vốn thực tế:</strong> Với chi phí đầu tư máy hợp lý, đa số các Garage ô tô trung bình sẽ hoàn toàn thu hồi vốn đầu tư chỉ sau 3 đến 5 tháng vận hành. Toàn bộ thời gian sử dụng nhiều năm sau đó thiết bị sẽ đóng góp trực tiếp vào lợi nhuận ròng của xưởng.
+      </li>
+    </ul>
+
+    <h2>4. Lời khuyên vàng khi lựa chọn mua máy vệ sinh lốp xe cho Garage</h2>
+    <p>
+      Để thiết bị hoạt động bền bỉ, phát huy tối đa công năng và tránh lãng phí chi phí, các chủ Garage cần lưu ý một số tiêu chí quan trọng khi chọn mua:
+    </p>
+    <ul>
+      <li>
+        <strong>Khả năng đáp ứng đa dạng kích thước lốp:</strong> Ưu tiên chọn các dòng máy có cơ cấu kẹp mâm linh hoạt, hỗ trợ đa dạng kích thước từ lốp xe máy, xe tay ga cao cấp đến các dòng lốp ô tô Sedan, CUV, SUV và xe bán tải (Pick-up).
+      </li>
+      <li>
+        <strong>Tích hợp tính năng sấy khô khí nén:</strong> Hãy chọn dòng máy có tích hợp sẵn vòi xịt khí nén công suất lớn để làm khô lốp ngay lập tức sau khi rửa. Việc này loại bỏ hoàn toàn thời gian chờ lốp khô thủ công.
+      </li>
+      <li>
+        <strong>Chất liệu và độ bền cơ khí:</strong> Ưu tiên máy có phần khung gầm sơn tĩnh điện chống gỉ, chi tiết tiếp xúc nước làm bằng inox hoặc nhựa chịu lực cao cấp để chịu được môi trường ẩm ướt liên tục.
+      </li>
+      <li>
+        <strong>Đơn vị phân phối uy tín &amp; Linh kiện sẵn có:</strong> Mua máy tại các đơn vị phân phối thiết bị làm lốp chính hãng có cam kết bảo hành rõ ràng, hỗ trợ kỹ thuật tận nơi và luôn sẵn linh kiện thay thế (như chổi chà, van khí, bơm nước) khi cần bảo trì.
+      </li>
+    </ul>
+
+    <!-- Khung liên hệ tư vấn bổ sung -->
+    <div class="article-contact-box" style="margin-top: 35px; padding: 25px; border: 2px dashed #0b3a82; background-color: #f0f7ff; border-radius: 8px; text-align: center;">
+      <h3 style="color: #0b3a82; margin-bottom: 12px; font-size: 21px; font-weight: bold;">Bạn cần Tư vấn &amp; Báo giá Máy vệ sinh lốp xe cho Garage?</h3>
+      <p style="margin-bottom: 18px; color: #333; line-height: 1.6;">Thế Giới Lốp Xe chuyên nhập khẩu và phân phối các dòng máy rửa lốp tự động, máy mài lòng lốp, máy tráng keo chống đinh chất lượng cao. Hỗ trợ giao hàng toàn quốc, lắp đặt tận nơi và chuyển giao quy trình kỹ thuật trọn gói.</p>
+      <a href="/thegioilopxe-demo/" class="contact-btn" style="display: inline-block; padding: 12px 30px; background-color: #0b3a82; color: #ffffff; text-decoration: none; font-weight: bold; border-radius: 5px; font-size: 15px; transition: 0.3s;">NHẬN BÁO GIÁ THIẾT BỊ NGAY</a>
+    </div>
+
+  </div>
+</main>
+<!-- Bài Viết liên quan -->
+  <aside class="news-sidebar">
+        <!-- Ô tìm kiếm -->
+
+        <!-- Danh mục -->
+        <div class="widget">
+            <h3 class="widget-title">Danh Mục</h3>
+            <ul class="widget-list">
+                <li><a href="/thegioilopxe-demo/kien-thuc/">Kiến thức <span>(7)</span></a></li>
+                <li><a href="/thegioilopxe-demo/tin-tuc/">Tin tức <span>(4)</span></a></li>
+                <li><a href="/thegioilopxe-demo/lop-theo-xe/">Lốp theo xe <span>(7)</span></a></li>
+            </ul>
+        </div>
+
+        <!-- Bình luận gần đây -->
+        <div class="widget">
+            <h3 class="widget-title">Bình Luận Gần Đây</h3>
+            <div class="recent-comment">
+                <p><strong>thegioilopxe.com</strong> trong <a href="/thegioilopxe-demo/kien-thuc/kien-thuc-7/">HDSD máy tráng keo ô tô</a></p>
+            </div>
+        </div>
+
+        <!-- Bài viết phổ biến -->
+        <div class="widget popular-widget">
+            <h3 class="widget-title">Bài Viết Phổ Biến</h3>
+            <div class="popular-list">
+
+            <!-- Bài 1: Dạng chữ (Không ảnh) -->
+            <div class="popular-item">
+                <div class="popular-info">
+                <span class="popular-date">23/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/tin-tuc/tin-tuc-4/">Giới Thiệu Máy Tráng Keo Chống Đinh</a>
+                </h4>
+                </div>
+            </div>
+
+            <!-- Bài 2: Có ảnh đại diện -->
+            <div class="popular-item has-thumb">
+                <a href="/thegioilopxe-demo/tin-tuc/KienThuc/BaiVietKT3.php" class="popular-thumb">
+                <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/dauhieunenthaylopanhngoai.webp" alt="Lốp Xe Kia Forte">
+                </a>
+                <div class="popular-info">
+                <span class="popular-date">21/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/kien-thuc/kien-thuc-3/">5 dấu hiệu cảnh báo bạn cần phải...</a>
+                </h4>
+                </div>
+            </div>
+
+            <!-- Bài 3: Có ảnh đại diện -->
+            <div class="popular-item has-thumb">
+                <a href="/thegioilopxe-demo/tin-tuc/KienThuc/BaiVietKT5.php" class="popular-thumb">
+                <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/dao-lop-o-to-1.jpg" alt="Quy trình đảo lốp xe định kỳ">
+                </a>
+                <div class="popular-info">
+                <span class="popular-date">19/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/kien-thuc/kien-thuc-5/">Quy trình đảo lốp xe định kỳ...</a>
+                </h4>
+                </div>
+            </div>
+
+            <!-- Bài 4: Có ảnh đại diện -->
+            <div class="popular-item has-thumb">
+                <a href="/thegioilopxe-demo/tin-tuc/TinTuc/baiViet1.php" class="popular-thumb">
+                <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/May-Trang-Keo-O-to-2.jpg" alt="Máy Chống Đinh">
+                </a>
+                <div class="popular-info">
+                <span class="popular-date">16/07/2026</span>
+                <h4 class="popular-title">
+                    <a href="/thegioilopxe-demo/tin-tuc/tin-tuc-1/">Công nghệ tráng keo chống đinh...</a>
+                </h4>
+                </div>
+            </div>
+
+            </div>
+        </div>
+
+        <!-- WIDGET 1: BÀI VIẾT / SẢN PHẨM PHỔ BIẾN -->
+            <div class="widget popularity-widget">
+            <h3 class="widget-title">Sản Phẩm Phổ Biến</h3>
+            <div class="pop-list">
+                
+                <!-- Item 1 -->
+                <a href="/thegioilopxe-demo/may-ve-sinh-lop-xe/" class="pop-item">
+                <div class="pop-thumb">
+                    <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/May-Ve-Sinh-Lop-2.jpg" alt="Máy vệ sinh lốp xe">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Máy Vệ Sinh Lốp</h4>
+                    <div class="pop-rating">⭐⭐⭐⭐⭐ <span>(70)</span></div>
+                </div>
+                </a>
+
+                <!-- Item 2 -->
+                <a href="/thegioilopxe-demo/may-trang-keo-o-to/" class="pop-item">
+                <div class="pop-thumb">
+                    <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/May-Trang-Keo-O-to-3.jpg" alt="Máy tráng keo ô tô">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Máy Tráng Keo Chống Đinh Ô Tô</h4>
+                    <div class="pop-rating">⭐⭐⭐⭐⭐ <span>(97)</span></div>
+                </div>
+                </a>
+
+                <!-- Item 3 -->
+                <a href="/thegioilopxe-demo/may-trang-keo-xe-may/" class="pop-item">
+                <div class="pop-thumb">
+                    <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/may-trang-keo-xe-may-1.jpg" alt="Máy tráng keo xe máy">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Máy Tráng Keo Chống Đinh Xe Máy</h4>
+                    <div class="pop-rating">⭐⭐⭐⭐⭐ <span>(65)</span></div>
+                </div>
+                </a>
+
+                <!-- Item 4 -->
+                <a href="/thegioilopxe-demo/keo/" class="pop-item">
+                <div class="pop-thumb">
+                    <img src="/thegioilopxe-demo/wp-content/themes/Thegioilopxe-custom/images/keo-xe.jpg" alt="Keo Tráng Lớp">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Keo Tráng Lốp xe</h4>
+                    <div class="pop-rating">⭐⭐⭐⭐⭐ <span>(341)</span></div>
+                </div>
+                </a>
+
+                <!-- Item 5 -->
+                <a href="#" class="pop-item">
+                <div class="pop-thumb">
+                    <img src="https://alotools.vn/wp-content/uploads/2025/09/may-trang-keo-chong-dinh-1.jpg" alt="Mâm xe Advan">
+                </div>
+                <div class="pop-info">
+                    <h4 class="pop-title">Mâm xe Advan Racing GT</h4>
+                    <div class="pop-rating">⭐⭐⭐⭐⭐ <span>(0)</span></div>
+                </div>
+                </a>
+
+            </div>
+            </div>
+
+            <!-- WIDGET 2: BOX HỖ TRỢ KHÁCH HÀNG -->
+            <div class="widget support-box">
+            <div class="support-content">
+                <div class="support-avatar">
+                <img src="https://i.pravatar.cc/150?img=60" alt="Hỗ trợ viên">
+                </div>
+                <div class="support-text">
+                <h4>Anh/chị cần em hỗ trợ gì ạ?</h4>
+                <p>Gọi ngay để được hỗ trợ nhanh chóng</p>
+                <a href="tel:0964596069" class="support-phone">0964.59.60.69</a>
+                </div>
+            </div>
+            </div>
+                </aside>
+</div>
+    
+<!-- Cuối trang -->
+<section class="footer-map-section">
+    <div class="container-map">
+        <div class="logo-box">
+            <img src="https://thegioilopxe.com/wp-content/uploads/2024/05/logo-thegioilopxe-1.jpg.webp" alt="The Gioi Lop Xe"> 
+        </div>
+      
+        <!-- Bản đồ bên phải -->
+        <div class="map-box">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.1604402216813!2d106.6634957796204!3d10.861391961684232!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752933bf2992b3%3A0xabd8da73ba88820f!2zVGjhur8gR2nhu5tpIEzhu5FwIFhl!5e1!3m2!1svi!2s!4v1784541958019!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+    </div>
+</section>
+
+<section class="footer">
+  <footer class="main-footer">
+    <!-- Cột 1: Chính sách -->
+    <div class="footer-col">
+        <h3>Chính Sách</h3>
+        <ul>
+            <li><a href="#">Chính sách bảo hành</a></li>
+            <li><a href="#">Chính sách bảo mật</a></li>
+            <li><a href="#">Chính sách thanh toán</a></li>
+            <li><a href="#">Chính sách vận chuyển và giao nhận</a></li>
+        </ul>
+    </div>
+
+    <!-- Cột 2: Thông tin liên hệ -->
+    <div class="footer-col">
+        <h3>Thông tin liên hệ</h3>
+        <p>Địa chỉ: 1125 Quốc Lộ 1A (Ấp Mới), Khu Phố, Phường Thới An, Tp Hồ Chí Minh</p>
+        <p>Hotline: 0964.59.69.69</p>
+    </div>
+
+    <!-- Cột 3: Phản hồi & Mạng xã hội -->
+    <div class="footer-col feedback-col">
+        <h3 style="color: #ffc107;">Phản hồi với chúng tôi</h3>
+        <p>Phản hồi của bạn giúp chúng tôi ngày càng cải thiện và hoàn thiện hơn về dịch vụ, chất lượng, xin cảm ơn !</p>
+        <a href="/thegioilopxe-demo/tin-tuc/contact.php?scroll=lien-he" class="feedback-link">Gửi Phản Hồi Tại Đây &gt;</a>
+        <div class="social-icons">
+            <i class="fab fa-facebook"></i>
+            <i class="fab fa-tiktok"></i>
+            <i class="fab fa-youtube"></i>
+        </div>
+    </div>
+</footer>
+</section>
+<a href="javascript:void(0)" id="backToTopBtn" title="Lên đầu trang" onclick="
+     window.scrollTo({top: 0, behavior: 'smooth'});
+     document.documentElement.scrollTop = 0;
+     document.body.scrollTop = 0;
+     document.querySelectorAll('*').forEach(el =&gt; { if(el.scrollTop &gt; 0) el.scrollTo({top: 0, behavior: 'smooth'}); });
+   ">↑</a>
+<script>
+          $(document).ready(function() {
+            $('select').select2({
+            // Bạn có thể tùy chỉnh ngôn ngữ, ô tìm kiếm... tại đây
+            });
+          });
+        </script>
+</body>
+
+
+</html>
